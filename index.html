@@ -1554,7 +1554,9 @@ async function route() {
     if (k === 'r' && v) return receive(v);
     if (k === 'admin' || k === 'h') return hostRoute(v);
   } catch (e) { console.error(e); return notFound(); }
-  setAcc(); landing();
+  setAcc();
+  if (!isHost()) return pinScreen(() => landing(), true);
+  landing();
 }
 window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
@@ -1569,7 +1571,7 @@ function landing() {
     <span class="muted" style="font-size:14px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</span></span>
     <span style="flex:none;background:#fff;border-radius:12px;padding:8px;font-size:34px;line-height:1">📲</span></span>
     <span style="display:block;margin-top:10px;font-weight:700;color:var(--gold)">${esc(t('tapQR'))}</span></button>`).join('') +
-  `<button class="btn ghost" id="toHost" style="margin-top:18px">🔒 ${esc(t('hostSpace'))}</button>`;
+  `<button class="btn ghost" id="toHost" style="margin-top:18px">🏆 ${esc(t('hostSpace'))} · ${esc(t('ranking'))}</button>`;
   app.querySelectorAll('[data-show]').forEach(b => b.onclick = () => showQR(findGame(b.dataset.show)));
   $('#toHost').onclick = () => go('admin');
 }
@@ -1642,14 +1644,14 @@ function playerDone(g, st) {
 }
 
 /* ---------------- host ---------------- */
-function pinScreen(next) {
+function pinScreen(next, entry) {
   setAcc();
-  app.innerHTML = topBar() + `<div class="card"><h2 style="margin-top:0">${esc(t('hostSpace'))}</h2><label class="f" for="pin">${esc(t('pin'))}</label>
-   <input class="in big-in" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="${t('pinPh')}"><p class="muted" style="font-size:13px">${esc(t('hostHint'))}</p>
-   <button class="btn" id="ok" style="margin-top:10px">${esc(t('enter'))}</button></div><button class="btn ghost" id="bk">${esc(t('back'))}</button>`;
+  app.innerHTML = topBar() + (entry ? `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1 style="color:var(--gold)">LA BULL · QUIZ</h1></div>` : '') + `<div class="card"><h2 style="margin-top:0">${esc(t('hostSpace'))}</h2><label class="f" for="pin">${esc(t('pin'))}</label>
+   <input class="in big-in" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="${t('pinPh')}">
+   <button class="btn" id="ok" style="margin-top:10px">${esc(t('enter'))}</button></div>${entry ? `<p class="center muted" style="margin-top:18px">${esc(t('scanToPlay'))}</p>` : `<button class="btn ghost" id="bk">${esc(t('back'))}</button>`}`;
   const ok = () => { if ($('#pin').value === LS.get('lb_pin', '0901')) { LS.set('lb_host', true); next(); } else { toast(t('badPin'), false); $('#pin').value = ''; } };
   $('#ok').onclick = ok; $('#pin').onkeydown = e => { if (e.key === 'Enter') ok(); };
-  $('#bk').onclick = () => go('');
+  if ($('#bk')) $('#bk').onclick = () => go('');
   $('#pin').focus();
 }
 function hostRoute(v) {
