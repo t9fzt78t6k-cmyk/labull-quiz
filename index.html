@@ -1412,7 +1412,7 @@ fr: {
   games: 'Mes jeux', play: 'QR pour les joueurs', playHere: 'Jouer sur ce téléphone', newGame: '+ Créer un jeu', builtIn: 'intégré à l’appli', local: 'sur ce téléphone',
   qCount: n => `${n} questions`, received: n => `${n} fiche(s) reçue(s)`, joinTitle: 'Scannez pour jouer', joinEn: 'Scan to play',
   fullscreen: 'Plein écran', print: 'Imprimer l’affichette', ranking: 'Classement', scan: 'Scanner une fiche',
-  manual: 'Saisie manuelle', key: 'Corrigé', reset: 'Effacer les résultats', resetQ: 'Effacer tous les résultats de cette partie ?',
+  manual: 'Saisie manuelle', key: 'Corrigé', reset: 'Effacer les résultats', zeroT: 'Remise à zéro', zeroGame: 'Effacer les scores de ce jeu', zeroAll: 'Tout remettre à zéro (tous les jeux)', zeroPin: 'Entrez le code animateur pour confirmer. Les scores effacés ne pourront pas être récupérés.', zeroGo: 'Effacer', zeroDone: 'Scores remis à zéro', resetQ: 'Effacer tous les résultats de cette partie ?',
   howRecv: 'Pour recevoir une fiche : scannez le QR du joueur avec l’appareil photo de ce téléphone (ou le bouton Scanner).',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous',
@@ -1452,7 +1452,7 @@ en: {
   games: 'My games', play: 'QR for players', playHere: 'Play on this phone', newGame: '+ Create a game', builtIn: 'built into the app', local: 'on this phone',
   qCount: n => `${n} questions`, received: n => `${n} sheet(s) received`, joinTitle: 'Scan to play', joinEn: 'Scannez pour jouer',
   fullscreen: 'Full screen', print: 'Print the table card', ranking: 'Ranking', scan: 'Scan a sheet',
-  manual: 'Manual entry', key: 'Answer key', reset: 'Clear results', resetQ: 'Clear all results for this game?',
+  manual: 'Manual entry', key: 'Answer key', reset: 'Clear results', zeroT: 'Reset', zeroGame: 'Clear this game\u2019s scores', zeroAll: 'Reset everything (all games)', zeroPin: 'Enter the quiz master code to confirm. Cleared scores can\u2019t be recovered.', zeroGo: 'Clear', zeroDone: 'Scores reset', resetQ: 'Clear all results for this game?',
   howRecv: 'To receive a sheet: scan the player’s QR with this phone’s camera (or the Scan button).',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone',
@@ -1720,7 +1720,7 @@ async function hostGame(g) {
   $('#ky').onclick = () => go('admin=key:' + g.id);
   $('#sc').onclick = () => scanner(g);
   $('#mn').onclick = () => manualEntry(g);
-  $('#rs').onclick = () => confirmBox(t('resetQ'), '', t('reset'), () => { LS.del(resKey(g.id)); hostGame(g); }, true);
+  $('#rs').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); hostGame(g); });
 }
 function storeResult(g, r) {
   const all = getRes(g.id); const k = r.t.trim().toLowerCase(); const had = !!all[k];
@@ -1759,13 +1759,26 @@ function manualEntry(g) {
     m.querySelector('[data-a]').onclick = () => { const tm = m.querySelector('#mt').value.trim(); const a = m.querySelector('#ma').value.toUpperCase().replace(/[^ABCD\-]/g, '').padEnd(g.questions.length, '-'); if (!tm) return; const res = storeResult(g, { t: tm, a }); m.remove(); toast(`✅ ${tm} · ${res.s}/${g.questions.length}`); hostGame(g); };
   });
 }
+function pinConfirm(title, cb) {
+  modal(`<h3>⚠️ ${esc(title)}</h3><p class="muted" style="font-size:14px">${esc(t('zeroPin'))}</p><input class="in big-in" id="zp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+   <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn danger small" data-y>${esc(t('zeroGo'))}</button></div>`, m => {
+    const inp = m.querySelector('#zp'); inp.focus();
+    const ok = () => { if (inp.value === LS.get('lb_pin', '0901')) { m.remove(); cb(); } else { inp.value = ''; toast(t('badPin'), false); } };
+    m.querySelector('[data-x]').onclick = () => m.remove(); m.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
+  });
+}
 function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
   app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
-   ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}`;
+   ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}
+   <div class="card stack" style="margin-top:22px;border-color:var(--bad)"><p style="margin:0;font-weight:700;color:var(--bad)">🗑 ${esc(t('zeroT'))}</p>
+   <button class="btn danger small" id="z1" style="width:100%">${esc(t('zeroGame'))}</button>
+   <button class="btn danger small" id="z2" style="width:100%">${esc(t('zeroAll'))}</button></div>`;
   $('#bk').onclick = () => go('admin=game:' + g.id);
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
   const dr = $('#dr'); if (dr) dr.onclick = () => drawModal(g, rk);
+  $('#z1').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); hostRank(g); });
+  $('#z2').onclick = () => pinConfirm(t('zeroAll'), () => { allGames().forEach(x => LS.del(resKey(x.id))); try { Object.keys(localStorage).filter(k => k.startsWith('lb_res_')).forEach(k => localStorage.removeItem(k)); } catch (e) {} toast('✔ ' + t('zeroDone')); hostRank(g); });
 }
 function drawModal(g, rk) {
   let pool = 'top';
