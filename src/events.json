@@ -31,26 +31,22 @@
  },
  {
   "d": "2026-11-02",
-  "c": "#e07a10",
+  "c": "#c41c24",
   "img": "",
+  "closed": true,
   "t": {
-   "fr": "Résultat de la pesée de la citrouille",
-   "en": "Pumpkin weigh-in: the result"
+   "fr": "Fermeture exceptionnelle",
+   "en": "Exceptionally closed"
   },
   "h": {
-   "fr": "Dernier jour pour deviner son poids, résultat le soir même !",
-   "en": "Last day to guess its weight, result in the evening!"
+   "fr": "LA BULL est fermée ce lundi. On se retrouve jeudi 5 novembre pour la Stout Night !",
+   "en": "LA BULL is closed this Monday. See you on Thursday 5 November for Stout Night!"
   },
   "ch": [
    [
-    "🎃",
-    "Concours citrouille",
-    "Pumpkin contest"
-   ],
-   [
-    "🍕",
-    "Bull'izzas",
-    "Bull'izzas"
+    "🔒",
+    "Fermé",
+    "Closed"
    ]
   ]
  },

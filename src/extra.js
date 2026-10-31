@@ -1,7 +1,7 @@
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
-  progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
+  progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', closedL: 'Fermé toute la journée', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
   progNone: 'Le programme arrive bientôt… suivez-nous sur Facebook !', resa: 'Sur réservation', fbFollow: 'Suivre LA BULL sur Facebook', callResa: 'Réserver : 07 68 11 79 87', open17: 'Ouvert dès 17h',
   fidT: 'Joueur du mois', fidS: 'Points fidélité', fidB: 'Joueur du mois', fidNone: 'Pas encore de points ce mois-ci. Jouez aux quiz, sondages et pronostics !',
   fidRule: 'Chaque quiz ou pronostic joué : 10 pts · sondage : 5 pts · 1er : +30 · 2e : +20 · 3e : +10 · pronostics : + vos points de prono. Les joueurs inscrits (avec leur code) cumulent tous leurs jeux.',
@@ -10,7 +10,7 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
-  progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
+  progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', closedL: 'Closed all day', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
   progNone: 'The programme is coming soon… follow us on Facebook!', resa: 'Booking required', fbFollow: 'Follow LA BULL on Facebook', callResa: 'Book: +33 7 68 11 79 87', open17: 'Open from 5 pm',
   fidT: 'Player of the month', fidS: 'Loyalty points', fidB: 'Player of the month', fidNone: 'No points yet this month. Play quizzes, polls and predictions!',
   fidRule: 'Each quiz or prediction played: 10 pts · poll: 5 pts · 1st: +30 · 2nd: +20 · 3rd: +10 · predictions: + your prediction points. Signed-up players (with their code) add up all their games.',
@@ -27,7 +27,7 @@ function dateTag(iso) { const d = new Date(iso + 'T12:00:00'); return `<span cla
 function evCard(e, mini) {
   return `<div class="evc${mini ? ' mini' : ''}" style="--c:${esc(e.c)}"><div class="evd">${dateTag(e.d)}</div><div class="evimg ${e.img ? 'evi-' + esc(e.img) : 'evi-none'}">${e.img ? '' : `<span>${(e.ch && e.ch[0] && e.ch[0][0]) || '🎉'}</span>`}</div>
    <div class="evt"><b>${esc(L(e.t))}</b><span>${esc(L(e.h))}</span>${mini ? '' : `<div class="chips">${(e.ch || []).map(c => `<em>${c[0]} ${esc(lang === 'fr' ? c[1] : c[2])}</em>`).join('')}</div>`}
-   <p class="evm">${e.tm ? '🕔 ' + esc(L(e.tm)) : '🕔 ' + esc(t('open17'))}${e.resa ? ` · <u>${esc(t('resa'))}</u>` : ''}</p></div></div>`;
+   <p class="evm">${e.closed ? '🔒 ' + esc(t('closedL')) : (e.tm ? '🕔 ' + esc(L(e.tm)) : '🕔 ' + esc(t('open17'))) + (e.resa ? ` · <u>${esc(t('resa'))}</u>` : '')}</p></div></div>`;
 }
 function progQR() {
   const url = baseURL() + '#prog', f = document.createElement('div'); f.className = 'full';
