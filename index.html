@@ -1398,6 +1398,7 @@ const LS = {
 const T = {
 fr: {
   copy: `© ${YEAR} Tous droits réservés · Propriété de SKÅL / LA BULL`,
+  choose: 'Choisissez votre jeu', chooseT: 'Touchez un jeu pour afficher son QR code à scanner.', tapQR: 'Toucher pour afficher le QR · Tap to show the QR',
   scanToPlay: 'Scannez le QR code de la partie affiché au bar pour jouer.',
   hostSpace: 'Espace animateur', team: 'Nom de votre équipe', solo: 'Votre prénom & nom',
   teamPh: 'Ex. : Les Leprechauns', soloPh: 'Ex. : Marie Dupont', start: 'C’est parti !',
@@ -1437,6 +1438,7 @@ fr: {
 },
 en: {
   copy: `© ${YEAR} All rights reserved · Property of SKÅL / LA BULL`,
+  choose: 'Choose your game', chooseT: 'Tap a game to show its QR code to scan.', tapQR: 'Tap to show the QR · Toucher pour afficher le QR',
   scanToPlay: 'Scan the game QR code displayed at the bar to play.',
   hostSpace: 'Quiz master area', team: 'Your team name', solo: 'Your first & last name',
   teamPh: 'E.g.: The Leprechauns', soloPh: 'E.g.: Mary Smith', start: 'Let’s go!',
@@ -1552,19 +1554,33 @@ async function route() {
     if (k === 'r' && v) return receive(v);
     if (k === 'admin' || k === 'h') return hostRoute(v);
   } catch (e) { console.error(e); return notFound(); }
-  if (isHost()) return hostRoute('');
   setAcc(); landing();
 }
 window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 
 function landing() {
-  app.innerHTML = topBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1 style="color:var(--gold)">LA BULL · QUIZ</h1>
-  <p class="muted" style="font-size:18px">${esc(t('scanToPlay'))}</p></div>
-  <div class="card center"><p style="font-size:44px;margin:0">📷 ☘️ 🎤</p></div>
-  <p class="center muted" style="font-size:13px;margin-top:22px">${esc(t('copy'))}</p>
-  <button class="btn ghost" id="toHost" style="margin-top:24px">${esc(t('hostSpace'))}</button>`;
+  setAcc();
+  const gs = allGames();
+  app.innerHTML = topBar() + `<div class="center" style="padding:4px 0 2px"><h1 style="color:var(--gold);font-size:34px;margin:6px 0 2px">${esc(t('choose'))}</h1>
+  <p class="muted" style="margin:0 0 6px">${esc(t('chooseT'))}</p></div>` +
+  gs.map(g => `<button class="card gm" data-show="${esc(g.id)}" style="display:block;width:100%;text-align:left;border-left:8px solid ${esc(g.color || '#f2b632')};cursor:pointer">
+    <span style="display:flex;align-items:center;gap:14px"><span style="flex:1;min-width:0"><b style="display:block;font-family:var(--title);font-weight:400;font-size:28px;line-height:1.1;color:${esc(g.color || '#f2b632')};text-transform:uppercase">${esc(L(g.title))}</b>
+    <span class="muted" style="font-size:14px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</span></span>
+    <span style="flex:none;background:#fff;border-radius:12px;padding:8px;font-size:34px;line-height:1">📲</span></span>
+    <span style="display:block;margin-top:10px;font-weight:700;color:var(--gold)">${esc(t('tapQR'))}</span></button>`).join('') +
+  `<button class="btn ghost" id="toHost" style="margin-top:18px">🔒 ${esc(t('hostSpace'))}</button>`;
+  app.querySelectorAll('[data-show]').forEach(b => b.onclick = () => showQR(findGame(b.dataset.show)));
   $('#toHost').onclick = () => go('admin');
+}
+async function showQR(g) {
+  const j = await joinURL(g);
+  const f = document.createElement('div'); f.className = 'full';
+  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p><p style="margin:0;font-size:14px;color:#555">${esc(T.fr.printLine)}</p>
+  <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHere'))}</button></div>`;
+  f.querySelector('.x').onclick = () => f.remove();
+  f.querySelector('[data-here]').onclick = () => { f.remove(); go('j=' + encodeURIComponent(g.id)); };
+  document.body.appendChild(f);
 }
 function notFound() { setAcc(); app.innerHTML = topBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
@@ -1662,6 +1678,7 @@ function hostHome() {
     <div class="row" style="margin-top:10px"><button class="btn ghost small" data-here="${esc(g.id)}">▶ ${esc(t('playHere'))}</button>
     <button class="btn ghost small" data-edit="${esc(g.id)}">${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
   }).join('') + `<button class="btn" id="new" style="margin-top:6px">${esc(t('newGame'))}</button>
+   <button class="btn ghost small" id="home" style="margin-top:12px;width:100%">📲 ${esc(t('choose'))}</button>
    <div class="row" style="margin-top:12px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">${esc(t('logout'))}</button></div>`;
   app.querySelectorAll('[data-play]').forEach(b => b.onclick = () => go('admin=game:' + b.dataset.play));
   app.querySelectorAll('[data-here]').forEach(b => b.onclick = () => go('j=' + encodeURIComponent(b.dataset.here)));
@@ -1672,6 +1689,7 @@ function hostHome() {
   });
   $('#new').onclick = () => go('admin=edit:');
   $('#set').onclick = () => go('admin=settings');
+  $('#home').onclick = () => go('');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
 }
 
