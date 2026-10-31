@@ -93,7 +93,7 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .colors{display:flex;gap:8px;flex-wrap:wrap}
 .colors button{width:38px;height:38px;border-radius:50%;border:3px solid transparent}
 .colors button.on{border-color:#fff}
-.tabs{display:flex;gap:6px;overflow-x:auto;margin:6px 0 4px;padding-bottom:4px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:6px 0 4px;padding-bottom:4px}
 .tabs button{flex:none;border:2px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;color:var(--muted)}
 .tabs button.on{border-color:var(--gold);color:var(--gold)}
 .ans{display:flex;gap:6px;flex-wrap:wrap}
@@ -1416,7 +1416,7 @@ fr: {
   howRecv: 'Pour recevoir une fiche : scannez le QR du joueur avec l’appareil photo de ce téléphone (ou le bouton Scanner).',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous',
-  drawGo: 'Lancer le tirage !', winner: 'Gagnant !', again: 'Relancer', close: 'Fermer', details: 'Détail',
+  drawGo: 'Lancer le tirage !', winner: 'Gagnant !', again: 'Relancer', close: 'Fermer', details: 'Détail', seeAns: 'Voir ses réponses en détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Fiche reçue à',
   edit: 'Modifier', dup: 'Dupliquer', del: 'Supprimer', delQ: 'Supprimer ce jeu ?', save: 'Enregistrer',
   title: 'Titre', subtitle: 'Accroche', date: 'Date', mode: 'Type de partie', modeTeam: 'Par équipe', modeSolo: 'Individuel',
   color: 'Couleur', questions: 'Questions', addQ: '+ Ajouter une question', correct: 'Touchez la bonne réponse (en vert)',
@@ -1456,7 +1456,7 @@ en: {
   howRecv: 'To receive a sheet: scan the player’s QR with this phone’s camera (or the Scan button).',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone',
-  drawGo: 'Start the draw!', winner: 'Winner!', again: 'Draw again', close: 'Close', details: 'Details',
+  drawGo: 'Start the draw!', winner: 'Winner!', again: 'Draw again', close: 'Close', details: 'Details', seeAns: 'See their answers in detail', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Sheet received at',
   edit: 'Edit', dup: 'Duplicate', del: 'Delete', delQ: 'Delete this game?', save: 'Save',
   title: 'Title', subtitle: 'Tagline', date: 'Date', mode: 'Game type', modeTeam: 'Teams', modeSolo: 'Individual',
   color: 'Colour', questions: 'Questions', addQ: '+ Add a question', correct: 'Tap the correct answer (green)',
@@ -1654,7 +1654,8 @@ function pinScreen(next) {
 }
 function hostRoute(v) {
   if (!isHost()) return pinScreen(() => hostRoute(v));
-  const [view, id] = (v || '').split(':');
+  const [view, id, extra] = (v || '').split(':');
+  if (view === 'team' && findGame(id)) return hostTeam(findGame(id), decodeURIComponent(extra || ''));
   if (view === 'game' && findGame(id)) return hostGame(findGame(id));
   if (view === 'rank' && findGame(id)) return hostRank(findGame(id));
   if (view === 'key' && findGame(id)) return hostKey(findGame(id));
@@ -1734,7 +1735,8 @@ function receive(p) {
   app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : t('saved'))}</h2>
    <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t)}</p><p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p>
    <p class="muted">${esc(t('rankNow')(res.pos))}</p>${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}</div>
-   <button class="btn acc" id="rk">🏆 ${esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">${esc(L(g.title))}</button>`;
+   <button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button><button class="btn acc" id="rk" style="margin-top:10px">🏆 ${esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">${esc(L(g.title))}</button>`;
+  $('#dt').onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(r.t.trim().toLowerCase()));
   $('#rk').onclick = () => go('admin=rank:' + g.id); $('#gm').onclick = () => go('admin=game:' + g.id);
   history.replaceState(null, '', '#admin=rank:' + g.id);
 }
@@ -1760,7 +1762,7 @@ function hostRank(g) {
   app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
    ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}`;
   $('#bk').onclick = () => go('admin=game:' + g.id);
-  app.querySelectorAll('.it').forEach(el => el.onclick = () => { const r = rk[+el.dataset.i]; modal(`<h3>${esc(r.t)} · ${r.s}/${N}</h3><div class="ans" style="margin-top:10px">${[...r.a.padEnd(N, '-')].map((c, i) => { const ok = LETTERS.indexOf(c) === g.questions[i].a; return `<span class="${ok ? 'g' : 'r'}">${i + 1}·${c === '-' ? '–' : c}${ok ? '' : ' → ' + LETTERS[g.questions[i].a]}</span>`; }).join('')}</div><button class="btn small" data-c style="margin-top:14px;width:100%">${esc(t('close'))}</button>`, m => m.querySelector('[data-c]').onclick = () => m.remove()); });
+  app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
   const dr = $('#dr'); if (dr) dr.onclick = () => drawModal(g, rk);
 }
 function drawModal(g, rk) {
@@ -1778,6 +1780,34 @@ function drawModal(g, rk) {
     const tick = () => { k++; if (k < steps) { dw.textContent = c[k % c.length].t; delay *= 1.1; setTimeout(tick, delay); } else { dw.textContent = '🏆 ' + win.t; dw.classList.add('winner'); dw.style.color = 'var(--gold2)'; btn.disabled = false; btn.textContent = t('again'); confetti(); } };
     tick();
   };
+}
+function hostTeam(g, key) {
+  setAcc(g.color);
+  const r = getRes(g.id)[key];
+  if (!r) return go('admin=rank:' + g.id);
+  const N = g.questions.length, a = r.a.padEnd(N, '-'), sc = scoreOf(g, r.a);
+  const rk = ranked(g); const pos = rk.findIndex(x => x.t.trim().toLowerCase() === key) + 1;
+  let only = false;
+  const draw = () => {
+    const items = g.questions.map((q, i) => {
+      const c = a[i], gi = LETTERS.indexOf(c), ok = gi === q.a;
+      if (only && ok) return '';
+      return `<div class="card" style="border-left:6px solid ${ok ? 'var(--ok)' : 'var(--bad)'};padding:12px 14px">
+        <p style="margin:0;font-size:13px;color:var(--muted)">${esc(t('q'))} ${i + 1} ${ok ? '✅' : '❌'}</p>
+        <p style="margin:4px 0 8px;font-weight:700">${esc(L(q.q))}</p>
+        <p style="margin:0;color:${ok ? 'var(--ok)' : 'var(--bad)'};font-weight:700">${esc(t('given'))} : ${gi < 0 ? esc(t('noAns')) : `${c} — ${esc(L(q.o[gi]))}`}</p>
+        ${ok ? '' : `<p style="margin:4px 0 0;color:var(--ok)">${esc(t('good'))} : ${LETTERS[q.a]} — ${esc(L(q.o[q.a]))}</p>`}
+        ${!ok && q.info && L(q.info) ? `<p style="margin:6px 0 0;font-size:13px">💡 ${esc(L(q.info))}</p>` : ''}</div>`;
+    }).join('');
+    app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button>
+      <div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
+      <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p>
+      <p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })}</p></div>
+      <div class="tabs" style="justify-content:center"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
+    $('#bk').onclick = () => go('admin=rank:' + g.id);
+    app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { only = b.dataset.f === '1'; draw(); });
+  };
+  draw();
 }
 function hostKey(g) {
   setAcc(g.color);
