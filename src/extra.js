@@ -1,7 +1,7 @@
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
-  progT: 'À venir à LA BULL', infoT: 'Infos pratiques', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
+  progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
   progNone: 'Le programme arrive bientôt… suivez-nous sur Facebook !', resa: 'Sur réservation', fbFollow: 'Suivre LA BULL sur Facebook', callResa: 'Réserver : 07 68 11 79 87', open17: 'Ouvert dès 17h',
   fidT: 'Joueur du mois', fidS: 'Points fidélité', fidB: 'Joueur du mois', fidNone: 'Pas encore de points ce mois-ci. Jouez aux quiz, sondages et pronostics !',
   fidRule: 'Chaque quiz ou pronostic joué : 10 pts · sondage : 5 pts · 1er : +30 · 2e : +20 · 3e : +10 · pronostics : + vos points de prono. Les joueurs inscrits (avec leur code) cumulent tous leurs jeux.',
@@ -10,7 +10,7 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
-  progT: 'Coming up at LA BULL', infoT: 'Practical info', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
+  progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
   progNone: 'The programme is coming soon… follow us on Facebook!', resa: 'Booking required', fbFollow: 'Follow LA BULL on Facebook', callResa: 'Book: +33 7 68 11 79 87', open17: 'Open from 5 pm',
   fidT: 'Player of the month', fidS: 'Loyalty points', fidB: 'Player of the month', fidNone: 'No points yet this month. Play quizzes, polls and predictions!',
   fidRule: 'Each quiz or prediction played: 10 pts · poll: 5 pts · 1st: +30 · 2nd: +20 · 3rd: +10 · predictions: + your prediction points. Signed-up players (with their code) add up all their games.',
@@ -25,16 +25,32 @@ const MONTHS = { fr: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.'
 const DAYS = { fr: ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'], en: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] };
 function dateTag(iso) { const d = new Date(iso + 'T12:00:00'); return `<span class="dtag"><small>${DAYS[lang][d.getDay()]}</small><b>${d.getDate()}</b><small>${MONTHS[lang][d.getMonth()]}</small></span>`; }
 function evCard(e, mini) {
-  return `<div class="evc${mini ? ' mini' : ''}" style="--c:${esc(e.c)}"><div class="evimg ${e.img ? 'evi-' + esc(e.img) : 'evi-none'}">${dateTag(e.d)}</div>
+  return `<div class="evc${mini ? ' mini' : ''}" style="--c:${esc(e.c)}"><div class="evd">${dateTag(e.d)}</div><div class="evimg ${e.img ? 'evi-' + esc(e.img) : 'evi-none'}">${e.img ? '' : `<span>${(e.ch && e.ch[0] && e.ch[0][0]) || '🎉'}</span>`}</div>
    <div class="evt"><b>${esc(L(e.t))}</b><span>${esc(L(e.h))}</span>${mini ? '' : `<div class="chips">${(e.ch || []).map(c => `<em>${c[0]} ${esc(lang === 'fr' ? c[1] : c[2])}</em>`).join('')}</div>`}
    <p class="evm">${e.tm ? '🕔 ' + esc(L(e.tm)) : '🕔 ' + esc(t('open17'))}${e.resa ? ` · <u>${esc(t('resa'))}</u>` : ''}</p></div></div>`;
+}
+function progQR() {
+  const url = baseURL() + '#prog', f = document.createElement('div'); f.className = 'full';
+  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:50%"><h1 style="color:#8a4a12">📅 ${esc(t('progT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.progScan)} · ${esc(T.en.progScan)}</p>`;
+  f.querySelector('.x').onclick = () => f.remove(); document.body.appendChild(f);
+}
+function progHome() {
+  const ev = upcomingEvents().slice(0, 3);
+  return `<div class="ncard prh" style="--c:#f2b632"><div class="hc-h"><span class="hc-ic"><i class="ic-prog"></i></span><div class="hc-t"><small>${esc(t('progB'))}</small><b>${esc(t('progT'))}</b><span>${esc(t('progS'))}</span></div></div>
+    <button class="prh-strip" id="prgo">${ev.length ? ev.map(e => `<span class="prh-ev" style="--c:${esc(e.c)}"><i class="${e.img ? 'evi-' + esc(e.img) : 'evi-none'}">${e.img ? '' : (e.ch && e.ch[0] && e.ch[0][0]) || '🎉'}</i>${dateTag(e.d)}</span>`).join('') : `<em>${esc(t('progNone'))}</em>`}</button>
+    <div class="row nbtns"><button class="btn" id="prqr">▦ QR</button><button class="btn cbtn" id="prtv">📺 ${esc(t('progLive'))}</button></div></div>`;
+}
+function bindProgHome() {
+  if (!$('#prgo')) return;
+  $('#prgo').onclick = () => go('prog'); $('#prqr').onclick = progQR; $('#prtv').onclick = () => go('admin=tv::prog');
 }
 function programPage() {
   setAcc('#f2b632');
   const ev = upcomingEvents();
   app.innerHTML = topBar(t('progB')) + backBar() + band('prog', t('progT'), t('progS')) +
     (ev.length ? ev.map(e => evCard(e)).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('progNone'))}</p></div>`) +
-    `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
+    (isHost() ? `<div class="row" style="margin-top:14px"><button class="btn" id="pq">▦ QR</button><button class="btn acc" id="pt">📺 ${esc(t('progLive'))}</button></div>` : '') + `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
+  if ($('#pq')) { $('#pq').onclick = progQR; $('#pt').onclick = () => go('admin=tv::prog'); }
 }
 function progTeaser() {
   const ev = upcomingEvents().slice(0, 2); if (!ev.length) return '';
@@ -86,7 +102,7 @@ function hostTV(g, first) {
   const views = g ? ['qr', 'rank', 'prog', 'fid'] : ['qr', 'fid', 'prog'];
   let view = views.includes(first) ? first : 'qr', auto = false, last = null, seen = null, url = '';
   const resOf = () => g ? Object.values(getRes(g.id)) : allGames().filter(x => isProno(x) && isActive(x)).flatMap(x => Object.values(getRes(x.id)));
-  const title = g ? gTitle(g) : t('hubT');
+  const title = g ? gTitle(g) : 'LA BULL';
   app.innerHTML = `<div class="tv"><div class="tv-stage"><i class="pod-spot"></i><header class="tv-h"><img src="${LOGO}" alt="LA BULL"><div><b>${esc(title)}</b><span>${g && g.date ? esc(fmtDate(g.date)) : 'LA BULL · Serres-et-Montguyard'}</span></div></header><main class="tv-m" id="tvm"></main>
     <footer class="tv-f">${views.map(v => `<button data-v="${v}">${{ qr: '▦ ' + t('tvQR'), rank: '🏆 ' + (k === 'poll' ? t('tvRes') : t('tvRank')), prog: '📅 ' + t('progB'), fid: '👑 ' + t('fidB') }[v]}</button>`).join('')}${g && k !== 'poll' ? `<button data-pod>🥇 ${esc(t('tvPod'))}</button>` : ''}<button data-auto>🔁 ${esc(t('tvAuto'))}</button><button data-fs>⛶</button><button data-x>✕</button></footer></div></div>`;
   const stage = app.querySelector('.tv-stage');
@@ -95,7 +111,8 @@ function hostTV(g, first) {
   const m = $('#tvm');
   const names = rs => rs.slice().sort((a, b) => b.ts - a.ts).map(r => r.t || (r.c && r.c.n)).filter(Boolean);
   const render = () => {
-    const rs = resOf(); app.querySelectorAll('[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+    const rs = resOf(); if (!g) app.querySelector('.tv-h b').textContent = view === 'qr' ? t('hubT') : view === 'prog' ? t('progT') : view === 'fid' ? t('fidT') : 'LA BULL';
+    app.querySelectorAll('[data-v]').forEach(b => b.classList.toggle('on', b.dataset.v === view));
     if (view === 'qr') {
       const nm = names(rs).slice(0, 10);
       m.innerHTML = `<div class="tv-qr"><div class="tv-code">${url ? qrSVG(url, 'M') : ''}<p>${esc(t('tvScan'))}</p></div><div class="tv-live"><b class="tv-n">${rs.length}</b><span>${esc(k === 'prono' || k === 'hub' ? t('tvRecvP') : k === 'poll' ? t('tvRecvS') : t('tvRecv'))}</span>
@@ -110,7 +127,7 @@ function hostTV(g, first) {
       }
     } else if (view === 'prog') {
       const ev = upcomingEvents().slice(0, stage.classList.contains('por') ? 4 : 4);
-      m.innerHTML = `<p class="tv-st">${esc(t('progT'))}</p><div class="tv-prog">${ev.map(e => evCard(e)).join('')}</div>`;
+      m.innerHTML = `${g ? `<p class="tv-st">${esc(t('progT'))}</p>` : ''}<div class="tv-prog">${ev.map(e => evCard(e)).join('')}</div><div class="tv-pqr">${qrSVG(baseURL() + '#prog', 'L')}<span>${esc(t('progScan'))}</span></div>`;
     } else if (view === 'fid') {
       const mo = g && g.date ? g.date.slice(0, 7) : todayISO().slice(0, 7), L1 = loyalty(mo).slice(0, 6);
       m.innerHTML = `<p class="tv-st">👑 ${esc(t('fidT'))} · ${esc(monthLabel(mo))}</p>${L1.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(L1.length / 2)},auto)">${L1.map((p, i) => { const ps = L1.findIndex(x => x.s === p.s) + 1; return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][ps - 1] || ps}</span><b>${esc(p.t)}</b><span class="score">${p.s} pts</span></div>`; }).join('')}</div>` : `<p class="pod-tap">${esc(t('fidNone'))}</p>`}<p class="tv-prize">${esc(t('fidPrize'))}</p>`;

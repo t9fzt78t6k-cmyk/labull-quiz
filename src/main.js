@@ -435,13 +435,13 @@ function hostHome() {
   const cat = (k, ic, lab, n, col) => { const w = lab.split(' '), last = w.pop(); return `<button class="cat cat-${k}" data-cat="${k}" style="--c:${col}"><em>${n}</em><b>${w.length ? esc(w.join(' ')) + ' ' : ''}<span>${esc(last)}</span></b></button>`; };
   app.innerHTML = topBar('', true) + backBar() + `<div class="homehead"><p class="brush">${esc(t('homeQa'))} <em>${esc(t('homeQb'))}</em> ?</p><button class="brushbtn" id="cr">+ ${esc(t('create'))}</button></div>
    <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
-   <button class="bar2" id="sumh"><i>📅</i><span>${esc(t('doneB'))}</span><b>›</b></button><button class="bar2" id="plh"><i>👥</i><span>${esc(t('playersT'))}</span><b>›</b></button><div class="plankbar p3"><button id="fidh"><i>👑</i>${esc(t('fidB'))}</button><button id="progh"><i>📅</i>${esc(t('progB'))}</button><button id="tvh"><i>📺</i>${esc(t('tvB'))}</button></div>
+   ${progHome()}<button class="bar2" id="sumh"><i>📅</i><span>${esc(t('doneB'))}</span><b>›</b></button><button class="bar2" id="plh"><i>👥</i><span>${esc(t('playersT'))}</span><b>›</b></button><div class="plankbar p3"><button id="fidh"><i>👑</i>${esc(t('fidB'))}</button><button id="progh"><i>📅</i>${esc(t('progB'))}</button><button id="tvh"><i>📺</i>${esc(t('tvB'))}</button></div>
    ${band('now', t('nowL'), '')}${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
   app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => go('admin=list:' + b.dataset.cat));
   $('#cr').onclick = () => go('admin=create');
   $('#sumh').onclick = () => go('admin=sum');
-  $('#plh').onclick = () => go('admin=players');
+  $('#plh').onclick = () => go('admin=players'); bindProgHome();
   $('#fidh').onclick = () => go('admin=fid'); $('#progh').onclick = () => go('prog'); $('#tvh').onclick = () => tvIntro(null);
   bindCards();
   $('#set').onclick = () => go('admin=settings');
