@@ -165,10 +165,11 @@ function pronoHub() {
       return `<div class="card hc" style="border-left:10px solid ${esc(g.color)}"><div class="hc-h"><span class="hc-ic" style="background:${esc(g.color)}">${SPORT_ICON[g.sport] || '🏆'}</span><div class="hc-t"><b>${esc(gTitle(g))}</b><span>${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''}</span></div></div>
        ${sq.length > 1 ? `<p class="muted" style="font-size:13px;margin:8px 0 0">${sq.map(([q]) => esc(qA(g, q) + ' – ' + qB(g, q))).join(' · ')}</p>` : ''}
        <button class="btn ${done ? 'ghost' : ''}" data-g="${esc(g.id)}" style="margin-top:12px">${esc(done ? t('hubDone') : t('hubGo'))}</button></div>`; }).join('') : `<div class="card center muted">${esc(t('hubNone'))}</div>`) +
-    `<details class="card"><summary style="font-weight:700;cursor:pointer">👤 ${esc(t('editMe'))}</summary><p style="margin:10px 0 4px">${esc(me.name)} · ${esc(me.v)}</p><p class="muted" style="font-size:13px;margin:0 0 10px">${esc(me.mk ? t('mkYes') : t('mkNo'))}</p>
+    (isHost() ? `<button class="btn ghost small" id="chg" style="width:100%;margin-top:10px">👤 ${esc(t('changePl'))}</button>` : '') + `<details class="card"><summary style="font-weight:700;cursor:pointer">👤 ${esc(t('editMe'))}</summary><p style="margin:10px 0 4px">${esc(me.name)} · ${esc(me.v)}</p><p class="muted" style="font-size:13px;margin:0 0 10px">${esc(me.mk ? t('mkYes') : t('mkNo'))}</p>
      <button class="btn danger small" id="del" style="width:100%">${esc(t('delMe'))}</button><p style="font-size:12px;line-height:1.4;margin-top:10px" class="muted">${esc(t('priv'))}</p></details>`;
   app.querySelectorAll('[data-g]').forEach(b => b.onclick = () => go('j=' + encodeURIComponent(b.dataset.g)));
   $('#del').onclick = () => { LS.del('lb_me'); toast(t('delDone')); pronoHub(); };
+  if ($('#chg')) $('#chg').onclick = () => { newPlayer(); pronoHub(); };
 }
 function contactBlock(g, r, pos, N, pts) {
   if (!r.c) return '';
