@@ -93,6 +93,13 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .colors{display:flex;gap:8px;flex-wrap:wrap}
 .colors button{width:38px;height:38px;border-radius:50%;border:3px solid transparent}
 .colors button.on{border-color:#fff}
+.navb{display:flex;gap:10px;margin:0 0 6px;position:sticky;top:0;z-index:4;background:rgba(18,12,8,.94);padding:8px 0;backdrop-filter:blur(6px)}
+.navb .btn{flex:1}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.tl{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:10px 4px;font-weight:700;font-size:13px;line-height:1.2;text-align:center;min-height:84px;justify-content:center}
+.tl i{font-style:normal;font-size:26px}
+.tl em{position:absolute;top:6px;right:6px;background:var(--gold);color:#241405;font-style:normal;font-size:12px;border-radius:99px;padding:1px 7px}
+.tl:active{transform:scale(.97)}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:6px 0 4px;padding-bottom:4px}
 .tabs button{flex:none;border:2px solid var(--line);background:var(--panel);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px;color:var(--muted)}
 .tabs button.on{border-color:var(--gold);color:var(--gold)}
@@ -1416,7 +1423,7 @@ fr: {
   howRecv: 'Pour recevoir une fiche : scannez le QR du joueur avec l’appareil photo de ce téléphone (ou le bouton Scanner).',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous',
-  drawGo: 'Lancer le tirage !', winner: 'Gagnant !', again: 'Relancer', close: 'Fermer', details: 'Détail', seeAns: 'Voir ses réponses en détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Fiche reçue à',
+  drawGo: 'Lancer le tirage !', winner: 'Gagnant !', again: 'Relancer', close: 'Fermer', details: 'Détail', myQuiz: 'Mes quiz', homeT: 'Touchez « QR pour les joueurs » pour faire scanner le quiz.', recvS: 'Recevoir une fiche', keyS: 'Questions & corrigé', playHereS: 'Jouer ici', backS: 'Retour', lock: 'Verrouiller', printS: 'Imprimer', recvT: 'Recevoir une fiche joueur', recvHow: 'Ouvrez l\u2019appareil photo de votre téléphone et visez le QR code affiché sur le téléphone du joueur, puis touchez le lien qui apparaît : la fiche s\u2019enregistre toute seule avec son score.', seeAns: 'Voir ses réponses en détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Fiche reçue à',
   edit: 'Modifier', dup: 'Dupliquer', del: 'Supprimer', delQ: 'Supprimer ce jeu ?', save: 'Enregistrer',
   title: 'Titre', subtitle: 'Accroche', date: 'Date', mode: 'Type de partie', modeTeam: 'Par équipe', modeSolo: 'Individuel',
   color: 'Couleur', questions: 'Questions', addQ: '+ Ajouter une question', correct: 'Touchez la bonne réponse (en vert)',
@@ -1456,7 +1463,7 @@ en: {
   howRecv: 'To receive a sheet: scan the player’s QR with this phone’s camera (or the Scan button).',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone',
-  drawGo: 'Start the draw!', winner: 'Winner!', again: 'Draw again', close: 'Close', details: 'Details', seeAns: 'See their answers in detail', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Sheet received at',
+  drawGo: 'Start the draw!', winner: 'Winner!', again: 'Draw again', close: 'Close', details: 'Details', myQuiz: 'My quizzes', homeT: 'Tap “QR for players” to let players scan the quiz.', recvS: 'Receive a sheet', keyS: 'Questions & key', playHereS: 'Play here', backS: 'Back', lock: 'Lock', printS: 'Print', recvT: 'Receive a player sheet', recvHow: 'Open your phone\u2019s camera and point it at the QR code on the player\u2019s phone, then tap the link that appears: the sheet is saved automatically with its score.', seeAns: 'See their answers in detail', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Sheet received at',
   edit: 'Edit', dup: 'Duplicate', del: 'Delete', delQ: 'Delete this game?', save: 'Save',
   title: 'Title', subtitle: 'Tagline', date: 'Date', mode: 'Game type', modeTeam: 'Teams', modeSolo: 'Individual',
   color: 'Colour', questions: 'Questions', addQ: '+ Add a question', correct: 'Tap the correct answer (green)',
@@ -1555,35 +1562,32 @@ async function route() {
     if (k === 'admin' || k === 'h') return hostRoute(v);
   } catch (e) { console.error(e); return notFound(); }
   setAcc();
-  if (!isHost()) return pinScreen(() => landing(), true);
-  landing();
+  if (!isHost()) return pinScreen(() => hostHome(), true);
+  hostHome();
 }
 window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 
-function landing() {
-  setAcc();
-  const gs = allGames();
-  app.innerHTML = topBar() + `<div class="center" style="padding:4px 0 2px"><h1 style="color:var(--gold);font-size:34px;margin:6px 0 2px">${esc(t('choose'))}</h1>
-  <p class="muted" style="margin:0 0 6px">${esc(t('chooseT'))}</p></div>` +
-  gs.map(g => `<button class="card gm" data-show="${esc(g.id)}" style="display:block;width:100%;text-align:left;border-left:8px solid ${esc(g.color || '#f2b632')};cursor:pointer">
-    <span style="display:flex;align-items:center;gap:14px"><span style="flex:1;min-width:0"><b style="display:block;font-family:var(--title);font-weight:400;font-size:28px;line-height:1.1;color:${esc(g.color || '#f2b632')};text-transform:uppercase">${esc(L(g.title))}</b>
-    <span class="muted" style="font-size:14px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</span></span>
-    <span style="flex:none;background:#fff;border-radius:12px;padding:8px;font-size:34px;line-height:1">📲</span></span>
-    <span style="display:block;margin-top:10px;font-weight:700;color:var(--gold)">${esc(t('tapQR'))}</span></button>`).join('') +
-  `<button class="btn ghost" id="toHost" style="margin-top:18px">🏆 ${esc(t('hostSpace'))} · ${esc(t('ranking'))}</button>`;
-  app.querySelectorAll('[data-show]').forEach(b => b.onclick = () => showQR(findGame(b.dataset.show)));
-  $('#toHost').onclick = () => go('admin');
-}
+function landing() { hostHome(); }
 async function showQR(g) {
   const j = await joinURL(g);
   const f = document.createElement('div'); f.className = 'full';
   f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p><p style="margin:0;font-size:14px;color:#555">${esc(T.fr.printLine)}</p>
-  <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHere'))}</button></div>`;
+  <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHere'))}</button><button class="btn ghost small" data-pr style="flex:1;color:#1a1008;border-color:#ccc">🖨 ${esc(t('printS'))}</button></div>`;
+  f.querySelector('[data-pr]').onclick = () => printCard(g, j);
   f.querySelector('.x').onclick = () => f.remove();
   f.querySelector('[data-here]').onclick = () => { f.remove(); go('j=' + encodeURIComponent(g.id)); };
   document.body.appendChild(f);
 }
+function printCard(g, j) { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010</small>`; window.print(); }
+function receiveHelp(g) {
+  if ('BarcodeDetector' in window) return scanner(g);
+  modal(`<p style="font-size:44px;margin:0;text-align:center">📷</p><h3 class="center">${esc(t('recvT'))}</h3><p>${esc(t('recvHow'))}</p>
+   <button class="btn small" data-m style="width:100%;margin-top:10px">⌨️ ${esc(t('manual'))}</button><button class="btn ghost small" data-c style="width:100%;margin-top:10px">${esc(t('close'))}</button>`,
+   m => { m.querySelector('[data-c]').onclick = () => m.remove(); m.querySelector('[data-m]').onclick = () => { m.remove(); manualEntry(g); }; });
+}
+const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('myQuiz'))}</button></div>`;
+document.addEventListener('click', e => { const n = e.target.closest('[data-nav]'); if (!n) return; if (n.dataset.nav === 'home') go(''); else if (history.length > 1) history.back(); else go(''); });
 function notFound() { setAcc(); app.innerHTML = topBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
 /* ---------------- player ---------------- */
@@ -1673,33 +1677,42 @@ function ranked(g) { return Object.values(getRes(g.id)).map(r => ({ ...r, s: sco
 function hostHome() {
   setAcc();
   const gs = allGames();
-  app.innerHTML = topBar(t('hostSpace')) + `<h2>${esc(t('games'))}</h2>` + gs.map(g => {
-    const n = Object.keys(getRes(g.id)).length;
-    return `<div class="card" style="border-left:6px solid ${esc(g.color || '#f2b632')}"><h3>${esc(L(g.title))}</h3>
-    <p class="muted" style="font-size:14px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))} · ${esc(isBuiltin(g.id) ? t('builtIn') : t('local'))}${n ? ` · <b style="color:var(--gold)">${esc(t('received')(n))}</b>` : ''}</p>
-    <button class="btn" data-play="${esc(g.id)}" style="margin-top:10px">📲 ${esc(t('play'))}</button>
-    <div class="row" style="margin-top:10px"><button class="btn ghost small" data-here="${esc(g.id)}">▶ ${esc(t('playHere'))}</button>
-    <button class="btn ghost small" data-edit="${esc(g.id)}">${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
+  app.innerHTML = topBar(t('hostSpace')) + `<h1 style="color:var(--gold);font-size:34px;margin:4px 0 2px">${esc(t('myQuiz'))}</h1><p class="muted" style="margin:0 0 6px">${esc(t('homeT'))}</p>` + gs.map(g => {
+    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f2b632'), id = esc(g.id);
+    return `<div class="card" style="border-left:8px solid ${c};padding:14px">
+    <b style="display:block;font-family:var(--title);font-weight:400;font-size:28px;line-height:1.1;color:${c};text-transform:uppercase">${esc(L(g.title))}</b>
+    <p class="muted" style="font-size:14px;margin:4px 0 10px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</p>
+    <button class="btn" data-a="qr" data-g="${id}">📲 ${esc(t('play'))}</button>
+    <div class="tiles">
+      <button class="tl" data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
+      <button class="tl" data-a="rank" data-g="${id}"><i>🏆</i>${esc(t('ranking'))}${n ? `<em>${n}</em>` : ''}</button>
+      <button class="tl" data-a="key" data-g="${id}"><i>📋</i>${esc(t('keyS'))}</button>
+      <button class="tl" data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button>
+      <button class="tl" data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button>
+    </div></div>`;
   }).join('') + `<button class="btn" id="new" style="margin-top:6px">${esc(t('newGame'))}</button>
-   <button class="btn ghost small" id="home" style="margin-top:12px;width:100%">📲 ${esc(t('choose'))}</button>
-   <div class="row" style="margin-top:12px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">${esc(t('logout'))}</button></div>`;
-  app.querySelectorAll('[data-play]').forEach(b => b.onclick = () => go('admin=game:' + b.dataset.play));
-  app.querySelectorAll('[data-here]').forEach(b => b.onclick = () => go('j=' + encodeURIComponent(b.dataset.here)));
-  app.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
-    const id = b.dataset.edit;
-    if (isBuiltin(id)) { const c = JSON.parse(JSON.stringify(findGame(id))); c.id = 'g-' + Date.now().toString(36); c.title.fr += ' (copie)'; c.title.en += ' (copy)'; saveMyGames([...myGames(), c]); go('admin=edit:' + c.id); }
-    else go('admin=edit:' + id);
+   <div class="row" style="margin-top:12px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
+  app.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
+    const g = findGame(b.dataset.g), a = b.dataset.a;
+    if (a === 'qr') return showQR(g);
+    if (a === 'recv') return receiveHelp(g);
+    if (a === 'rank') return go('admin=rank:' + g.id);
+    if (a === 'key') return go('admin=key:' + g.id);
+    if (a === 'here') return go('j=' + encodeURIComponent(g.id));
+    if (a === 'edit') {
+      if (isBuiltin(g.id)) { const c = JSON.parse(JSON.stringify(g)); c.id = 'g-' + Date.now().toString(36); c.title.fr += ' (copie)'; c.title.en += ' (copy)'; saveMyGames([...myGames(), c]); return go('admin=edit:' + c.id); }
+      return go('admin=edit:' + g.id);
+    }
   });
   $('#new').onclick = () => go('admin=edit:');
   $('#set').onclick = () => go('admin=settings');
-  $('#home').onclick = () => go('');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
 }
 
 async function hostGame(g) {
   setAcc(g.color);
   const j = await joinURL(g), n = Object.keys(getRes(g.id)).length;
-  app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button>
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `
    <h1 style="font-size:32px">${esc(L(g.title))}</h1><p class="muted">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</p>
    <div class="card center"><p style="font-family:var(--title);font-size:26px;margin:0 0 10px;color:var(--gold)">${esc(t('joinTitle'))} · ${esc(t('joinEn'))}</p>
    <div class="qrbox">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div>
@@ -1712,7 +1725,6 @@ async function hostGame(g) {
    <div class="stack" style="margin-top:12px"><button class="btn acc" id="rk">🏆 ${esc(t('ranking'))}</button>
    <div class="row"><button class="btn ghost small" id="sc">📷 ${esc(t('scan'))}</button><button class="btn ghost small" id="mn">⌨️ ${esc(t('manual'))}</button></div>
    <div class="row"><button class="btn ghost small" id="ky">📋 ${esc(t('key'))}</button><button class="btn danger small" id="rs">${esc(t('reset'))}</button></div></div></div>`;
-  $('#bk').onclick = () => go('admin');
   $('#fs').onclick = () => { const f = document.createElement('div'); f.className = 'full'; f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:16px"><h1>${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>`; f.querySelector('.x').onclick = () => f.remove(); document.body.appendChild(f); };
   $('#pr').onclick = () => { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010 · ${esc(T.fr.copy)}</small>`; window.print(); };
   $('#ph').onclick = () => go('j=' + encodeURIComponent(g.id));
@@ -1737,9 +1749,9 @@ function receive(p) {
   app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : t('saved'))}</h2>
    <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t)}</p><p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p>
    <p class="muted">${esc(t('rankNow')(res.pos))}</p>${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}</div>
-   <button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button><button class="btn acc" id="rk" style="margin-top:10px">🏆 ${esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">${esc(L(g.title))}</button>`;
+   <button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button><button class="btn acc" id="rk" style="margin-top:10px">🏆 ${esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">🏠 ${esc(t('myQuiz'))}</button>`;
   $('#dt').onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(r.t.trim().toLowerCase()));
-  $('#rk').onclick = () => go('admin=rank:' + g.id); $('#gm').onclick = () => go('admin=game:' + g.id);
+  $('#rk').onclick = () => go('admin=rank:' + g.id); $('#gm').onclick = () => go('');
   history.replaceState(null, '', '#admin=rank:' + g.id);
 }
 async function scanner(g) {
@@ -1748,7 +1760,7 @@ async function scanner(g) {
   const det = new BarcodeDetector({ formats: ['qr_code'] }); let live = true, last = '';
   const m = modal(`<p class="muted center">${esc(t('scanning'))}</p><video playsinline muted style="width:100%;border-radius:14px;background:#000"></video><button class="btn small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`, mm => {});
   const v = m.querySelector('video'); v.srcObject = stream; await v.play().catch(() => {});
-  const stop = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); hostGame(g); };
+  const stop = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); route(); };
   m.querySelector('[data-c]').onclick = stop;
   const loop = async () => { if (!live) return; try { const codes = await det.detect(v); for (const c of codes) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); if (r.g !== g.id) { toast(t('unknownGame'), false); continue; } const res = storeResult(g, r); toast(`${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${g.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
   loop();
@@ -1756,7 +1768,7 @@ async function scanner(g) {
 function manualEntry(g) {
   modal(`<h3>${esc(t('manual'))}</h3><p class="muted" style="font-size:14px">${esc(t('manualT'))}</p><input class="in" id="mt" placeholder="${esc(t('teamPh'))}"><input class="in" id="ma" style="margin-top:8px;text-transform:uppercase;letter-spacing:2px" placeholder="ACBB…" maxlength="${g.questions.length}"><div class="row" style="margin-top:12px"><button class="btn ghost small" data-c>${esc(t('no'))}</button><button class="btn small" data-a>${esc(t('add'))}</button></div>`, m => {
     m.querySelector('[data-c]').onclick = () => m.remove();
-    m.querySelector('[data-a]').onclick = () => { const tm = m.querySelector('#mt').value.trim(); const a = m.querySelector('#ma').value.toUpperCase().replace(/[^ABCD\-]/g, '').padEnd(g.questions.length, '-'); if (!tm) return; const res = storeResult(g, { t: tm, a }); m.remove(); toast(`✅ ${tm} · ${res.s}/${g.questions.length}`); hostGame(g); };
+    m.querySelector('[data-a]').onclick = () => { const tm = m.querySelector('#mt').value.trim(); const a = m.querySelector('#ma').value.toUpperCase().replace(/[^ABCD\-]/g, '').padEnd(g.questions.length, '-'); if (!tm) return; const res = storeResult(g, { t: tm, a }); m.remove(); toast(`✅ ${tm} · ${res.s}/${g.questions.length}`); route(); };
   });
 }
 function pinConfirm(title, cb) {
@@ -1769,14 +1781,14 @@ function pinConfirm(title, cb) {
 }
 function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
-  app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p><div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
    ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}
    <div class="card stack" style="margin-top:22px;border-color:var(--bad)"><p style="margin:0;font-weight:700;color:var(--bad)">🗑 ${esc(t('zeroT'))}</p>
    <button class="btn danger small" id="z1" style="width:100%">${esc(t('zeroGame'))}</button>
    <button class="btn danger small" id="z2" style="width:100%">${esc(t('zeroAll'))}</button></div>`;
-  $('#bk').onclick = () => go('admin=game:' + g.id);
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
   const dr = $('#dr'); if (dr) dr.onclick = () => drawModal(g, rk);
+  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
   $('#z1').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); hostRank(g); });
   $('#z2').onclick = () => pinConfirm(t('zeroAll'), () => { allGames().forEach(x => LS.del(resKey(x.id))); try { Object.keys(localStorage).filter(k => k.startsWith('lb_res_')).forEach(k => localStorage.removeItem(k)); } catch (e) {} toast('✔ ' + t('zeroDone')); hostRank(g); });
 }
@@ -1814,21 +1826,19 @@ function hostTeam(g, key) {
         ${ok ? '' : `<p style="margin:4px 0 0;color:var(--ok)">${esc(t('good'))} : ${LETTERS[q.a]} — ${esc(L(q.o[q.a]))}</p>`}
         ${!ok && q.info && L(q.info) ? `<p style="margin:6px 0 0;font-size:13px">💡 ${esc(L(q.info))}</p>` : ''}</div>`;
     }).join('');
-    app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button>
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `
       <div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
       <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p>
       <p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })}</p></div>
       <div class="tabs" style="justify-content:center"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
-    $('#bk').onclick = () => go('admin=rank:' + g.id);
     app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { only = b.dataset.f === '1'; draw(); });
   };
   draw();
 }
 function hostKey(g) {
   setAcc(g.color);
-  app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h1 style="font-size:30px">📋 ${esc(t('key'))}</h1><p class="muted">${esc(L(g.title))}</p>` +
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:30px">📋 ${esc(t('key'))}</h1><p class="muted">${esc(L(g.title))}</p>` +
     g.questions.map((q, i) => `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${esc(L(q.q))}</p><p style="font-size:20px;font-weight:700;margin:6px 0"><span class="pill" style="background:var(--ok);color:#06210f;border:0">${LETTERS[q.a]}</span> ${esc(L(q.o[q.a]))}</p>${q.info && L(q.info) ? `<p style="font-size:14px;margin:0">💡 ${esc(L(q.info))}</p>` : ''}</div>`).join('');
-  $('#bk').onclick = () => go('admin=game:' + g.id);
 }
 
 /* ---------------- editor ---------------- */
@@ -1839,7 +1849,7 @@ function hostEdit(src) {
   if (src && isBuiltin(src.id)) { toast(t('builtinRO'), false); return go('admin'); }
   setAcc(g.color);
   const draw = () => {
-    app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h2>${esc(src ? t('edit') : t('newGame').replace('+ ', ''))}</h2>
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>${esc(src ? t('edit') : t('newGame').replace('+ ', ''))}</h2>
     <div class="card"><label class="f">${esc(t('title'))} FR</label><input class="in" data-k="title.fr" value="${esc(g.title.fr)}"><label class="f">${esc(t('title'))} EN</label><input class="in" data-k="title.en" value="${esc(g.title.en)}">
     <label class="f">${esc(t('subtitle'))} FR</label><input class="in" data-k="sub.fr" value="${esc(g.sub.fr)}"><label class="f">${esc(t('subtitle'))} EN</label><input class="in" data-k="sub.en" value="${esc(g.sub.en)}">
     <div class="row"><div><label class="f">${esc(t('date'))}</label><input class="in" type="date" data-k="date" value="${esc(g.date)}"></div><div><label class="f">${esc(t('mode'))}</label><select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select></div></div>
@@ -1863,7 +1873,6 @@ function hostEdit(src) {
     app.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const i = +b.dataset.up; [g.questions[i - 1], g.questions[i]] = [g.questions[i], g.questions[i - 1]]; draw(); });
     app.querySelectorAll('[data-dn]').forEach(b => b.onclick = () => { const i = +b.dataset.dn; [g.questions[i + 1], g.questions[i]] = [g.questions[i], g.questions[i + 1]]; draw(); });
     $('#aq').onclick = () => { g.questions.push(blankQ()); draw(); setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50); };
-    $('#bk').onclick = () => go('admin');
     $('#sv').onclick = () => {
       g.questions = g.questions.filter(q => (q.q.fr || q.q.en) && q.o.filter(o => o.fr || o.en).length >= 2);
       g.questions.forEach(q => { q.q.fr ||= q.q.en; q.q.en ||= q.q.fr; q.o.forEach(o => { o.fr ||= o.en; o.en ||= o.fr; }); });
@@ -1880,12 +1889,11 @@ function hostEdit(src) {
 function download(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
 function hostSettings() {
   setAcc();
-  app.innerHTML = topBar(t('hostSpace')) + `<button class="btn ghost small" id="bk">${esc(t('back'))}</button><h2>⚙️ ${esc(t('settings'))}</h2>
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>⚙️ ${esc(t('settings'))}</h2>
    <div class="card"><label class="f">${esc(t('newPin'))}</label><div class="row"><input class="in" id="np" inputmode="numeric" maxlength="8"><button class="btn small" id="sp" style="flex:none">${esc(t('save'))}</button></div></div>
    <div class="card"><label class="f">${esc(t('baseL'))}</label><p class="muted" style="font-size:13px;margin:0 0 8px">${esc(ONLINE ? t('baseOn') + ' ' + location.origin : t('baseT'))}</p>${ONLINE ? '' : `<div class="row"><input class="in" id="bu2" placeholder="https://labull-quiz.netlify.app" value="${esc(LS.get('lb_base', ''))}"><button class="btn small" id="sb" style="flex:none">${esc(t('save'))}</button></div>`}</div>
    <div class="card stack"><p class="muted" style="font-size:14px;margin:0">${esc(t('exportT'))}</p><button class="btn" id="ex">⬇️ ${esc(t('export'))}</button>
    <button class="btn ghost small" id="bu" style="width:100%">${esc(t('backup'))}</button><label class="btn ghost small" style="width:100%">${esc(t('import'))}<input type="file" id="im" accept=".json,application/json" hidden></label></div>`;
-  $('#bk').onclick = () => go('admin');
   const sb = $('#sb'); if (sb) sb.onclick = () => { LS.set('lb_base', $('#bu2').value.trim()); toast(t('pinSaved').replace(/code/i, 'adresse')); };
   $('#sp').onclick = () => { const v = $('#np').value.trim(); if (v.length >= 4) { LS.set('lb_pin', v); toast(t('pinSaved')); $('#np').value = ''; } };
   $('#ex').onclick = () => {
