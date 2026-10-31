@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#120c08">
 <title>LA BULL · Quiz</title>
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:ital,wght@0,400;0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -1406,7 +1408,7 @@ fr: {
   results: 'Résultats et tirage au sort en fin de partie !', yourAns: 'Vos réponses', notFound: 'Partie introuvable',
   notFoundT: 'Ce QR code ne correspond à aucune partie. Demandez au bar le bon QR code.',
   pin: 'Code animateur', pinPh: '••••', enter: 'Entrer', badPin: 'Code incorrect', back: '← Retour',
-  games: 'Mes jeux', play: 'Lancer', newGame: '+ Créer un jeu', builtIn: 'intégré à l’appli', local: 'sur ce téléphone',
+  games: 'Mes jeux', play: 'QR pour les joueurs', playHere: 'Jouer sur ce téléphone', newGame: '+ Créer un jeu', builtIn: 'intégré à l’appli', local: 'sur ce téléphone',
   qCount: n => `${n} questions`, received: n => `${n} fiche(s) reçue(s)`, joinTitle: 'Scannez pour jouer', joinEn: 'Scan to play',
   fullscreen: 'Plein écran', print: 'Imprimer l’affichette', ranking: 'Classement', scan: 'Scanner une fiche',
   manual: 'Saisie manuelle', key: 'Corrigé', reset: 'Effacer les résultats', resetQ: 'Effacer tous les résultats de cette partie ?',
@@ -1445,7 +1447,7 @@ en: {
   results: 'Results and prize draw at the end of the game!', yourAns: 'Your answers', notFound: 'Game not found',
   notFoundT: 'This QR code doesn’t match any game. Ask the bar for the right QR code.',
   pin: 'Quiz master code', pinPh: '••••', enter: 'Enter', badPin: 'Wrong code', back: '← Back',
-  games: 'My games', play: 'Start', newGame: '+ Create a game', builtIn: 'built into the app', local: 'on this phone',
+  games: 'My games', play: 'QR for players', playHere: 'Play on this phone', newGame: '+ Create a game', builtIn: 'built into the app', local: 'on this phone',
   qCount: n => `${n} questions`, received: n => `${n} sheet(s) received`, joinTitle: 'Scan to play', joinEn: 'Scannez pour jouer',
   fullscreen: 'Full screen', print: 'Print the table card', ranking: 'Ranking', scan: 'Scan a sheet',
   manual: 'Manual entry', key: 'Answer key', reset: 'Clear results', resetQ: 'Clear all results for this game?',
@@ -1550,6 +1552,7 @@ async function route() {
     if (k === 'r' && v) return receive(v);
     if (k === 'admin' || k === 'h') return hostRoute(v);
   } catch (e) { console.error(e); return notFound(); }
+  if (isHost()) return hostRoute('');
   setAcc(); landing();
 }
 window.addEventListener('hashchange', route);
@@ -1655,11 +1658,13 @@ function hostHome() {
     const n = Object.keys(getRes(g.id)).length;
     return `<div class="card" style="border-left:6px solid ${esc(g.color || '#f2b632')}"><h3>${esc(L(g.title))}</h3>
     <p class="muted" style="font-size:14px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))} · ${esc(isBuiltin(g.id) ? t('builtIn') : t('local'))}${n ? ` · <b style="color:var(--gold)">${esc(t('received')(n))}</b>` : ''}</p>
-    <div class="row" style="margin-top:10px"><button class="btn small" data-play="${esc(g.id)}">▶ ${esc(t('play'))}</button>
+    <button class="btn" data-play="${esc(g.id)}" style="margin-top:10px">📲 ${esc(t('play'))}</button>
+    <div class="row" style="margin-top:10px"><button class="btn ghost small" data-here="${esc(g.id)}">▶ ${esc(t('playHere'))}</button>
     <button class="btn ghost small" data-edit="${esc(g.id)}">${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
   }).join('') + `<button class="btn" id="new" style="margin-top:6px">${esc(t('newGame'))}</button>
    <div class="row" style="margin-top:12px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">${esc(t('logout'))}</button></div>`;
   app.querySelectorAll('[data-play]').forEach(b => b.onclick = () => go('admin=game:' + b.dataset.play));
+  app.querySelectorAll('[data-here]').forEach(b => b.onclick = () => go('j=' + encodeURIComponent(b.dataset.here)));
   app.querySelectorAll('[data-edit]').forEach(b => b.onclick = () => {
     const id = b.dataset.edit;
     if (isBuiltin(id)) { const c = JSON.parse(JSON.stringify(findGame(id))); c.id = 'g-' + Date.now().toString(36); c.title.fr += ' (copie)'; c.title.en += ' (copy)'; saveMyGames([...myGames(), c]); go('admin=edit:' + c.id); }
@@ -1680,7 +1685,8 @@ async function hostGame(g) {
    <p class="muted" style="font-size:13px">${esc(j.embedded ? t('embedded') : t('inFile'))}</p>
    ${j.tooLong ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('tooLong'))}</p>` : ''}
    ${qrUsable() ? '' : `<p style="color:var(--bad);font-weight:700;font-size:15px">⚠️ ${esc(t('offline'))}</p>`}
-   <div class="row" style="margin-top:8px"><button class="btn small" id="fs">⛶ ${esc(t('fullscreen'))}</button><button class="btn ghost small" id="pr">🖨 ${esc(t('print'))}</button></div></div>
+   <div class="row" style="margin-top:8px"><button class="btn small" id="fs">⛶ ${esc(t('fullscreen'))}</button><button class="btn ghost small" id="pr">🖨 ${esc(t('print'))}</button></div>
+   <button class="btn ghost small" id="ph" style="margin-top:10px;width:100%">▶ ${esc(t('playHere'))}</button></div>
    <div class="card"><p style="font-size:20px;font-weight:700;margin:0">📥 ${esc(t('received')(n))}</p><p class="muted" style="font-size:14px">${esc(t('howRecv'))}</p>
    <div class="stack" style="margin-top:12px"><button class="btn acc" id="rk">🏆 ${esc(t('ranking'))}</button>
    <div class="row"><button class="btn ghost small" id="sc">📷 ${esc(t('scan'))}</button><button class="btn ghost small" id="mn">⌨️ ${esc(t('manual'))}</button></div>
@@ -1688,6 +1694,7 @@ async function hostGame(g) {
   $('#bk').onclick = () => go('admin');
   $('#fs').onclick = () => { const f = document.createElement('div'); f.className = 'full'; f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:16px"><h1>${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>`; f.querySelector('.x').onclick = () => f.remove(); document.body.appendChild(f); };
   $('#pr').onclick = () => { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010 · ${esc(T.fr.copy)}</small>`; window.print(); };
+  $('#ph').onclick = () => go('j=' + encodeURIComponent(g.id));
   $('#rk').onclick = () => go('admin=rank:' + g.id);
   $('#ky').onclick = () => go('admin=key:' + g.id);
   $('#sc').onclick = () => scanner(g);
