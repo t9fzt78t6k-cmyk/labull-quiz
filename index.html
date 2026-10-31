@@ -158,6 +158,22 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .full .x{position:absolute;top:14px;right:14px}
 .full .btn.ghost{color:var(--cream)}
 .fb{background:linear-gradient(180deg,#3b8bff,#1464d8)!important;color:#fff!important;text-shadow:0 2px 0 rgba(0,0,0,.35)}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}
+.big3 .btn{flex-direction:column;gap:2px;padding:10px 4px;font-size:15px}
+.big3 .btn i{font-style:normal;font-size:28px}
+.hc{padding:14px}
+.hc-h{display:flex;align-items:center;gap:12px}
+.hc-ic{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:28px;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink)}
+.hc-t{flex:1;min-width:0}
+.hc-t small{display:block;font-size:12px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.6px}
+.hc-t b{display:block;font-family:var(--title);font-weight:400;font-size:24px;line-height:1.05;letter-spacing:.6px;color:#fff;text-shadow:var(--stroke);text-transform:uppercase;margin:2px 0}
+.hc-t span{display:block;font-size:14px;color:var(--cream)}
+.hc .row .btn{font-size:17px;padding:12px 8px}
+.cnt{position:absolute;top:-10px;right:-6px;background:var(--red);color:#fff;font-family:var(--body);font-style:normal;font-weight:800;font-size:13px;border:2px solid var(--gold);border-radius:99px;padding:1px 8px;text-shadow:none}
+.mini{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.mini button{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,244,222,.08);border:2px solid rgba(255,244,222,.25);border-radius:12px;padding:7px 2px;color:var(--cream);font-size:11.5px;font-weight:700;line-height:1.15;text-align:center}
+.mini button i{font-style:normal;font-size:20px}
+.mini button:active{background:rgba(255,244,222,.18)}
 #print{display:none}
 @media print{
   body{background:#fff}body::before,body::after{display:none}
@@ -1488,7 +1504,14 @@ fr: {
   offline: 'Appli pas encore en ligne : ce QR code ne pourra pas être lu.', tooLong: 'Trop long pour tenir dans le QR code : demandez à l’intégrer à l’appli.',
   unknownGame: 'Cette fiche concerne un jeu absent de ce téléphone.', mismatch: 'Attention : le nombre de questions ne correspond pas.',
   camErr: 'Impossible d’ouvrir la caméra ici. Utilisez l’appareil photo du téléphone.', scanning: 'Visez le QR code du participant…',
-  createdLocal: 'créé sur ce téléphone', endL: 'Message de fin (après validation)', fbT: 'Et si vous souhaitez nous suivre sur Facebook, c\u2019est ici : toutes nos soirées, nos jeux et nos surprises en avant-première !', fbBtn: 'Suivre LA BULL sur Facebook', builtIn: 'intégré'
+  createdLocal: 'créé sur ce téléphone', newProno: 'Pronostic', kProno: '🏉 Pronostic', pronosF: 'Pronos', create: 'Créer', pronos: n => `${n} prono(s)`,
+  draw0: 'Match nul', finalScore: 'Score final', enterOut: 'Saisir le résultat du match', editOut: 'Modifier le résultat du match', outHint: 'Remplissez ce que vous savez : le classement se calcule tout seul.', saveOut: 'Enregistrer le résultat',
+  trend: 'Tendance des pronostics', tieRule: 'Égalité de points : le plus proche du score exact passe devant, puis le plus proche aux questions « nombre ».', ptsTitle: 'Barème',
+  ptsRule: 'Bon vainqueur (ou nul) : 3 pts · Bon écart : +2 pts · Score exact : +5 pts · Chaque question bonus juste : +1 pt. Égalité : le plus proche du score exact gagne.',
+  real: 'Résultat réel', optional: 'facultatif', pronoDone: 'Prono enregistré ! Classement et tirage au sort après le match.', pronoSaved: 'Pronostic enregistré', needScore: 'Indiquez au moins le score du match.',
+  sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Autre', teamAL: 'Équipe 1 (à domicile)', teamBL: 'Équipe 2', time: 'Heure du coup d\u2019envoi',
+  addFun: '✨ Ajouter les questions bonus rigolotes', funAdded: 'Questions bonus ajoutées', tNumber: 'Nombre', tYesNo: 'Oui / Non', tScore: 'Score du match', vs: 'contre',
+  scoreHint: 'Touchez + / − ou tapez le score', numHint: 'Votre estimation', bonusTitle: 'Questions bonus pour départager', endL: 'Message de fin (après validation)', fbT: 'Et si vous souhaitez nous suivre sur Facebook, c\u2019est ici : toutes nos soirées, nos jeux et nos surprises en avant-première !', fbBtn: 'Suivre LA BULL sur Facebook', builtIn: 'intégré'
 },
 en: {
   copy: `© ${YEAR} All rights reserved · Property of SKÅL / LA BULL`, appSub: 'Quizzes · Polls',
@@ -1527,7 +1550,14 @@ en: {
   offline: 'App not online yet: this QR code can’t be read.', tooLong: 'Too long to fit in the QR code: ask for it to be built into the app.',
   unknownGame: 'This sheet is for a game that isn’t on this phone.', mismatch: 'Warning: the number of questions doesn’t match.',
   camErr: 'Can’t open the camera here. Use the phone’s camera app.', scanning: 'Point at the participant’s QR code…',
-  createdLocal: 'created on this phone', endL: 'End message (after submitting)', fbT: 'And if you\u2019d like to follow us on Facebook, it\u2019s right here: all our nights, games and surprises first!', fbBtn: 'Follow LA BULL on Facebook', builtIn: 'built in'
+  createdLocal: 'created on this phone', newProno: 'Prediction', kProno: '🏉 Prediction', pronosF: 'Predictions', create: 'Create', pronos: n => `${n} prediction(s)`,
+  draw0: 'Draw', finalScore: 'Final score', enterOut: 'Enter the match result', editOut: 'Edit the match result', outHint: 'Fill in what you know: the ranking updates automatically.', saveOut: 'Save the result',
+  trend: 'Prediction trend', tieRule: 'Tied on points: closest to the exact score wins, then closest on “number” questions.', ptsTitle: 'Scoring',
+  ptsRule: 'Right winner (or draw): 3 pts · Right margin: +2 pts · Exact score: +5 pts · Each right bonus answer: +1 pt. Tie: closest to the exact score wins.',
+  real: 'Actual result', optional: 'optional', pronoDone: 'Prediction saved! Ranking and prize draw after the match.', pronoSaved: 'Prediction saved', needScore: 'Please give at least the match score.',
+  sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Other', teamAL: 'Team 1 (home)', teamBL: 'Team 2', time: 'Kick-off time',
+  addFun: '✨ Add the fun bonus questions', funAdded: 'Bonus questions added', tNumber: 'Number', tYesNo: 'Yes / No', tScore: 'Match score', vs: 'vs',
+  scoreHint: 'Tap + / − or type the score', numHint: 'Your guess', bonusTitle: 'Bonus questions to split ties', endL: 'End message (after submitting)', fbT: 'And if you\u2019d like to follow us on Facebook, it\u2019s right here: all our nights, games and surprises first!', fbBtn: 'Follow LA BULL on Facebook', builtIn: 'built in'
 }};
 let lang = LS.get('lb_lang', (navigator.language || 'fr').startsWith('fr') ? 'fr' : 'en');
 const t = k => T[lang][k];
@@ -1541,7 +1571,7 @@ const saveMyGames = a => LS.set('lb_games', a);
 const allGames = () => { const m = myGames(); const ids = new Set(m.map(g => g.id)); return [...BUILTIN.filter(g => !ids.has(g.id)), ...m]; };
 const findGame = id => allGames().find(g => g.id === id);
 const isBuiltin = id => BUILTIN.some(g => g.id === id) && !myGames().some(g => g.id === id);
-const kindOf = g => g.kind === 'poll' ? 'poll' : 'quiz';
+const kindOf = g => g.kind === 'poll' || g.kind === 'prono' ? g.kind : 'quiz';
 const qType = (g, q) => kindOf(g) === 'quiz' ? 'single' : (q.type || 'single');
 const LETTERS = 'ABCDEFGH';
 const resKey = id => 'lb_res_' + id;
@@ -1569,14 +1599,14 @@ function parseResult(p) {
 }
 async function joinURL(g) {
   if (isBuiltin(g.id)) return { url: baseURL() + '#j=' + encodeURIComponent(g.id), embedded: false };
-  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, d: g.date, m: g.mode, an: !!g.anon, c: g.color, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en])]) };
+  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, sp: g.sport, tm: g.teams, ti: g.time, d: g.date, m: g.mode, an: !!g.anon, c: g.color, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en])]) };
   const url = baseURL() + '#j=~' + b64u(await deflate(JSON.stringify(slim)));
   return { url, embedded: true, tooLong: url.length > 1800 };
 }
 async function gameFromHash(v) {
   if (v.startsWith('~')) {
     const s = JSON.parse(await inflate(unb64u(v.slice(1))));
-    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, date: s.d, mode: s.m, anon: s.an, color: s.c, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })) })) };
+    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, sport: s.sp, teams: s.tm, time: s.ti, date: s.d, mode: s.m, anon: s.an, color: s.c, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })) })) };
   }
   return findGame(decodeURIComponent(v));
 }
@@ -1644,17 +1674,19 @@ function playerStart(g) {
   const st = LS.get(pkey(g), null);
   if (st && st.done) return playerDone(g, st);
   if (st && st.started) return playerQ(g, st);
-  const poll = kindOf(g) === 'poll', askName = poll ? !g.anon : true;
-  const lab = poll ? 'name' : (g.mode === 'solo' ? 'solo' : 'team'), ph = poll ? 'namePh' : (g.mode === 'solo' ? 'soloPh' : 'teamPh');
-  app.innerHTML = topBar(fmtDate(g.date)) + `<div class="hero"><img src="${LOGO}" alt="LA BULL"><p style="margin:12px 0 0"><span class="kind">${esc(poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
-   <p class="muted" style="font-size:17px">${esc(L(g.sub))}</p><p><span class="pill">${esc(t('qCount')(g.questions.length))}</span>${g.date ? ` <span class="pill">${esc(fmtDate(g.date))}</span>` : ''}</p></div>
+  const poll = kindOf(g) === 'poll', prono = isProno(g), askName = poll ? !g.anon : true;
+  const lab = poll || (prono && g.mode !== 'team') ? 'name' : (g.mode === 'solo' ? 'solo' : 'team'), ph = lab === 'name' ? 'namePh' : lab === 'solo' ? 'soloPh' : 'teamPh';
+  const head = prono ? `<div class="card center" style="margin-top:14px"><p style="margin:0;font-size:40px">${SPORT_ICON[g.sport] || '🏆'}</p><p class="gtitle" style="color:var(--gold2);font-size:30px;margin:4px 0">${esc(teamA(g))}<br><span style="font-size:20px;color:var(--cream)">${esc(t('vs'))}</span><br>${esc(teamB(g))}</p>
+     <p class="muted" style="margin:6px 0 0">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''}</p></div><p class="muted center" style="font-size:13px">📏 ${esc(t('ptsRule'))}</p>` : '';
+  app.innerHTML = topBar(g.date ? fmtDate(g.date) : '') + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:${prono ? 110 : 160}px"><p style="margin:12px 0 0"><span class="kind">${esc(prono ? t('kProno') : poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
+   <p class="muted" style="font-size:17px">${esc(L(g.sub))}</p>${prono ? '' : `<p><span class="pill">${esc(t('qCount')(g.questions.length))}</span>${g.date ? ` <span class="pill">${esc(fmtDate(g.date))}</span>` : ''}</p>`}</div>${head}
    <div class="card">${askName ? `<label class="f" for="team">${esc(t(lab))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(ph))}">` : `<p class="center muted" style="margin:0 0 4px">🔒 ${esc(t('anonymous'))}</p>`}
    <div style="margin-top:14px"><button class="btn acc" id="go" ${askName ? 'disabled' : ''}>${esc(t('start'))}</button></div></div>`;
   const inp = $('#team'), b = $('#go');
   if (inp) inp.oninput = () => b.disabled = !inp.value.trim();
   b.onclick = () => { const s = { started: true, team: inp ? inp.value.trim() : '', pid: 'p' + Math.random().toString(36).slice(2, 9), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
 }
-function answered(v) { return v != null && !(Array.isArray(v) && !v.length) && v !== ''; }
+function answered(v) { return v != null && !(Array.isArray(v) && (!v.length || v.some(x => x == null))) && v !== ''; }
 function playerQ(g, st) {
   const n = g.questions.length, i = st.i;
   if (i >= n) return playerRecap(g, st);
@@ -1664,6 +1696,9 @@ function playerQ(g, st) {
   if (ty === 'single') body = q.o.map((o, j) => `<button class="opt ${st.a[i] === j ? 'sel' : ''}" data-o="${j}"><span class="L">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('');
   if (ty === 'multi') body = `<p class="muted" style="margin-top:-8px">${esc(t('multiHint'))}</p>` + q.o.map((o, j) => `<button class="opt ${(st.a[i] || []).includes(j) ? 'sel' : ''}" data-m="${j}"><span class="chk">${(st.a[i] || []).includes(j) ? '✓' : ''}</span><span>${esc(L(o))}</span></button>`).join('');
   if (ty === 'stars') body = `<p class="muted center" style="margin-top:-8px">${esc(t('starsHint'))}</p><div class="stars">${[1, 2, 3, 4, 5].map(k => `<button data-s="${k}" class="${(st.a[i] || 0) >= k ? 'on' : ''}">⭐</button>`).join('')}</div>`;
+  if (ty === 'score') body = `<p class="muted center" style="margin-top:-8px">${esc(t('scoreHint'))}</p><div style="display:flex;gap:8px">${stepper('a', st.a[i] ? st.a[i][0] : null, teamA(g))}${stepper('b', st.a[i] ? st.a[i][1] : null, teamB(g))}</div>`;
+  if (ty === 'number') body = `<p class="muted center" style="margin-top:-8px">${esc(t('numHint'))}${isProno(g) ? ' · ' + esc(t('optional')) : ''}</p><div style="display:flex">${stepper('n', st.a[i], '')}</div>`;
+  if (ty === 'single' && isProno(g)) body = `<p class="muted" style="margin-top:-8px">${esc(t('optional'))}</p>` + body;
   if (ty === 'text') body = `<p class="muted" style="margin-top:-8px">${esc(t('textHint'))}</p><textarea class="in" id="tx" maxlength="80" placeholder="${esc(t('textPh'))}" style="min-height:110px;font-size:18px">${esc(st.a[i] || '')}</textarea>`;
   app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="row" style="justify-content:space-between"><span class="qnum" style="flex:none">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill" style="flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(L(g.title))}</span></div>
    <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div><div class="qtext">${esc(L(q.q))}</div>${body}
@@ -1672,6 +1707,10 @@ function playerQ(g, st) {
   app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { const j = +b.dataset.m; const cur = new Set(st.a[i] || []); cur.has(j) ? cur.delete(j) : cur.add(j); st.a[i] = [...cur].sort(); save(); b.classList.toggle('sel', cur.has(j)); b.querySelector('.chk').textContent = cur.has(j) ? '✓' : ''; });
   app.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.s; save(); app.querySelectorAll('[data-s]').forEach(x => x.classList.toggle('on', +x.dataset.s <= st.a[i])); advance(); });
   const tx = $('#tx'); if (tx) tx.oninput = () => { st.a[i] = tx.value.slice(0, 80); save(); };
+  const sv = id => { const el = app.querySelector(`[data-sv="${id}"]`); return el && el.value !== '' ? Math.max(0, Math.min(999, parseInt(el.value, 10) || 0)) : null; };
+  const syncS = () => { if (ty === 'score') { const x = sv('a'), y = sv('b'); st.a[i] = [x, y]; } if (ty === 'number') st.a[i] = sv('n'); save(); };
+  app.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { const el = app.querySelector(`[data-sv="${b.dataset.st}"]`); el.value = Math.max(0, (parseInt(el.value, 10) || 0) + +b.dataset.d); if (ty === 'score') app.querySelectorAll('[data-sv]').forEach(x => { if (x.value === '') x.value = 0; }); syncS(); });
+  app.querySelectorAll('[data-sv]').forEach(el => el.oninput = syncS);
   $('#pv').onclick = () => { st.i = Math.max(0, i - 1); save(); playerQ(g, st); };
   $('#nx').onclick = () => { st.i = i + 1; save(); playerQ(g, st); };
   window.scrollTo(0, 0);
@@ -1682,6 +1721,8 @@ function ansLabel(g, q, v, short) {
   if (ty === 'single') return short ? LETTERS[v] : `${LETTERS[v]} — ${L(q.o[v])}`;
   if (ty === 'multi') return short ? v.map(j => LETTERS[j]).join('') : v.map(j => L(q.o[j])).join(', ');
   if (ty === 'stars') return '★'.repeat(v);
+  if (ty === 'score') return `${v[0]} – ${v[1]}`;
+  if (ty === 'number') return String(v);
   return short ? '✎' : v;
 }
 function playerRecap(g, st) {
@@ -1691,7 +1732,11 @@ function playerRecap(g, st) {
   app.innerHTML = topBar(st.team || t('anonymous')) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>${grid}
    ${miss ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('missing')(miss))}</p>` : ''}<button class="btn acc" id="val" style="margin-top:10px">${esc(t('validate'))}</button>`;
   app.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
-  $('#val').onclick = () => confirmBox(t('confirmV'), t('confirmVt'), t('yes'), () => { st.done = true; st.ts = Date.now(); LS.set(pkey(g), st); playerDone(g, st); });
+  $('#val').onclick = () => {
+    const si = g.questions.findIndex(q => q.type === 'score');
+    if (isProno(g) && si >= 0 && !answered(st.a[si])) { toast(t('needScore'), false); st.i = si; LS.set(pkey(g), st); return playerQ(g, st); }
+    confirmBox(t('confirmV'), t('confirmVt'), t('yes'), () => { st.done = true; st.ts = Date.now(); LS.set(pkey(g), st); playerDone(g, st); });
+  };
   window.scrollTo(0, 0);
 }
 function playerDone(g, st) {
@@ -1699,7 +1744,7 @@ function playerDone(g, st) {
   app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
    <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
-   <p class="muted">${esc(L(g.title))}</p><div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : '🎁 ' + esc(t('results'))}</p></div>
+   <p class="muted">${esc(L(g.title))}</p><div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>`;
 }
 
@@ -1716,8 +1761,9 @@ function pinScreen(next, entry) {
 function hostRoute(v) {
   if (!isHost()) return pinScreen(() => hostRoute(v));
   const [view, id, extra] = (v || '').split(':'); const g = id && findGame(id);
-  if (view === 'team' && g) return hostTeam(g, decodeURIComponent(extra || ''));
-  if (view === 'rank' && g) return kindOf(g) === 'poll' ? hostStats(g) : hostRank(g);
+  if (view === 'team' && g) return isProno(g) ? hostPronoTeam(g, decodeURIComponent(extra || '')) : hostTeam(g, decodeURIComponent(extra || ''));
+  if (view === 'rank' && g) return kindOf(g) === 'poll' ? hostStats(g) : isProno(g) ? hostProno(g) : hostRank(g);
+  if (view === 'out' && g) return hostOutcome(g);
   if (view === 'key' && g) return hostKey(g);
   if (view === 'edit') return hostEdit(id ? findGame(id) : null, extra);
   if (view === 'settings') return hostSettings();
@@ -1727,6 +1773,8 @@ function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++)
 function ranked(g) { return Object.values(getRes(g.id)).map(r => ({ ...r, s: scoreOf(g, r.a) })).sort((x, y) => y.s - x.s || x.ts - y.ts); }
 
 let homeFilter = 'all';
+const typeLabel = ty => t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : ty === 'text' ? 'tText' : ty === 'score' ? 'tScore' : 'tNumber');
+const kindIcon = g => isProno(g) ? (SPORT_ICON[g.sport] || '🏆') : kindOf(g) === 'poll' ? '📊' : '🧠';
 function hostHome() {
   setAcc();
   const today = new Date().toISOString().slice(0, 10);
@@ -1734,20 +1782,21 @@ function hostHome() {
   const up = gs.filter(g => !g.date || g.date >= today).sort((a, b) => (a.date || '9').localeCompare(b.date || '9'));
   const past = gs.filter(g => g.date && g.date < today).sort((a, b) => b.date.localeCompare(a.date));
   const card = g => {
-    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f2b632'), id = esc(g.id), poll = kindOf(g) === 'poll';
-    return `<div class="card" style="border-left:8px solid ${c};padding:14px"><span class="kind">${esc(poll ? t('kPoll') : t('kQuiz'))}</span>
-    <b class="gtitle" style="color:${c}">${esc(L(g.title))}</b>
-    <p class="muted" style="font-size:14px;margin:4px 0 10px">${g.date ? esc(fmtDate(g.date)) + ' · ' : ''}${esc(t('qCount')(g.questions.length))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</p>
-    <button class="btn" data-a="qr" data-g="${id}">📲 ${esc(t('playQR'))}</button>
-    <div class="tiles"><button class="tl" data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
-      <button class="tl" data-a="rank" data-g="${id}"><i>${poll ? '📊' : '🏆'}</i>${esc(poll ? t('stats') : t('ranking'))}${n ? `<em>${n}</em>` : ''}</button>
-      <button class="tl" data-a="key" data-g="${id}"><i>📋</i>${esc(poll ? t('qsS') : t('keyS'))}</button>
-      <button class="tl" data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button>
-      <button class="tl" data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
+    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f6b81e'), id = esc(g.id), k = kindOf(g);
+    const kl = k === 'poll' ? t('kPoll') : k === 'prono' ? t('kProno') : t('kQuiz');
+    const title = isProno(g) ? `${teamA(g)} – ${teamB(g)}` : L(g.title);
+    const meta = [g.date ? fmtDate(g.date) + (g.time ? ' · ' + g.time : '') : '', isProno(g) ? '' : t('qCount')(g.questions.length)].filter(Boolean).join(' · ');
+    const resL = k === 'poll' ? t('stats') : k === 'prono' ? t('pronosF') : t('ranking');
+    return `<div class="card hc" style="border-left:10px solid ${c}">
+      <div class="hc-h"><span class="hc-ic" style="background:${c}">${kindIcon(g)}</span><div class="hc-t"><small>${esc(kl.replace(/^\S+\s/, ''))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</small><b>${esc(title)}</b><span>${esc(meta)}</span></div></div>
+      <div class="row" style="margin-top:12px"><button class="btn" data-a="qr" data-g="${id}">📲 QR</button><button class="btn acc" data-a="rank" data-g="${id}" style="position:relative">${k === 'poll' ? '📊' : '🏆'} ${esc(resL)}${n ? `<em class="cnt">${n}</em>` : ''}</button></div>
+      <div class="mini"><button data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
+        ${k === 'prono' ? `<button data-a="out" data-g="${id}"><i>📝</i>${esc(t('finalScore'))}</button>` : `<button data-a="key" data-g="${id}"><i>📋</i>${esc(k === 'quiz' ? t('keyS') : t('qsS'))}</button>`}
+        <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
   };
-  app.innerHTML = topBar(t('hostSpace')) + `<div class="big2"><button class="btn" id="nq"><i>🧠</i>+ ${esc(t('newQuiz'))}</button><button class="btn" id="np"><i>📊</i>+ ${esc(t('newPoll'))}</button></div>
-   <div class="tabs">${['all', 'quiz', 'poll'].map(f => `<button data-f="${f}" class="${homeFilter === f ? 'on' : ''}">${esc(t(f === 'all' ? 'all' : f === 'quiz' ? 'quizzes' : 'polls'))}</button>`).join('')}</div>
-   <p class="muted center" style="font-size:14px;margin:4px 0 0">${esc(t('homeT'))}</p>
+  app.innerHTML = topBar(t('hostSpace')) + `<p class="sec" style="margin-top:6px">➕ ${esc(t('create'))}</p>
+   <div class="big3"><button class="btn" id="nq"><i>🧠</i>${esc(t('quizzes').replace(/zes$/, ''))}</button><button class="btn" id="np"><i>📊</i>${esc(t('kPoll').replace(/^\S+\s/, ''))}</button><button class="btn" id="nr"><i>🏉</i>${esc(t('newProno'))}</button></div>
+   <div class="tabs">${[['all', 'all'], ['quiz', 'quizzes'], ['poll', 'polls'], ['prono', 'pronosF']].map(([f, k]) => `<button data-f="${f}" class="${homeFilter === f ? 'on' : ''}">${esc(t(k))}</button>`).join('')}</div>
    ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(card).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(card).join('') : ''}
    ${!gs.length ? `<div class="card center muted">${esc(t('none'))}</div>` : ''}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
@@ -1758,13 +1807,14 @@ function hostHome() {
     if (a === 'recv') return receiveHelp(g);
     if (a === 'rank') return go('admin=rank:' + g.id);
     if (a === 'key') return go('admin=key:' + g.id);
+    if (a === 'out') return go('admin=out:' + g.id);
     if (a === 'here') return go('j=' + encodeURIComponent(g.id));
     if (a === 'edit') {
       if (isBuiltin(g.id)) { const c = JSON.parse(JSON.stringify(g)); c.id = 'g-' + Date.now().toString(36); c.title.fr += ' (copie)'; c.title.en += ' (copy)'; saveMyGames([...myGames(), c]); return go('admin=edit:' + c.id); }
       return go('admin=edit:' + g.id);
     }
   });
-  $('#nq').onclick = () => go('admin=edit::quiz'); $('#np').onclick = () => go('admin=edit::poll');
+  $('#nq').onclick = () => go('admin=edit::quiz'); $('#np').onclick = () => go('admin=edit::poll'); $('#nr').onclick = () => go('admin=edit::prono');
   $('#set').onclick = () => go('admin=settings');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
 }
@@ -1791,6 +1841,7 @@ function storeResult(g, r) {
   if (kindOf(g) === 'poll') { const k = r.p || ('x' + Date.now()); const had = !!all[k]; all[k] = { t: r.t || '', a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all); return { had, count: Object.keys(all).length }; }
   const k = r.t.trim().toLowerCase(); const had = !!all[k];
   all[k] = { t: r.t.trim(), a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all);
+  if (isProno(g)) { const si = g.questions.findIndex(q => q.type === 'score'); return { had, count: Object.keys(all).length, sc: si >= 0 && answered(r.a[si]) ? r.a[si].join(' – ') : '–' }; }
   const pos = ranked(g).findIndex(x => x.t.trim().toLowerCase() === k) + 1;
   return { had, s: scoreOf(g, r.a), pos };
 }
@@ -1800,11 +1851,11 @@ function receive(p) {
   const g = findGame(r.g); setAcc(g && g.color);
   if (!g) { app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><h2>⚠️</h2><p>${esc(t('unknownGame'))}</p><p class="muted">${esc(r.t)} · ${esc(r.g)}</p></div>`; return; }
   const res = storeResult(g, r), poll = kindOf(g) === 'poll';
-  app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : poll ? t('pollSaved') : t('saved'))}</h2>
+  app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : poll ? t('pollSaved') : isProno(g) ? t('pronoSaved') : t('saved'))}</h2>
    <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t || t('anonymous'))}</p>
-   ${poll ? `<p class="score" style="font-size:40px;margin:0">${esc(t('participants')(res.count))}</p>` : `<p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p><p class="muted">${esc(t('rankNow')(res.pos))}</p>`}
+   ${isProno(g) ? `<p class="muted" style="margin:6px 0 0">${esc(teamA(g))} – ${esc(teamB(g))}</p><p class="score" style="font-size:48px;margin:0">${esc(res.sc)}</p><p class="muted">${esc(t('pronos')(res.count))}</p>` : poll ? `<p class="score" style="font-size:40px;margin:0">${esc(t('participants')(res.count))}</p>` : `<p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p><p class="muted">${esc(t('rankNow')(res.pos))}</p>`}
    ${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}<p class="muted" style="font-size:14px">${esc(L(g.title))}</p></div>
-   ${poll ? '' : `<button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button>`}<button class="btn acc" id="rk" style="margin-top:10px">${poll ? '📊 ' + esc(t('seeStats')) : '🏆 ' + esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
+   ${poll ? '' : `<button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button>`}<button class="btn acc" id="rk" style="margin-top:10px">${poll ? '📊 ' + esc(t('seeStats')) : '🏆 ' + esc(isProno(g) ? t('pronosF') : t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
   if ($('#dt')) $('#dt').onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(r.t.trim().toLowerCase()));
   $('#rk').onclick = () => go('admin=rank:' + g.id); $('#gm').onclick = () => go('');
   history.replaceState(null, '', '#admin');
@@ -1815,7 +1866,7 @@ async function scanner(g) {
   const m = modal(`<p class="muted center">${esc(t('scanning'))}</p><video playsinline muted style="width:100%;border-radius:14px;background:#000"></video><button class="btn small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`);
   const v = m.querySelector('video'); v.srcObject = stream; await v.play().catch(() => {});
   m.querySelector('[data-c]').onclick = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); route(); };
-  const loop = async () => { if (!live) return; try { for (const c of await det.detect(v)) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); const gg = findGame(r.g); if (!gg) { toast(t('unknownGame'), false); continue; } const res = storeResult(gg, r); toast(kindOf(gg) === 'poll' ? `✅ ${t('participants')(res.count)}` : `${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${gg.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
+  const loop = async () => { if (!live) return; try { for (const c of await det.detect(v)) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); const gg = findGame(r.g); if (!gg) { toast(t('unknownGame'), false); continue; } const res = storeResult(gg, r); toast(kindOf(gg) === 'poll' ? `✅ ${t('participants')(res.count)}` : isProno(gg) ? `✅ ${r.t} · ${res.sc}` : `${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${gg.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
   loop();
 }
 function manualEntry(g) {
@@ -1902,42 +1953,164 @@ function hostTeam(g, key) {
 function hostKey(g) {
   setAcc(g.color); const quiz = kindOf(g) === 'quiz';
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:30px">📋 ${esc(quiz ? t('keyS') : t('qsS'))}</h1><p class="muted">${esc(L(g.title))}</p>` +
-    g.questions.map((q, i) => { const ty = qType(g, q); return `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${quiz ? '' : esc(t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : 'tText'))}</p><p style="font-weight:700;margin:4px 0">${esc(L(q.q))}</p>
+    g.questions.map((q, i) => { const ty = qType(g, q); return `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${quiz ? '' : esc(typeLabel(ty))}</p><p style="font-weight:700;margin:4px 0">${esc(L(q.q))}</p>
      ${quiz ? `<p style="font-size:18px;font-weight:700;margin:6px 0"><span class="pill" style="background:var(--ok);color:#06210f;border:0">${LETTERS[q.a]}</span> ${esc(L(q.o[q.a]))}</p>${q.info && L(q.info) ? `<p style="font-size:14px;margin:0">💡 ${esc(L(q.info))}</p>` : ''}`
       : (q.o && q.o.length && (ty === 'single' || ty === 'multi') ? `<p class="muted" style="font-size:14px;margin:0">${q.o.map((o, j) => `${LETTERS[j]}. ${esc(L(o))}`).join(' · ')}</p>` : '')}</div>`; }).join('');
 }
 
+/* ================= PRONOSTICS ================= */
+const isProno = g => kindOf(g) === 'prono';
+const teamA = g => L(g.teams?.a) || 'A', teamB = g => L(g.teams?.b) || 'B';
+const outKey = id => 'lb_out_' + id;
+const getOut = id => LS.get(outKey(id), null);
+const sgn = x => x > 0 ? 1 : x < 0 ? -1 : 0;
+function pronoPoints(g, a, out) {
+  let pts = 0, d1 = 999, d2 = 0; const per = [];
+  g.questions.forEach((q, i) => {
+    const ty = q.type || 'single', r = out ? out[i] : null, p = a[i]; let got = 0;
+    if (!answered(r)) { per.push(null); return; }
+    if (ty === 'score') {
+      if (answered(p)) {
+        if (sgn(p[0] - p[1]) === sgn(r[0] - r[1])) { got += 3; if (p[0] - p[1] === r[0] - r[1]) got += 2; if (p[0] === r[0] && p[1] === r[1]) got += 5; }
+        d1 = Math.abs(p[0] - r[0]) + Math.abs(p[1] - r[1]);
+      }
+    } else if (ty === 'number') { if (answered(p)) { if (+p === +r) got = 1; d2 += Math.abs(+p - +r); } else d2 += 999; }
+    else if (ty === 'multi') { if (answered(p) && [...p].sort().join() === [...r].sort().join()) got = 1; }
+    else if (p === r) got = 1;
+    pts += got; per.push(got);
+  });
+  return { pts, d1, d2, per };
+}
+function pronoRanked(g) {
+  const out = getOut(g.id);
+  return Object.values(getRes(g.id)).map(r => ({ ...r, ...pronoPoints(g, r.a, out) })).sort((x, y) => y.pts - x.pts || x.d1 - y.d1 || x.d2 - y.d2 || x.ts - y.ts);
+}
+function presets(sport, A, B) {
+  const P = (fr, en) => ({ fr, en }), yes = [P('Oui', 'Yes'), P('Non', 'No')], teams = [P(A, A), P(B, B)];
+  const S = (fr, en, o) => ({ type: 'single', q: P(fr, en), o }), N = (fr, en) => ({ type: 'number', q: P(fr, en), o: [] });
+  if (sport === 'rugby') return [
+    S('Qui marquera le premier essai ?', 'Who will score the first try?', [...teams, P('Aucun essai', 'No try')]),
+    N('Combien d’essais au total dans le match ?', 'How many tries in total?'),
+    S('Qui mène à la mi-temps ?', 'Who leads at half-time?', [...teams, P('Égalité', 'Draw')]),
+    S('Y aura-t-il un carton jaune ?', 'Will there be a yellow card?', yes),
+    S('Un drop sera-t-il réussi ?', 'Will a drop goal be scored?', yes),
+    S('Plus de 50 points au total dans le match ?', 'More than 50 points in total?', yes),
+    N('À quelle minute le premier essai ?', 'In which minute will the first try be scored?'),
+    S('Le cri de la soirée au bar sera…', 'The shout of the night at the bar will be…', [P('« Arbitre !!! »', '“Ref!!!”'), P('« Essaiiii ! »', '“Tryyyy!”'), P('« Mais il est où le ballon ?! »', '“Where’s the ball?!”')])];
+  if (sport === 'foot') return [
+    S('Qui marquera le premier but ?', 'Who will score the first goal?', [...teams, P('Pas de but', 'No goal')]),
+    N('Combien de buts au total ?', 'How many goals in total?'),
+    S('Qui mène à la mi-temps ?', 'Who leads at half-time?', [...teams, P('Égalité', 'Draw')]),
+    S('Y aura-t-il un penalty ?', 'Will there be a penalty?', yes),
+    S('Y aura-t-il un carton rouge ?', 'Will there be a red card?', yes),
+    N('À quelle minute le premier but ?', 'In which minute will the first goal be scored?'),
+    S('Le cri de la soirée au bar sera…', 'The shout of the night at the bar will be…', [P('« Arbitre !!! »', '“Ref!!!”'), P('« Buuuut ! »', '“Goooal!”'), P('« Hors-jeu ! »', '“Offside!”')])];
+  return [S('Qui gagne ?', 'Who wins?', [...teams, P('Égalité', 'Draw')])];
+}
+const SPORT_ICON = { rugby: '🏉', foot: '⚽', other: '🏆' };
+function scoreQ(g) { return { type: 'score', q: { fr: `Score final : ${teamA(g)} – ${teamB(g)} ?`, en: `Final score: ${teamA(g)} – ${teamB(g)}?` }, o: [] }; }
+function stepper(id, v, label) {
+  return `<div style="flex:1;text-align:center"><p class="chalk" style="font-size:24px;margin:0 0 6px;line-height:1.1;min-height:2.2em;display:flex;align-items:flex-end;justify-content:center">${esc(label)}</p>
+   <div style="display:flex;align-items:center;justify-content:center;gap:4px"><button class="btn small" data-st="${id}" data-d="-1" style="width:42px;padding:8px 0;font-size:24px">−</button>
+   <input class="in" data-sv="${id}" inputmode="numeric" value="${v == null ? '' : v}" placeholder="–" style="width:62px;text-align:center;font-family:var(--title);font-size:30px;padding:6px 2px">
+   <button class="btn small" data-st="${id}" data-d="1" style="width:42px;padding:8px 0;font-size:24px">+</button></div></div>`;
+}
+
+function hostProno(g) {
+  setAcc(g.color);
+  const out = getOut(g.id), rk = pronoRanked(g), N = rk.length, si = g.questions.findIndex(q => q.type === 'score');
+  const sc = si >= 0 ? rk.map(r => r.a[si]).filter(answered) : [];
+  const trend = sc.length ? bar(`${teamA(g)}`, sc.filter(s => s[0] > s[1]).length, sc.length) + bar(t('draw0'), sc.filter(s => s[0] === s[1]).length, sc.length) + bar(`${teamB(g)}`, sc.filter(s => s[0] < s[1]).length, sc.length) : '';
+  let pos = 0, prev = null;
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:30px">${SPORT_ICON[g.sport] || '🏆'} ${esc(teamA(g))} – ${esc(teamB(g))}</h1>
+   <p class="muted">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''} · <b style="color:var(--gold2)">${esc(t('pronos')(N))}</b></p>
+   ${out && answered(out[si]) ? `<div class="card center"><p class="muted" style="margin:0">${esc(t('finalScore'))}</p><p class="score" style="font-size:44px;margin:0">${esc(teamA(g))} ${out[si][0]} – ${out[si][1]} ${esc(teamB(g))}</p></div>` : ''}
+   <button class="btn" id="out">📝 ${esc(out ? t('editOut') : t('enterOut'))}</button>
+   <div class="row" style="margin:10px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
+   ${!N ? `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>` : out ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.pts !== prev) { pos = i + 1; prev = r.pts; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${si >= 0 && answered(r.a[si]) ? esc(r.a[si].join(' – ')) : '–'} · ${esc(t('details'))} ›</small></span><span class="score">${r.pts}<small style="font-size:15px;color:var(--muted)"> pts</small></span></div>`; }).join('') + `</div><p class="muted" style="font-size:13px">${esc(t('tieRule'))}</p>`
+     : `<div class="card"><p style="font-weight:700;margin-top:0">${esc(t('trend'))}</p>${trend}</div><div class="card list" style="padding:4px 8px">` + rk.sort((x, y) => x.ts - y.ts).map((r, i) => `<div class="it" data-i="${i}"><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)}</small></span><span class="score">${si >= 0 && answered(r.a[si]) ? esc(r.a[si].join(' – ')) : '–'}</span></div>`).join('') + `</div>`}
+   <div class="card"><p style="font-weight:700;margin-top:0">📏 ${esc(t('ptsTitle'))}</p><p class="muted" style="margin:0;font-size:14px">${esc(t('ptsRule'))}</p></div>` + resetBox();
+  $('#out').onclick = () => go('admin=out:' + g.id);
+  app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
+  if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.pts === rk[0].pts).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
+  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
+  bindReset(g, () => hostProno(g));
+}
+function hostOutcome(g) {
+  setAcc(g.color);
+  const out = getOut(g.id) || Array(g.questions.length).fill(null);
+  const draw = () => {
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:28px">📝 ${esc(t('enterOut'))}</h1><p class="muted">${esc(teamA(g))} – ${esc(teamB(g))} · ${esc(t('outHint'))}</p>` +
+      g.questions.map((q, i) => { const ty = q.type || 'single';
+        let body = '';
+        if (ty === 'score') body = `<div style="display:flex;gap:8px">${stepper(i + 'a', out[i] ? out[i][0] : null, teamA(g))}${stepper(i + 'b', out[i] ? out[i][1] : null, teamB(g))}</div>`;
+        else if (ty === 'number') body = `<div style="display:flex">${stepper(i + 'n', out[i], '')}</div>`;
+        else body = q.o.map((o, j) => `<button class="opt ${out[i] === j ? 'sel' : ''}" data-oi="${i}" data-oj="${j}" style="padding:8px 12px;font-size:16px"><span class="L" style="width:36px;height:36px;font-size:18px">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('');
+        return `<div class="card qe"><p style="font-weight:700;margin:0 0 8px">${i + 1}. ${esc(L(q.q))}</p>${body}</div>`; }).join('') +
+      `<button class="btn" id="sv">💾 ${esc(t('saveOut'))}</button>`;
+    app.querySelectorAll('[data-oi]').forEach(b => b.onclick = () => { const i = +b.dataset.oi, j = +b.dataset.oj; out[i] = out[i] === j ? null : j; draw(); });
+    const val = id => { const el = app.querySelector(`[data-sv="${id}"]`); return el.value === '' ? null : Math.max(0, parseInt(el.value, 10) || 0); };
+    const sync = () => g.questions.forEach((q, i) => { const ty = q.type || 'single'; if (ty === 'score') { const a = val(i + 'a'), b = val(i + 'b'); out[i] = a == null || b == null ? null : [a, b]; } if (ty === 'number') out[i] = val(i + 'n'); });
+    app.querySelectorAll('[data-st]').forEach(b => b.onclick = () => { const el = app.querySelector(`[data-sv="${b.dataset.st}"]`); el.value = Math.max(0, (parseInt(el.value, 10) || 0) + +b.dataset.d); sync(); });
+    app.querySelectorAll('[data-sv]').forEach(el => el.oninput = sync);
+    $('#sv').onclick = () => { sync(); LS.set(outKey(g.id), out); toast('✔ ' + t('saveOut')); go('admin=rank:' + g.id); };
+  };
+  draw();
+}
+function hostPronoTeam(g, key) {
+  setAcc(g.color);
+  const r = getRes(g.id)[key]; if (!r) return go('admin=rank:' + g.id);
+  const out = getOut(g.id), res = pronoPoints(g, r.a, out);
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:48px;margin:0">${out ? res.pts + ' pts' : '…'}</p><p class="muted" style="margin:0;font-size:13px">${esc(t('receivedAt'))} ${fmtTime(r.ts)}</p></div>` +
+    g.questions.map((q, i) => { const got = res.per[i], col = got == null ? 'var(--line)' : got > 0 ? 'var(--ok)' : 'var(--bad)';
+      return `<div class="card" style="border-left:10px solid ${col};padding:12px 14px"><p style="margin:0 0 6px;font-weight:700">${i + 1}. ${esc(L(q.q))}</p>
+      <p style="margin:0">${esc(t('given'))} : <b>${esc(ansLabel(g, q, r.a[i]))}</b></p>${out && answered(out[i]) ? `<p style="margin:4px 0 0;color:var(--gold2)">${esc(t('real'))} : <b>${esc(ansLabel(g, q, out[i]))}</b>${got != null ? ` · +${got} pt${got > 1 ? 's' : ''}` : ''}</p>` : ''}</div>`; }).join('');
+}
+
 /* ================= EDITOR ================= */
 const COLORS = ['#1f9d55', '#c41c24', '#e07a10', '#8a3fb0', '#1c5fd1', '#d61f7a', '#b08a18', '#0e8f8f'];
-const blankQ = (kind, type = 'single') => kind === 'poll' ? { type, q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }] } : { q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }, { fr: '', en: '' }], a: 0, info: { fr: '', en: '' } };
+const blankQ = (kind, type = 'single') => kind !== 'quiz' ? { type, q: { fr: '', en: '' }, o: type === 'single' || type === 'multi' ? [{ fr: '', en: '' }, { fr: '', en: '' }] : [] } : { q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }, { fr: '', en: '' }], a: 0, info: { fr: '', en: '' } };
 function hostEdit(src, newKind) {
   if (src && isBuiltin(src.id)) { toast(t('builtinRO'), false); return go(''); }
-  const kind = src ? kindOf(src) : (newKind === 'poll' ? 'poll' : 'quiz');
-  const g = src ? JSON.parse(JSON.stringify(src)) : { id: (kind === 'poll' ? 's-' : 'g-') + Date.now().toString(36), kind, title: { fr: '', en: '' }, sub: { fr: '', en: '' }, date: new Date().toISOString().slice(0, 10), mode: 'team', anon: true, color: COLORS[kind === 'poll' ? 4 : 0], questions: [blankQ(kind)] };
-  const poll = kind === 'poll';
+  const kind = src ? kindOf(src) : (['poll', 'prono'].includes(newKind) ? newKind : 'quiz');
+  const poll = kind === 'poll', prono = kind === 'prono', typed = kind !== 'quiz';
+  const g = src ? JSON.parse(JSON.stringify(src)) : { id: (poll ? 's-' : prono ? 'p-' : 'g-') + Date.now().toString(36), kind, title: { fr: '', en: '' }, sub: { fr: '', en: '' }, date: new Date().toISOString().slice(0, 10), time: prono ? '21:00' : '', mode: prono ? 'solo' : 'team', anon: !prono, sport: 'rugby', teams: { a: { fr: '', en: '' }, b: { fr: '', en: '' } }, color: COLORS[poll ? 4 : prono ? 0 : 0], questions: prono ? [{ type: 'score', q: { fr: '', en: '' }, o: [] }] : [blankQ(kind)] };
+  const TYPES = poll ? ['single', 'multi', 'stars', 'text'] : ['single', 'number'];
   setAcc(g.color);
   const draw = () => {
-    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>${esc(poll ? t('kPoll') : t('kQuiz'))} · ${esc(src ? t('edit') : (poll ? t('newPoll') : t('newQuiz')))}</h2>
-    <div class="card"><label class="f">${esc(t('title'))} FR</label><input class="in" data-k="title.fr" value="${esc(g.title.fr)}"><label class="f">${esc(t('title'))} EN</label><input class="in" data-k="title.en" value="${esc(g.title.en)}">
-    <label class="f">${esc(t('subtitle'))} FR</label><input class="in" data-k="sub.fr" value="${esc(g.sub.fr)}"><label class="f">${esc(t('subtitle'))} EN</label><input class="in" data-k="sub.en" value="${esc(g.sub.en)}">
+    const field = (k, lab, v, extra = '') => `<label class="f">${esc(lab)}</label><input class="in" data-k="${k}" value="${esc(v || '')}" ${extra}>`;
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>${esc(prono ? t('kProno') : poll ? t('kPoll') : t('kQuiz'))} · ${esc(src ? t('edit') : t('create'))}</h2>
+    <div class="card">${prono ? `<label class="f">${esc(t('sport'))}</label><div class="tabs" style="justify-content:flex-start">${['rugby', 'foot', 'other'].map(s => `<button data-sp="${s}" class="${g.sport === s ? 'on' : ''}">${SPORT_ICON[s]} ${esc(t(s))}</button>`).join('')}</div>
+      ${field('teams.a.fr', t('teamAL'), g.teams.a.fr, 'placeholder="France"')}${field('teams.b.fr', t('teamBL'), g.teams.b.fr, 'placeholder="Irlande"')}` : ''}
+    ${field('title.fr', t('title') + ' FR' + (prono ? ' (' + t('optional') + ')' : ''), g.title.fr)}${field('title.en', t('title') + ' EN' + (prono ? ' (' + t('optional') + ')' : ''), g.title.en)}
+    ${field('sub.fr', t('subtitle') + ' FR', g.sub.fr)}${field('sub.en', t('subtitle') + ' EN', g.sub.en)}
     <div class="row"><div><label class="f">${esc(t('date'))}</label><input class="in" type="date" data-k="date" value="${esc(g.date)}"></div>
-    <div><label class="f">${esc(poll ? t('anonL') : t('mode'))}</label>${poll ? `<select class="in" id="an"><option value="1" ${g.anon ? 'selected' : ''}>${esc(t('anonY'))}</option><option value="0" ${g.anon ? '' : 'selected'}>${esc(t('anonN'))}</option></select>` : `<select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select>`}</div></div>
-    ${poll ? `<label class="f">${esc(t('endL'))} FR</label><input class="in" data-k="end.fr" value="${esc(g.end?.fr || '')}"><label class="f">${esc(t('endL'))} EN</label><input class="in" data-k="end.en" value="${esc(g.end?.en || '')}">` : ''}
+    ${prono ? `<div><label class="f">${esc(t('time'))}</label><input class="in" type="time" data-k="time" value="${esc(g.time || '')}"></div>` : `<div><label class="f">${esc(poll ? t('anonL') : t('mode'))}</label>${poll ? `<select class="in" id="an"><option value="1" ${g.anon ? 'selected' : ''}>${esc(t('anonY'))}</option><option value="0" ${g.anon ? '' : 'selected'}>${esc(t('anonN'))}</option></select>` : `<select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select>`}</div>`}</div>
+    ${prono ? `<label class="f">${esc(t('mode'))}</label><select class="in" data-k="mode"><option value="solo" ${g.mode !== 'team' ? 'selected' : ''}>${esc(t('modeSolo'))}</option><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option></select>` : ''}
+    ${typed ? field('end.fr', t('endL') + ' FR', g.end?.fr) + field('end.en', t('endL') + ' EN', g.end?.en) : ''}
     <label class="f">${esc(t('color'))}</label><div class="colors">${COLORS.map(c => `<button data-col="${c}" class="${g.color === c ? 'on' : ''}" style="background:${c}"></button>`).join('')}</div></div>
-    <h2>${esc(t('questions'))} (${g.questions.length})</h2>${poll ? '' : `<p class="muted" style="font-size:14px">${esc(t('correct'))}</p>`}` +
-    g.questions.map((q, i) => { const ty = poll ? (q.type || 'single') : 'single', withO = ty === 'single' || ty === 'multi', maxO = poll ? 6 : 4;
-      return `<div class="card qe"><div class="row" style="justify-content:space-between"><b class="qnum" style="flex:none">${i + 1}</b><span style="flex:none;display:flex;gap:6px"><button class="btn ghost small" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-dn="${i}" ${i === g.questions.length - 1 ? 'disabled' : ''}>↓</button><button class="btn danger small" data-rm="${i}">✕</button></span></div>
-      ${poll ? `<label class="f">${esc(t('qType'))}</label><select class="in" data-ty="${i}">${['single', 'multi', 'stars', 'text'].map(x => `<option value="${x}" ${ty === x ? 'selected' : ''}>${esc(t(x === 'single' ? 'tSingle' : x === 'multi' ? 'tMulti' : x === 'stars' ? 'tStars' : 'tText'))}</option>`).join('')}</select>` : ''}
+    <h2>${esc(prono ? t('bonusTitle') : t('questions'))} (${g.questions.length - (prono ? 1 : 0)})</h2>${typed ? '' : `<p class="muted" style="font-size:14px">${esc(t('correct'))}</p>`}
+    ${prono ? `<button class="btn" id="fun">${esc(t('addFun'))}</button>` : ''}` +
+    g.questions.map((q, i) => { const ty = typed ? (q.type || 'single') : 'single', withO = ty === 'single' || ty === 'multi', maxO = typed ? 8 : 4;
+      if (ty === 'score') return `<div class="card qe"><p style="margin:0;font-weight:700">${SPORT_ICON[g.sport] || '🏆'} ${esc(t('tScore'))} : ${esc(L(g.teams.a) || 'A')} – ${esc(L(g.teams.b) || 'B')}</p><p class="muted" style="margin:4px 0 0;font-size:13px">${esc(t('ptsRule'))}</p></div>`;
+      return `<div class="card qe"><div class="row" style="justify-content:space-between"><b class="qnum" style="flex:none">${prono ? i : i + 1}</b><span style="flex:none;display:flex;gap:6px"><button class="btn ghost small" data-up="${i}" ${i === (prono ? 1 : 0) ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-dn="${i}" ${i === g.questions.length - 1 ? 'disabled' : ''}>↓</button><button class="btn danger small" data-rm="${i}">✕</button></span></div>
+      ${typed ? `<label class="f">${esc(t('qType'))}</label><select class="in" data-ty="${i}">${TYPES.map(x => `<option value="${x}" ${ty === x ? 'selected' : ''}>${esc(typeLabel(x))}</option>`).join('')}${prono ? `<option value="yesno">${esc(t('tYesNo'))}</option>` : ''}</select>` : ''}
       <label class="f">${esc(t('qFr'))}</label><textarea class="in" data-k="q.${i}.q.fr">${esc(q.q.fr)}</textarea><label class="f">${esc(t('qEn'))}</label><textarea class="in" data-k="q.${i}.q.en">${esc(q.q.en)}</textarea>
-      ${withO ? q.o.map((o, j) => `<div class="optrow">${poll ? `<span class="rad" style="display:grid;place-items:center">${LETTERS[j]}</span>` : `<button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button>`}<div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('') + (q.o.length < maxO ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : '') : ''}
-      ${poll ? '' : `<label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}">`}</div>`; }).join('') +
-    `<button class="btn ghost" id="aq">${esc(t('addQ'))}</button><button class="btn" id="sv" style="margin-top:12px">💾 ${esc(t('save'))}</button>${src ? `<button class="btn danger" id="dl" style="margin-top:12px">${esc(t('del'))}</button>` : ''}`;
+      ${withO ? q.o.map((o, j) => `<div class="optrow">${typed ? `<span class="rad" style="display:grid;place-items:center">${LETTERS[j]}</span>` : `<button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button>`}<div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('') + (q.o.length < maxO ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : '') : ''}
+      ${typed ? '' : `<label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}">`}</div>`; }).join('') +
+    `<button class="btn ghost" id="aq" style="margin-top:12px">${esc(t('addQ'))}</button><button class="btn" id="sv" style="margin-top:12px">💾 ${esc(t('save'))}</button>${src ? `<button class="btn danger" id="dl" style="margin-top:12px">${esc(t('del'))}</button>` : ''}`;
     app.querySelectorAll('[data-k]').forEach(el => el.oninput = el.onchange = () => {
       const p = el.dataset.k.split('.'); let o = p[0] === 'q' ? g.questions : g; const path = p[0] === 'q' ? p.slice(1) : p;
       for (let k = 0; k < path.length - 1; k++) { o[path[k]] = o[path[k]] ?? {}; o = o[path[k]]; } o[path[path.length - 1]] = el.value;
+      if (p[0] === 'teams') { g.teams[p[1]].en = el.value; }
     });
+    app.querySelectorAll('[data-sp]').forEach(b => b.onclick = () => { g.sport = b.dataset.sp; draw(); });
     const an = $('#an'); if (an) an.onchange = () => { g.anon = an.value === '1'; };
-    app.querySelectorAll('[data-ty]').forEach(s => s.onchange = () => { const q = g.questions[+s.dataset.ty]; q.type = s.value; if ((s.value === 'single' || s.value === 'multi') && (!q.o || q.o.length < 2)) q.o = [{ fr: '', en: '' }, { fr: '', en: '' }]; draw(); });
+    app.querySelectorAll('[data-ty]').forEach(s => s.onchange = () => { const q = g.questions[+s.dataset.ty];
+      if (s.value === 'yesno') { q.type = 'single'; q.o = [{ fr: 'Oui', en: 'Yes' }, { fr: 'Non', en: 'No' }]; }
+      else { q.type = s.value; if ((s.value === 'single' || s.value === 'multi') && (!q.o || q.o.length < 2)) q.o = [{ fr: '', en: '' }, { fr: '', en: '' }]; if (s.value === 'number' || s.value === 'stars' || s.value === 'text') q.o = []; }
+      draw(); });
+    if ($('#fun')) $('#fun').onclick = () => { const have = new Set(g.questions.map(q => q.q.fr)); presets(g.sport, L(g.teams.a) || 'Équipe 1', L(g.teams.b) || 'Équipe 2').forEach(q => { if (!have.has(q.q.fr)) g.questions.push(q); }); toast('✔ ' + t('funAdded')); draw(); };
     app.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { g.color = b.dataset.col; setAcc(g.color); draw(); });
     app.querySelectorAll('[data-ok]').forEach(b => b.onclick = () => { const [i, j] = b.dataset.ok.split('.').map(Number); g.questions[i].a = j; draw(); });
     app.querySelectorAll('[data-ao]').forEach(b => b.onclick = () => { g.questions[+b.dataset.ao].o.push({ fr: '', en: '' }); draw(); });
@@ -1945,12 +2118,15 @@ function hostEdit(src, newKind) {
     app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { g.questions.splice(+b.dataset.rm, 1); if (!g.questions.length) g.questions.push(blankQ(kind)); draw(); });
     app.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const i = +b.dataset.up; [g.questions[i - 1], g.questions[i]] = [g.questions[i], g.questions[i - 1]]; draw(); });
     app.querySelectorAll('[data-dn]').forEach(b => b.onclick = () => { const i = +b.dataset.dn; [g.questions[i + 1], g.questions[i]] = [g.questions[i], g.questions[i + 1]]; draw(); });
-    $('#aq').onclick = () => { const last = g.questions[g.questions.length - 1]; g.questions.push(blankQ(kind, last && last.type || 'single')); draw(); setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50); };
+    $('#aq').onclick = () => { const last = g.questions[g.questions.length - 1]; g.questions.push(blankQ(kind, last && last.type && last.type !== 'score' ? last.type : 'single')); draw(); setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50); };
     $('#sv').onclick = () => {
-      g.questions = g.questions.filter(q => { const ty = poll ? (q.type || 'single') : 'single'; return (q.q.fr || q.q.en) && (!(ty === 'single' || ty === 'multi') || q.o.filter(o => o.fr || o.en).length >= 2); });
-      g.questions.forEach(q => { q.q.fr ||= q.q.en; q.q.en ||= q.q.fr; const ty = poll ? (q.type || 'single') : 'single'; if (ty === 'single' || ty === 'multi') { q.o = q.o.filter(o => o.fr || o.en); q.o.forEach(o => { o.fr ||= o.en; o.en ||= o.fr; }); } else q.o = []; });
+      if (prono) { g.teams.a.fr ||= 'Équipe 1'; g.teams.b.fr ||= 'Équipe 2'; g.teams.a.en = g.teams.a.en || g.teams.a.fr; g.teams.b.en = g.teams.b.en || g.teams.b.fr; g.questions[0] = scoreQ(g); }
+      g.questions = g.questions.filter(q => { const ty = typed ? (q.type || 'single') : 'single'; if (ty === 'score') return true; return (q.q.fr || q.q.en) && (!(ty === 'single' || ty === 'multi') || q.o.filter(o => o.fr || o.en).length >= 2); });
+      g.questions.forEach(q => { q.q.fr ||= q.q.en; q.q.en ||= q.q.fr; const ty = typed ? (q.type || 'single') : 'single'; if (ty === 'single' || ty === 'multi') { q.o = q.o.filter(o => o.fr || o.en); q.o.forEach(o => { o.fr ||= o.en; o.en ||= o.fr; }); } else q.o = []; });
       if (!g.questions.length) { g.questions.push(blankQ(kind)); draw(); return toast(t('minQ'), false); }
+      if (prono) { g.title.fr ||= `${g.teams.a.fr} – ${g.teams.b.fr}`; }
       g.title.fr ||= g.title.en || (poll ? 'Sondage' : 'Quiz'); g.title.en ||= g.title.fr;
+      if (g.end && !g.end.fr && !g.end.en) delete g.end;
       const list = myGames().filter(x => x.id !== g.id); list.push(g); saveMyGames(list); toast('✔ ' + t('save')); go('');
     };
     if ($('#dl')) $('#dl').onclick = () => confirmBox(t('delQ'), L(g.title), t('del'), () => { saveMyGames(myGames().filter(x => x.id !== g.id)); go(''); }, true);
