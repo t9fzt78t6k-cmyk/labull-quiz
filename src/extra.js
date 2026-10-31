@@ -1,7 +1,7 @@
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
-  progT: 'À venir à LA BULL', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
+  progT: 'À venir à LA BULL', infoT: 'Infos pratiques', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
   progNone: 'Le programme arrive bientôt… suivez-nous sur Facebook !', resa: 'Sur réservation', fbFollow: 'Suivre LA BULL sur Facebook', callResa: 'Réserver : 07 68 11 79 87', open17: 'Ouvert dès 17h',
   fidT: 'Joueur du mois', fidS: 'Points fidélité', fidB: 'Joueur du mois', fidNone: 'Pas encore de points ce mois-ci. Jouez aux quiz, sondages et pronostics !',
   fidRule: 'Chaque quiz ou pronostic joué : 10 pts · sondage : 5 pts · 1er : +30 · 2e : +20 · 3e : +10 · pronostics : + vos points de prono. Les joueurs inscrits (avec leur code) cumulent tous leurs jeux.',
@@ -10,7 +10,7 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
-  progT: 'Coming up at LA BULL', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
+  progT: 'Coming up at LA BULL', infoT: 'Practical info', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
   progNone: 'The programme is coming soon… follow us on Facebook!', resa: 'Booking required', fbFollow: 'Follow LA BULL on Facebook', callResa: 'Book: +33 7 68 11 79 87', open17: 'Open from 5 pm',
   fidT: 'Player of the month', fidS: 'Loyalty points', fidB: 'Player of the month', fidNone: 'No points yet this month. Play quizzes, polls and predictions!',
   fidRule: 'Each quiz or prediction played: 10 pts · poll: 5 pts · 1st: +30 · 2nd: +20 · 3rd: +10 · predictions: + your prediction points. Signed-up players (with their code) add up all their games.',
@@ -34,7 +34,7 @@ function programPage() {
   const ev = upcomingEvents();
   app.innerHTML = topBar(t('progB')) + backBar() + band('prog', t('progT'), t('progS')) +
     (ev.length ? ev.map(e => evCard(e)).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('progNone'))}</p></div>`) +
-    `<a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
+    `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
 }
 function progTeaser() {
   const ev = upcomingEvents().slice(0, 2); if (!ev.length) return '';
@@ -79,7 +79,7 @@ function hostLoyalty(month) {
 }
 
 /* ---------- Grand écran ---------- */
-function stopTimers() { clearInterval(window._tvT); clearInterval(window._qT); clearTimeout(window._tvA); document.body.classList.remove('tvmode'); }
+function stopTimers() { window.onresize = null; clearInterval(window._tvT); clearInterval(window._qT); clearTimeout(window._tvA); document.body.classList.remove('tvmode'); }
 function hostTV(g, first) {
   stopTimers(); document.body.classList.add('tvmode'); setAcc(g ? g.color : '#f2b632');
   const k = g ? kindOf(g) : 'hub';
@@ -87,8 +87,11 @@ function hostTV(g, first) {
   let view = views.includes(first) ? first : 'qr', auto = false, last = null, seen = null, url = '';
   const resOf = () => g ? Object.values(getRes(g.id)) : allGames().filter(x => isProno(x) && isActive(x)).flatMap(x => Object.values(getRes(x.id)));
   const title = g ? gTitle(g) : t('hubT');
-  app.innerHTML = `<div class="tv"><i class="pod-spot"></i><header class="tv-h"><img src="${LOGO}" alt="LA BULL"><div><b>${esc(title)}</b><span>${g && g.date ? esc(fmtDate(g.date)) : 'LA BULL · Serres-et-Montguyard'}</span></div></header><main class="tv-m" id="tvm"></main>
-    <footer class="tv-f">${views.map(v => `<button data-v="${v}">${{ qr: '▦ ' + t('tvQR'), rank: '🏆 ' + (k === 'poll' ? t('tvRes') : t('tvRank')), prog: '📅 ' + t('progB'), fid: '👑 ' + t('fidB') }[v]}</button>`).join('')}${g && k !== 'poll' ? `<button data-pod>🥇 ${esc(t('tvPod'))}</button>` : ''}<button data-auto>🔁 ${esc(t('tvAuto'))}</button><button data-fs>⛶</button><button data-x>✕</button></footer></div>`;
+  app.innerHTML = `<div class="tv"><div class="tv-stage"><i class="pod-spot"></i><header class="tv-h"><img src="${LOGO}" alt="LA BULL"><div><b>${esc(title)}</b><span>${g && g.date ? esc(fmtDate(g.date)) : 'LA BULL · Serres-et-Montguyard'}</span></div></header><main class="tv-m" id="tvm"></main>
+    <footer class="tv-f">${views.map(v => `<button data-v="${v}">${{ qr: '▦ ' + t('tvQR'), rank: '🏆 ' + (k === 'poll' ? t('tvRes') : t('tvRank')), prog: '📅 ' + t('progB'), fid: '👑 ' + t('fidB') }[v]}</button>`).join('')}${g && k !== 'poll' ? `<button data-pod>🥇 ${esc(t('tvPod'))}</button>` : ''}<button data-auto>🔁 ${esc(t('tvAuto'))}</button><button data-fs>⛶</button><button data-x>✕</button></footer></div></div>`;
+  const stage = app.querySelector('.tv-stage');
+  const fit = () => { const por = innerHeight > innerWidth * 1.1, W = por ? 900 : 1600, H = por ? 1600 : 900, kk = Math.min(innerWidth / W, innerHeight / H); stage.classList.toggle('por', por); stage.style.width = W + 'px'; stage.style.height = H + 'px'; stage.style.transform = `translate(-50%,-50%) scale(${kk})`; };
+  fit(); window.onresize = fit;
   const m = $('#tvm');
   const names = rs => rs.slice().sort((a, b) => b.ts - a.ts).map(r => r.t || (r.c && r.c.n)).filter(Boolean);
   const render = () => {
@@ -103,16 +106,16 @@ function hostTV(g, first) {
         m.innerHTML = `<div class="tv-poll">${qs.map(([q, i]) => { const ty = qType(g, q), vals = rs.map(r => r.a[i]).filter(answered); return `<div class="tv-pq"><p>${esc(L(q.q))}</p>${ty === 'stars' ? [5, 4, 3, 2, 1].map(s => bar('★'.repeat(s), vals.filter(v => v === s).length, vals.length)).join('') : q.o.map((o, j) => bar(L(o), vals.filter(v => ty === 'multi' ? v.includes(j) : v === j).length, vals.length)).join('')}</div>`; }).join('')}</div>`;
       } else {
         const pr = k === 'prono', out = pr && getOut(g.id), rk = pr ? pronoRanked(g) : ranked(g), N = g.questions.length; let pos = 0, prev = null;
-        m.innerHTML = rk.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(Math.min(10, rk.length) / 2)},auto)">${rk.slice(0, 10).map((r, i) => { const s = pr ? r.pts : r.s; if (s !== prev) { pos = i + 1; prev = s; } return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][pos - 1] || pos}</span><b>${esc(r.t)}</b><span class="score">${pr && !out ? esc(scoreQs(g).length === 1 && answered(r.a[scoreQs(g)[0][1]]) ? r.a[scoreQs(g)[0][1]].join(' – ') : '✔') : s + (pr ? ' pts' : ' / ' + N)}</span></div>`; }).join('')}</div>` : `<p class="pod-tap" style="font-size:3vh">${esc(t('tvWait'))}</p>`;
+        m.innerHTML = rk.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(Math.min(10, rk.length) / 2)},auto)">${rk.slice(0, 10).map((r, i) => { const s = pr ? r.pts : r.s; if (s !== prev) { pos = i + 1; prev = s; } return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][pos - 1] || pos}</span><b>${esc(r.t)}</b><span class="score">${pr && !out ? esc(scoreQs(g).length === 1 && answered(r.a[scoreQs(g)[0][1]]) ? r.a[scoreQs(g)[0][1]].join(' – ') : '✔') : s + (pr ? ' pts' : ' / ' + N)}</span></div>`; }).join('')}</div>` : `<p class="pod-tap">${esc(t('tvWait'))}</p>`;
       }
     } else if (view === 'prog') {
-      const ev = upcomingEvents().slice(0, 4);
+      const ev = upcomingEvents().slice(0, stage.classList.contains('por') ? 4 : 4);
       m.innerHTML = `<p class="tv-st">${esc(t('progT'))}</p><div class="tv-prog">${ev.map(e => evCard(e)).join('')}</div>`;
     } else if (view === 'fid') {
       const mo = g && g.date ? g.date.slice(0, 7) : todayISO().slice(0, 7), L1 = loyalty(mo).slice(0, 6);
-      m.innerHTML = `<p class="tv-st">👑 ${esc(t('fidT'))} · ${esc(monthLabel(mo))}</p>${L1.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(L1.length / 2)},auto)">${L1.map((p, i) => { const ps = L1.findIndex(x => x.s === p.s) + 1; return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][ps - 1] || ps}</span><b>${esc(p.t)}</b><span class="score">${p.s} pts</span></div>`; }).join('')}</div>` : `<p class="pod-tap" style="font-size:3vh">${esc(t('fidNone'))}</p>`}<p class="tv-prize">${esc(t('fidPrize'))}</p>`;
+      m.innerHTML = `<p class="tv-st">👑 ${esc(t('fidT'))} · ${esc(monthLabel(mo))}</p>${L1.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(L1.length / 2)},auto)">${L1.map((p, i) => { const ps = L1.findIndex(x => x.s === p.s) + 1; return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][ps - 1] || ps}</span><b>${esc(p.t)}</b><span class="score">${p.s} pts</span></div>`; }).join('')}</div>` : `<p class="pod-tap">${esc(t('fidNone'))}</p>`}<p class="tv-prize">${esc(t('fidPrize'))}</p>`;
     }
-    if (seen !== null && rs.length > seen) { const n = names(rs)[0]; if (n) { const b = document.createElement('div'); b.className = 'tv-toast'; b.textContent = t('tvNew')(n); app.querySelector('.tv').appendChild(b); setTimeout(() => b.remove(), 3500); confetti(); } }
+    if (seen !== null && rs.length > seen) { const n = names(rs)[0]; if (n) { const b = document.createElement('div'); b.className = 'tv-toast'; b.textContent = t('tvNew')(n); stage.appendChild(b); setTimeout(() => b.remove(), 3500); confetti(); } }
     seen = rs.length;
   };
   const sig = () => JSON.stringify(resOf().map(r => [r.t, r.ts, r.a]));

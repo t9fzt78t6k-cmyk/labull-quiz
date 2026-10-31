@@ -30,6 +30,31 @@
   "resa": true
  },
  {
+  "d": "2026-11-02",
+  "c": "#e07a10",
+  "img": "",
+  "t": {
+   "fr": "Résultat de la pesée de la citrouille",
+   "en": "Pumpkin weigh-in: the result"
+  },
+  "h": {
+   "fr": "Dernier jour pour deviner son poids, résultat le soir même !",
+   "en": "Last day to guess its weight, result in the evening!"
+  },
+  "ch": [
+   [
+    "🎃",
+    "Concours citrouille",
+    "Pumpkin contest"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ },
+ {
   "d": "2026-11-05",
   "c": "#17914a",
   "img": "stout",
