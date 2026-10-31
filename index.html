@@ -2698,7 +2698,7 @@ function hostTV(g, first) {
       m.innerHTML = `<p class="tv-st">${esc(t('progT'))}</p><div class="tv-prog">${ev.map(e => evCard(e)).join('')}</div>`;
     } else if (view === 'fid') {
       const mo = g && g.date ? g.date.slice(0, 7) : todayISO().slice(0, 7), L1 = loyalty(mo).slice(0, 6);
-      m.innerHTML = `<p class="tv-st">👑 ${esc(t('fidT'))} · ${esc(monthLabel(mo))}</p>${L1.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(L1.length / 2)},auto)">${L1.map((p, i) => `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][i] || i + 1}</span><b>${esc(p.t)}</b><span class="score">${p.s} pts</span></div>`).join('')}</div>` : `<p class="pod-tap" style="font-size:3vh">${esc(t('fidNone'))}</p>`}<p class="tv-prize">${esc(t('fidPrize'))}</p>`;
+      m.innerHTML = `<p class="tv-st">👑 ${esc(t('fidT'))} · ${esc(monthLabel(mo))}</p>${L1.length ? `<div class="tv-rank" style="grid-template-rows:repeat(${Math.ceil(L1.length / 2)},auto)">${L1.map((p, i) => { const ps = L1.findIndex(x => x.s === p.s) + 1; return `<div class="tv-row" style="animation-delay:${i * 90}ms"><span class="rank">${['🥇', '🥈', '🥉'][ps - 1] || ps}</span><b>${esc(p.t)}</b><span class="score">${p.s} pts</span></div>`; }).join('')}</div>` : `<p class="pod-tap" style="font-size:3vh">${esc(t('fidNone'))}</p>`}<p class="tv-prize">${esc(t('fidPrize'))}</p>`;
     }
     if (seen !== null && rs.length > seen) { const n = names(rs)[0]; if (n) { const b = document.createElement('div'); b.className = 'tv-toast'; b.textContent = t('tvNew')(n); app.querySelector('.tv').appendChild(b); setTimeout(() => b.remove(), 3500); confetti(); } }
     seen = rs.length;
