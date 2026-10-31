@@ -88,7 +88,7 @@ function hostProno(g) {
    <p class="muted">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''} · <b style="color:var(--gold2)">${esc(t('pronos')(N))}</b></p>
    ${results ? `<div class="card center"><p class="muted" style="margin:0">${esc(t('finalScore'))}</p>${results}</div>` : ''}
    <button class="btn" id="out">📝 ${esc(out ? t('editOut') : t('enterOut'))}</button>
-   <div class="row" style="margin:10px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="fr">🔄 ${esc(t('fetchBtn'))}</button><button class="btn ghost small" id="csv">📇 ${esc(t('csv'))}</button></div>
+   <div class="row" style="margin:10px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="fr">🔄 ${esc(t('fetchBtn'))}</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button><button class="btn ghost small" id="csv">📇 ${esc(t('csv'))}</button></div>
    ${!N ? `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>` : out ? `<div class="row" style="margin:12px 0"><button class="btn" id="pod">🏆 ${esc(t('podB'))}</button><button class="btn acc" id="dr">🎁 ${esc(t('draw'))}</button></div><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.pts !== prev) { pos = i + 1; prev = r.pts; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${esc(predTxt(r))} · ${esc(t('details'))} ›</small></span><span class="score">${r.pts}<small style="font-size:15px;color:var(--muted)"> pts</small></span></div>`; }).join('') + `</div><p class="muted" style="font-size:13px">${esc(t('tieRule'))}</p>`
      : `${trend ? `<div class="card"><p style="font-weight:700;margin-top:0">${esc(t('trend'))}</p>${trend}</div>` : ''}<div class="card list" style="padding:4px 8px">` + [...rk].sort((x, y) => x.ts - y.ts).map(r => `<div class="it" data-k="${esc(r.k || r.t.trim().toLowerCase())}"><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)}</small></span><span class="score" style="font-size:${multi ? 18 : 26}px">${esc(predTxt(r))}</span></div>`).join('') + `</div>`}
    <div class="card"><p style="font-weight:700;margin-top:0">📏 ${esc(t('ptsTitle'))}</p><p class="muted" style="margin:0;font-size:14px">${esc(multi ? t('ptsRuleM') : t('ptsRule'))}</p></div>` + resetBox();
@@ -96,6 +96,7 @@ function hostProno(g) {
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(el.dataset.k || rk[+el.dataset.i].k || rk[+el.dataset.i].t.trim().toLowerCase())));
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.pts === rk[0].pts).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
   if ($('#pod')) $('#pod').onclick = () => podiumShow(gTitle(g), rk.map(r => ({ t: r.t, s: r.pts })), t('pts'));
+  if ($('#tvb')) $('#tvb').onclick = () => tvIntro(g);
   $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g); $('#csv').onclick = () => contactsCSV(g); $('#fr').onclick = () => fetchResults(g);
   bindReset(g, () => hostProno(g));
 }

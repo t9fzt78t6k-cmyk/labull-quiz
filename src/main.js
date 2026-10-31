@@ -148,6 +148,7 @@ const ONLINE = /^https?:$/.test(location.protocol) && !/^(localhost|127\.|10\.|1
 const baseURL = () => { const b = (LS.get('lb_base', '') || '').trim(); return b && !ONLINE ? b.split('#')[0] : location.href.split('#')[0]; };
 const qrUsable = () => ONLINE || /^https:\/\//.test((LS.get('lb_base', '') || '').trim());
 function resultPayload(g, st) {
+  if (kindOf(g) === 'quiz' && st.c) return b64u(enc(JSON.stringify({ v: 2, g: g.id, n: g.questions.length, p: st.pid, t: st.team || '', a: st.a.map(a => a == null ? '-' : LETTERS[a]).join(''), c: st.c })));
   if (kindOf(g) === 'quiz') return b64u(enc(['1', g.id, g.questions.length, st.a.map(a => a == null ? '-' : LETTERS[a]).join(''), st.team].join('|')));
   return b64u(enc(JSON.stringify({ v: 2, g: g.id, n: g.questions.length, p: st.pid, t: st.team || '', a: st.a, c: st.c || undefined })));
 }
@@ -159,14 +160,14 @@ function parseResult(p) {
 }
 async function joinURL(g) {
   if (isBuiltin(g.id)) return { url: baseURL() + '#j=' + encodeURIComponent(g.id), embedded: false };
-  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, sp: g.sport, tm: g.teams, ti: g.time, d: g.date, m: g.mode, an: !!g.anon, c: g.color, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en])]) };
+  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, sp: g.sport, tm: g.teams, ti: g.time, d: g.date, m: g.mode, an: !!g.anon, c: g.color, tr: g.timer || undefined, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en]), q.img || 0]) };
   const url = baseURL() + '#j=~' + b64u(await deflate(JSON.stringify(slim)));
   return { url, embedded: true, tooLong: url.length > 1800 };
 }
 async function gameFromHash(v) {
   if (v.startsWith('~')) {
     const s = JSON.parse(await inflate(unb64u(v.slice(1))));
-    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, sport: s.sp, teams: s.tm, time: s.ti, date: s.d, mode: s.m, anon: s.an, color: s.c, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })) })) };
+    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, sport: s.sp, teams: s.tm, time: s.ti, date: s.d, mode: s.m, anon: s.an, color: s.c, timer: s.tr || 0, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })), ...(q[4] ? { img: q[4] } : {}) })) };
   }
   return findGame(decodeURIComponent(v));
 }
@@ -219,7 +220,7 @@ document.addEventListener('click', e => {
 
 /* ================= ROUTING ================= */
 async function route() {
-  document.querySelectorAll('.modal,.full').forEach(m => m.remove());
+  document.querySelectorAll('.modal,.full,.podium').forEach(m => m.remove()); stopTimers();
   window.scrollTo(0, 0);
   if (isHost()) importLocalPlays();
   $('#copy').innerHTML = `<i class="stad"></i><i class="fb1"></i><i class="golf"></i><a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr">${esc(t('copy'))}</p><p class="cr2">SIRET : 990 143 810 00010 · ${esc(t('alcohol'))}</p>`; document.documentElement.lang = lang;
@@ -227,6 +228,7 @@ async function route() {
   try {
     if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
     if (k === 'p') return pronoHub();
+    if (k === 'prog') return programPage();
     if (k === 'r' && v) return receive(v);
     if (k === 'admin' || k === 'h') return hostRoute(v);
   } catch (e) { console.error(e); return notFound(); }
@@ -270,7 +272,8 @@ function playerStart(g) {
 }
 function answered(v) { return v != null && !(Array.isArray(v) && (!v.length || v.some(x => x == null))) && v !== ''; }
 function playerQ(g, st) {
-  const n = g.questions.length, i = st.i;
+  clearInterval(window._qT);
+  const n = g.questions.length, i = st.i, tmd = timed(g);
   if (i >= n) return playerRecap(g, st);
   const q = g.questions[i], ty = qType(g, q), save = () => LS.set(pkey(g), st);
   const advance = () => setTimeout(() => { if (st.i === i) { st.i = i + 1; save(); playerQ(g, st); } }, 320);
@@ -283,8 +286,8 @@ function playerQ(g, st) {
   if (ty === 'single' && isProno(g)) body = `<p class="muted" style="margin-top:-8px">${esc(t('optional'))}</p>` + body;
   if (ty === 'text') body = `<p class="muted" style="margin-top:-8px">${esc(t('textHint'))}</p><textarea class="in" id="tx" maxlength="80" placeholder="${esc(t('textPh'))}" style="min-height:110px;font-size:18px">${esc(st.a[i] || '')}</textarea>`;
   app.innerHTML = topBar(st.team || t('anonymous')) + pBar(g) + `<div class="row" style="justify-content:space-between"><span class="qnum" style="flex:none">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill" style="flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(L(g.title))}</span></div>
-   <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div><div class="qtext">${esc(L(q.q))}</div>${body}
-   <div class="nav"><button class="btn ghost" id="pv" ${i === 0 ? 'disabled' : ''}>${esc(t('prev'))}</button><button class="btn acc" id="nx">${esc(i === n - 1 ? t('recap') : t('next'))}</button></div>`;
+   <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div>${tmd ? `<div class="tmr" id="tmr"><i></i><b>${g.timer}</b></div>` : ''}${q.img ? `<img class="qimg" src="${esc(q.img)}" alt="" onerror="this.remove()">` : ''}<div class="qtext">${esc(L(q.q))}</div>${body}
+   <div class="nav"><button class="btn ghost" id="pv" ${i === 0 || tmd ? 'disabled' : ''}>${esc(t('prev'))}</button><button class="btn acc" id="nx">${esc(i === n - 1 ? t('recap') : t('next'))}</button></div>`;
   app.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.o; save(); app.querySelectorAll('[data-o]').forEach(x => x.classList.toggle('sel', x === b)); advance(); });
   app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { const j = +b.dataset.m; const cur = new Set(st.a[i] || []); cur.has(j) ? cur.delete(j) : cur.add(j); st.a[i] = [...cur].sort(); save(); b.classList.toggle('sel', cur.has(j)); b.querySelector('.chk').textContent = cur.has(j) ? '✓' : ''; });
   app.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.s; save(); app.querySelectorAll('[data-s]').forEach(x => x.classList.toggle('on', +x.dataset.s <= st.a[i])); advance(); });
@@ -295,6 +298,7 @@ function playerQ(g, st) {
   app.querySelectorAll('[data-sv]').forEach(el => el.oninput = syncS);
   $('#pv').onclick = () => { st.i = Math.max(0, i - 1); save(); playerQ(g, st); };
   $('#nx').onclick = () => { st.i = i + 1; save(); playerQ(g, st); };
+  if (tmd) startQTimer(g, st, i, save);
   window.scrollTo(0, 0);
 }
 function ansLabel(g, q, v, short) {
@@ -313,7 +317,8 @@ function playerRecap(g, st) {
     : g.questions.map((q, i) => `<button class="opt" data-i="${i}" style="display:block;font-size:15px;${answered(st.a[i]) ? '' : 'border-color:var(--bad)'}"><span class="muted" style="font-size:13px;display:block">${i + 1}. ${esc(L(q.q))}</span><b>${esc(ansLabel(g, q, st.a[i]))}</b></button>`).join('');
   app.innerHTML = topBar(st.team || t('anonymous')) + pBar(g) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>${grid}
    ${miss ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('missing')(miss))}</p>` : ''}<button class="btn acc" id="val" style="margin-top:10px">${esc(t('validate'))}</button>`;
-  app.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
+  if (timed(g)) { app.querySelectorAll('[data-i]').forEach(b => b.disabled = true); $('#val').insertAdjacentHTML('beforebegin', `<p class="muted center">${esc(t('tmrLock'))}</p>`); }
+  else app.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
   $('#val').onclick = () => {
     const sq = isProno(g) ? scoreQs(g) : [];
     if (sq.length && !sq.some(([, i]) => answered(st.a[i]))) { toast(t('needScore'), false); st.i = sq[0][1]; LS.set(pkey(g), st); return playerQ(g, st); }
@@ -340,11 +345,11 @@ function playerDone(g, st) {
   const lastMe = here ? getMe() : null; if (here) LS.del('lb_me');
   const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
   app.innerHTML = topBar(st.team || t('anonymous')) + backBar() + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   ${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="font-size:40px;margin:0">✅</p><p class="chalk" style="font-size:28px;margin:4px 0">${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : `<h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>`}<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>
+   ${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="font-size:40px;margin:0">✅</p><p class="chalk" style="font-size:28px;margin:4px 0">${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : `<h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>`}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
-   ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>`;
-  $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
+   ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
+  if ($('#fix')) $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
   if ($('#np')) $('#np').onclick = () => { newPlayer(); if (isProno(g)) go('p'); else { location.hash = 'j=' + encodeURIComponent(g.id); route(); } };
   if ($('#bkh')) $('#bkh').onclick = () => go('');
   if ($('#oth')) $('#oth').onclick = () => { if (lastMe) setMe(lastMe); go('p'); };
@@ -373,6 +378,8 @@ function hostRoute(v) {
   if (view === 'create') return hostCreate();
   if (view === 'sum') return hostPronoSummary();
   if (view === 'players') return hostPlayers();
+  if (view === 'fid') return hostLoyalty(id);
+  if (view === 'tv') return hostTV(g || null, extra);
   hostHome();
 }
 function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++) if (a[i] && LETTERS.indexOf(a[i]) === g.questions[i].a) s++; return s; }
@@ -428,13 +435,14 @@ function hostHome() {
   const cat = (k, ic, lab, n, col) => { const w = lab.split(' '), last = w.pop(); return `<button class="cat cat-${k}" data-cat="${k}" style="--c:${col}"><em>${n}</em><b>${w.length ? esc(w.join(' ')) + ' ' : ''}<span>${esc(last)}</span></b></button>`; };
   app.innerHTML = topBar('', true) + backBar() + `<div class="homehead"><p class="brush">${esc(t('homeQa'))} <em>${esc(t('homeQb'))}</em> ?</p><button class="brushbtn" id="cr">+ ${esc(t('create'))}</button></div>
    <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
-   <button class="bar2" id="sumh"><i>📅</i><span>${esc(t('doneB'))}</span><b>›</b></button><button class="bar2" id="plh"><i>👥</i><span>${esc(t('playersT'))}</span><b>›</b></button>
+   <button class="bar2" id="sumh"><i>📅</i><span>${esc(t('doneB'))}</span><b>›</b></button><button class="bar2" id="plh"><i>👥</i><span>${esc(t('playersT'))}</span><b>›</b></button><div class="plankbar p3"><button id="fidh"><i>👑</i>${esc(t('fidB'))}</button><button id="progh"><i>📅</i>${esc(t('progB'))}</button><button id="tvh"><i>📺</i>${esc(t('tvB'))}</button></div>
    ${band('now', t('nowL'), '')}${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
   app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => go('admin=list:' + b.dataset.cat));
   $('#cr').onclick = () => go('admin=create');
   $('#sumh').onclick = () => go('admin=sum');
   $('#plh').onclick = () => go('admin=players');
+  $('#fidh').onclick = () => go('admin=fid'); $('#progh').onclick = () => go('prog'); $('#tvh').onclick = () => tvIntro(null);
   bindCards();
   $('#set').onclick = () => go('admin=settings');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
@@ -447,12 +455,13 @@ function hostList(cat) {
   const past = gs.filter(g => g.date && (g.until || g.date) < today).sort((a, b) => b.date.localeCompare(a.date));
   const title = { now: '🔥 ' + t('nowL'), quiz: '🧠 ' + t('quizzes'), poll: '📊 ' + t('polls'), prono: SPORT_ICON.foot + SPORT_ICON.rugby + ' ' + t('pronosF') }[cat];
   app.innerHTML = topBar(t('hostSpace')) + navBar() + band(cat, { now: t('nowL'), quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat], up.length ? t('upcoming') : '') + `
-   ${cat === 'prono' ? hubCard() + `<button class="btn" id="sumb" style="margin-bottom:10px">📋 ${esc(t('doneB'))}</button><button class="btn ghost small" id="frall" style="width:100%">🔄 ${esc(t('fetchBtn'))}</button>` : ''}
+   ${cat === 'prono' ? hubCard() + `<button class="btn" id="sumb" style="margin-bottom:10px">📋 ${esc(t('doneB'))}</button><div class="row"><button class="btn ghost small" id="frall">🔄 ${esc(t('fetchBtn'))}</button><button class="btn ghost small" id="tvp">📺 ${esc(t('tvB'))}</button></div>` : ''}
    ${up.map(hostCard).join('')}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(hostCard).join('') : ''}
    ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('none'))}</p></div>` : ''}
    ${cat !== 'now' ? `<button class="btn ghost small" id="cr2" style="width:100%;margin-top:10px">➕ ${esc(t('create'))} · ${esc({ quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat])}</button>` : ''}`;
   bindCards(); bindHub();
   if ($('#frall')) $('#frall').onclick = () => fetchResults(null);
+  if ($('#tvp')) $('#tvp').onclick = () => tvIntro(null);
   if ($('#sumb')) $('#sumb').onclick = () => go('admin=sum');
   if ($('#cr2')) $('#cr2').onclick = () => go('admin=edit::' + cat);
 }
@@ -533,12 +542,12 @@ function bindReset(g, again) {
 function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
-   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
+   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button></div>
    ${rk.length ? `<div class="row" style="margin:12px 0"><button class="btn" id="pod">🏆 ${esc(t('podB'))}</button><button class="btn acc" id="dr">🎁 ${esc(t('draw'))}</button></div><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.s === rk[0].s).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
   if ($('#pod')) $('#pod').onclick = () => podiumShow(L(g.title), rk.map(r => ({ t: r.t, s: r.s })), '/ ' + N);
-  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
+  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g); if ($('#tvb')) $('#tvb').onclick = () => tvIntro(g);
   bindReset(g, () => hostRank(g));
 }
 function bar(label, n, total) { const pc = total ? Math.round(n / total * 100) : 0; return `<div class="bar"><i style="width:${pc}%"></i><span><b>${esc(label)}</b><em style="font-style:normal">${n} · ${pc}%</em></span></div>`; }
@@ -556,11 +565,11 @@ function hostStats(g) {
   }).join('');
   const named = !g.anon && rs.some(r => r.t);
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">📊 ${esc(t('stats'))}</h1><p class="muted">${esc(L(g.title))} · <b style="color:var(--gold)">${esc(t('participants')(N))}</b></p>
-   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
+   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button></div>
    ${N ? (named ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button>` : '') + blocks : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}
    ${named && N ? `<h2>${esc(t('byPerson'))}</h2><div class="card list" style="padding:4px 8px">` + rs.map(r => `<div class="it" style="display:block"><b>${esc(r.t || t('anonymous'))}</b> <small class="muted">${fmtTime(r.ts)}</small><div style="font-size:13px;color:var(--muted);margin-top:4px">${g.questions.map((q, i) => `${i + 1}. ${esc(ansLabel(g, q, r.a[i]))}`).join(' · ')}</div></div>`).join('') + `</div>` : ''}` + resetBox();
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawAll'), names: rs.filter(r => r.t).map(r => r.t) }]);
-  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
+  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g); if ($('#tvb')) $('#tvb').onclick = () => tvIntro(g);
   bindReset(g, () => hostStats(g));
 }
 
@@ -656,13 +665,14 @@ function hostEdit(src, newKind) {
     ${prono ? `<div><label class="f">${esc(t('time'))}</label><input class="in" type="time" data-k="time" value="${esc(g.time || '')}"></div>` : `<div><label class="f">${esc(poll ? t('anonL') : t('mode'))}</label>${poll ? `<select class="in" id="an"><option value="1" ${g.anon ? 'selected' : ''}>${esc(t('anonY'))}</option><option value="0" ${g.anon ? '' : 'selected'}>${esc(t('anonN'))}</option></select>` : `<select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select>`}</div>`}</div>
     ${prono ? `<label class="f">${esc(t('mode'))}</label><select class="in" data-k="mode"><option value="solo" ${g.mode !== 'team' ? 'selected' : ''}>${esc(t('modeSolo'))}</option><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option></select>` : ''}
     ${typed ? field('end.fr', t('endL') + ' FR', g.end?.fr) + field('end.en', t('endL') + ' EN', g.end?.en) : ''}
-    <label class="f">${esc(t('color'))}</label><div class="colors">${COLORS.map(c => `<button data-col="${c}" class="${g.color === c ? 'on' : ''}" style="background:${c}"></button>`).join('')}</div></div>
+    ${kind === 'quiz' ? `<label class="f">${esc(t('tmrL'))}</label><select class="in" id="tmrs">${[0, 10, 15, 20, 30, 45, 60].map(s => `<option value="${s}" ${(+g.timer || 0) === s ? 'selected' : ''}>${s ? s + ' s' : esc(t('tmrOff'))}</option>`).join('')}</select>` : ''}<label class="f">${esc(t('color'))}</label><div class="colors">${COLORS.map(c => `<button data-col="${c}" class="${g.color === c ? 'on' : ''}" style="background:${c}"></button>`).join('')}</div></div>
     <h2>${esc(prono ? t('bonusTitle') : t('questions'))} (${g.questions.length - (prono ? 1 : 0)})</h2>${typed ? '' : `<p class="muted" style="font-size:14px">${esc(t('correct'))}</p>`}
     ${prono ? `<button class="btn" id="fun">${esc(t('addFun'))}</button>` : ''}` +
     g.questions.map((q, i) => { const ty = typed ? (q.type || 'single') : 'single', withO = ty === 'single' || ty === 'multi', maxO = typed ? 8 : 4;
       if (ty === 'score') return `<div class="card qe"><p style="margin:0;font-weight:700">${SPORT_ICON[g.sport] || '🏆'} ${esc(t('tScore'))} : ${esc(L(g.teams.a) || 'A')} – ${esc(L(g.teams.b) || 'B')}</p><p class="muted" style="margin:4px 0 0;font-size:13px">${esc(t('ptsRule'))}</p></div>`;
       return `<div class="card qe"><div class="row" style="justify-content:space-between"><b class="qnum" style="flex:none">${prono ? i : i + 1}</b><span style="flex:none;display:flex;gap:6px"><button class="btn ghost small" data-up="${i}" ${i === (prono ? 1 : 0) ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-dn="${i}" ${i === g.questions.length - 1 ? 'disabled' : ''}>↓</button><button class="btn danger small" data-rm="${i}">✕</button></span></div>
       ${typed ? `<label class="f">${esc(t('qType'))}</label><select class="in" data-ty="${i}">${TYPES.map(x => `<option value="${x}" ${ty === x ? 'selected' : ''}>${esc(typeLabel(x))}</option>`).join('')}${prono ? `<option value="yesno">${esc(t('tYesNo'))}</option>` : ''}</select>` : ''}
+      <label class="f">${esc(t('imgL'))}</label><input class="in" data-k="q.${i}.img" inputmode="url" placeholder="${esc(t('imgPh'))}" value="${esc(q.img || '')}">${q.img ? `<img class="qimg sm" src="${esc(q.img)}" alt="" onerror="this.style.display='none'">` : `<p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('imgTip'))}</p>`}
       <label class="f">${esc(t('qFr'))}</label><textarea class="in" data-k="q.${i}.q.fr">${esc(q.q.fr)}</textarea><label class="f">${esc(t('qEn'))}</label><textarea class="in" data-k="q.${i}.q.en">${esc(q.q.en)}</textarea>
       ${withO ? q.o.map((o, j) => `<div class="optrow">${typed ? `<span class="rad" style="display:grid;place-items:center">${LETTERS[j]}</span>` : `<button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button>`}<div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('') + (q.o.length < maxO ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : '') : ''}
       ${typed ? '' : `<label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}">`}</div>`; }).join('') +
@@ -675,6 +685,8 @@ function hostEdit(src, newKind) {
     });
     app.querySelectorAll('[data-sp]').forEach(b => b.onclick = () => { g.sport = b.dataset.sp; draw(); });
     const an = $('#an'); if (an) an.onchange = () => { g.anon = an.value === '1'; };
+    const tms = $('#tmrs'); if (tms) tms.onchange = () => { g.timer = +tms.value; };
+    app.querySelectorAll('[data-k$=".img"]').forEach(el => el.onchange = () => { g.questions[+el.dataset.k.split('.')[1]].img = el.value.trim(); draw(); });
     app.querySelectorAll('[data-ty]').forEach(s => s.onchange = () => { const q = g.questions[+s.dataset.ty];
       if (s.value === 'yesno') { q.type = 'single'; q.o = [{ fr: 'Oui', en: 'Yes' }, { fr: 'Non', en: 'No' }]; }
       else { q.type = s.value; if ((s.value === 'single' || s.value === 'multi') && (!q.o || q.o.length < 2)) q.o = [{ fr: '', en: '' }, { fr: '', en: '' }]; if (s.value === 'number' || s.value === 'stars' || s.value === 'text') q.o = []; }
@@ -696,6 +708,7 @@ function hostEdit(src, newKind) {
       if (prono) { g.title.fr ||= `${g.teams.a.fr} – ${g.teams.b.fr}`; }
       g.title.fr ||= g.title.en || (poll ? 'Sondage' : 'Quiz'); g.title.en ||= g.title.fr;
       if (g.end && !g.end.fr && !g.end.en) delete g.end;
+      if (!g.timer) delete g.timer; g.questions.forEach(q => { if (!/^https?:\/\/\S+$/.test((q.img || '').trim())) delete q.img; else q.img = q.img.trim(); });
       const list = myGames().filter(x => x.id !== g.id); list.push(g); saveMyGames(list); toast('✔ ' + t('save')); go('');
     };
     if ($('#dl')) $('#dl').onclick = () => confirmBox(t('delQ'), L(g.title), t('del'), () => { saveMyGames(myGames().filter(x => x.id !== g.id)); go(''); }, true);

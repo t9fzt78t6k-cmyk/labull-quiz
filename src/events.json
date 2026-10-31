@@ -1,0 +1,228 @@
+[
+ {
+  "d": "2026-11-01",
+  "c": "#c81e28",
+  "img": "jazz",
+  "t": {
+   "fr": "Jazz & Asia Night · Mike de Sax",
+   "en": "Jazz & Asia Night · Mike de Sax"
+  },
+  "h": {
+   "fr": "Concert jazz & spécialités asiatiques",
+   "en": "Jazz concert & Asian food specialities"
+  },
+  "tm": {
+   "fr": "Dès 19h",
+   "en": "From 7 pm"
+  },
+  "ch": [
+   [
+    "🎷",
+    "Concert jazz",
+    "Live jazz"
+   ],
+   [
+    "🍜",
+    "Asia Food Truck",
+    "Asia Food Truck"
+   ]
+  ],
+  "resa": true
+ },
+ {
+  "d": "2026-11-05",
+  "c": "#17914a",
+  "img": "stout",
+  "t": {
+   "fr": "Stout Night",
+   "en": "Stout Night"
+  },
+  "h": {
+   "fr": "Spéciale Guinness & Pub Quiz",
+   "en": "Guinness special & Pub Quiz"
+  },
+  "ch": [
+   [
+    "💡",
+    "Pub Quiz",
+    "Pub Quiz"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ },
+ {
+  "d": "2026-11-06",
+  "c": "#eb7d14",
+  "img": "flo",
+  "t": {
+   "fr": "Flo's Bloke and the Machine",
+   "en": "Flo's Bloke and the Machine"
+  },
+  "h": {
+   "fr": "Vos chansons préférées des années 60 & 70",
+   "en": "Your favourite songs from the 60s & 70s"
+  },
+  "tm": {
+   "fr": "Dès 17h",
+   "en": "From 5 pm"
+  },
+  "ch": [
+   [
+    "🎸",
+    "Soirée musicale",
+    "Music night"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ },
+ {
+  "d": "2026-11-13",
+  "c": "#e17819",
+  "img": "cd",
+  "t": {
+   "fr": "Carpe Diem 24",
+   "en": "Carpe Diem 24"
+  },
+  "h": {
+   "fr": "Concert : reprises françaises & internationales",
+   "en": "Live: French & international covers"
+  },
+  "tm": {
+   "fr": "Dès 20h",
+   "en": "From 8 pm"
+  },
+  "ch": [
+   [
+    "🎤",
+    "Concert",
+    "Live music"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ],
+  "resa": true
+ },
+ {
+  "d": "2026-11-19",
+  "c": "#a3174a",
+  "img": "bj",
+  "t": {
+   "fr": "Beaujolais Nouveau",
+   "en": "Beaujolais Nouveau"
+  },
+  "h": {
+   "fr": "Venez le goûter avec nous !",
+   "en": "Come and taste it with us!"
+  },
+  "ch": [
+   [
+    "🍷",
+    "Dégustation",
+    "Tasting"
+   ],
+   [
+    "🍕",
+    "Planches & Bull'izzas",
+    "Boards & Bull'izzas"
+   ]
+  ]
+ },
+ {
+  "d": "2026-11-22",
+  "c": "#8a3fd0",
+  "img": "aub",
+  "t": {
+   "fr": "L'Auberge Espagnole",
+   "en": "Bring & Share Lunch"
+  },
+  "h": {
+   "fr": "Apportez un plat, partagez vos saveurs !",
+   "en": "Bring a dish, share your flavours!"
+  },
+  "tm": {
+   "fr": "11h – 15h",
+   "en": "11 am – 3 pm"
+  },
+  "ch": [
+   [
+    "🤝",
+    "Repas partagé",
+    "Bring & share lunch"
+   ],
+   [
+    "🥘",
+    "Votre plat",
+    "Your dish"
+   ]
+  ]
+ },
+ {
+  "d": "2026-11-30",
+  "c": "#e11e7d",
+  "img": "q4",
+  "t": {
+   "fr": "Les Quatre'Elles",
+   "en": "Les Quatre'Elles"
+  },
+  "h": {
+   "fr": "Des voix, du style, de la bonne humeur !",
+   "en": "Voices, style and good vibes!"
+  },
+  "tm": {
+   "fr": "Dès 19h",
+   "en": "From 7 pm"
+  },
+  "ch": [
+   [
+    "🎤",
+    "Jazz vocal & swing",
+    "Vocal jazz & swing"
+   ],
+   [
+    "🍔",
+    "Burgers & hot-dogs · Los Amigos",
+    "Burgers & hot dogs · Los Amigos"
+   ]
+  ]
+ },
+ {
+  "d": "2026-12-18",
+  "c": "#1c8cff",
+  "img": "",
+  "t": {
+   "fr": "The Songsmiths · Katie Sebring",
+   "en": "The Songsmiths · Katie Sebring"
+  },
+  "h": {
+   "fr": "Concert live au coin du bar",
+   "en": "Live concert at the bar"
+  },
+  "tm": {
+   "fr": "Ouverture 17h",
+   "en": "Doors 5 pm"
+  },
+  "ch": [
+   [
+    "🎸",
+    "Concert",
+    "Live music"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ }
+]
