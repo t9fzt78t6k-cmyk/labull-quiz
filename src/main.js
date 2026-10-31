@@ -183,11 +183,13 @@ function qrSVG(text, ecl = 'M') {
 const app = $('#app');
 function setAcc(c) { document.documentElement.style.setProperty('--acc', c || '#f2b632'); }
 function topBar(sub, big) {
-  return `<header class="hdr ${big ? 'big' : ''}"><i class="lamp"></i><i class="dart"></i>
-   <div class="sign"><span class="rope l"></span><span class="rope r"></span><img src="${LOGO}" alt="LA BULL"></div>
-   <div class="lang"><button data-lang="fr" class="${lang === 'fr' ? 'on' : ''}">FR</button><button data-lang="en" class="${lang === 'en' ? 'on' : ''}">EN</button></div>
-   ${sub ? `<p class="hsub">${esc(sub)}</p>` : ''}</header>`;
+  return `<header class="hdr2"><i class="lamp2"></i><i class="dart2"></i>
+   <img class="rlogo" src="${LOGO}" alt="LA BULL"><div class="plank"><b>LA BULL</b><span>${esc(sub || t('appSub'))}</span></div>
+   <div class="lang"><button data-lang="fr" class="${lang === 'fr' ? 'on' : ''}">FR</button><button data-lang="en" class="${lang === 'en' ? 'on' : ''}">EN</button></div></header>`;
 }
+const kindKey = g => isProno(g) ? 'prono' : kindOf(g) === 'poll' ? 'poll' : 'quiz';
+const decoOf = g => { const s = (L(g.title) + ' ' + (g.id || '')).toLowerCase(); return /jazz|sax/.test(s) ? 'sax' : /stout|guinness|irl|rugby|xv-/.test(s) ? 'stout' : g.sport === 'foot' ? 'fball' : ''; };
+const band = (k, title, sub) => `<div class="band"><i class="bic ic-${k}"></i><b>${esc(title)}</b>${sub ? `<span>${esc(sub)}</span>` : ''}</div>`;
 const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('home'))}</button></div>`;
 const pBar = g => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-pcancel="${esc(g.id)}">✕ ${esc(t('cancelS'))}</button></div>`;
 const backBar = () => `<div class="navb" style="position:static;background:none"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button></div>`;
@@ -220,7 +222,7 @@ async function route() {
   document.querySelectorAll('.modal,.full').forEach(m => m.remove());
   window.scrollTo(0, 0);
   if (isHost()) importLocalPlays();
-  $('#copy').innerHTML = `<a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr"><span>${esc(t('copy'))}</span><span>SIRET : 990 143 810 00010</span></p><p class="kraft">${esc(t('alcohol'))}</p>`; document.documentElement.lang = lang;
+  $('#copy').innerHTML = `<i class="stad"></i><i class="fb1"></i><i class="golf"></i><a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr">${esc(t('copy'))}</p><p class="cr2">SIRET : 990 143 810 00010 · ${esc(t('alcohol'))}</p>`; document.documentElement.lang = lang;
   const h = location.hash.slice(1); const [k, ...rest] = h.split('='); const v = rest.join('=');
   try {
     if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
@@ -382,16 +384,16 @@ const todayISO = () => new Date().toISOString().slice(0, 10);
 const plusDays = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
 const isActive = g => { const s = g.date || '', e = g.until || g.date || ''; return !s || (e >= todayISO() && s <= plusDays(7)); };
 function hostCard(g) {
-  const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f6b81e'), id = esc(g.id), k = kindOf(g);
+  const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f6b81e'), id = esc(g.id), k = kindOf(g), dc = decoOf(g);
   const kl = k === 'poll' ? t('kPoll') : k === 'prono' ? t('kProno') : t('kQuiz');
   const meta = [g.date ? fmtDate(g.date) + (g.time ? ' · ' + g.time : '') : '', isProno(g) ? '' : t('qCount')(g.questions.length)].filter(Boolean).join(' · ');
   const resL = k === 'poll' ? t('stats') : k === 'prono' ? t('pronosF') : t('ranking');
-  return `<div class="card hc" style="border-left:10px solid ${c}">
-    <div class="hc-h"><span class="hc-ic" style="background:${c}">${kindIcon(g)}</span><div class="hc-t"><small>${esc(kl.replace(/^\S+\s/, ''))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</small><b style="color:${c === '#8a3fb0' || c === '#1c5fd1' ? '#cfe0ff' : '#fff8e6'}">${esc(gTitle(g))}</b><span>${esc(meta)}</span></div></div>
-    <div class="row" style="margin-top:12px"><button class="btn" data-a="qr" data-g="${id}">📲 QR</button><button class="btn acc" data-a="rank" data-g="${id}" style="position:relative">${k === 'poll' ? '📊' : '🏆'} ${esc(resL)}${n ? `<em class="cnt">${n}</em>` : ''}</button></div>
-    <div class="mini"><button data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
+  return `<div class="ncard" style="--c:${c}">${dc ? `<i class="deco deco-${dc}"></i>` : ''}
+    <div class="hc-h"><span class="hc-ic"><i class="ic-${kindKey(g)}"></i></span><div class="hc-t"><small>${esc(kl.replace(/^\S+\s/, ''))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</small><b>${esc(gTitle(g))}</b><span>${esc(meta)}</span></div></div>
+    <div class="row nbtns"><button class="btn" data-a="qr" data-g="${id}">▦ QR</button><button class="btn cbtn" data-a="rank" data-g="${id}" style="position:relative">🏆 ${esc(resL)}${n ? `<em class="cnt">${n}</em>` : ''}</button></div></div>
+    <div class="plankbar"><button data-a="recv" data-g="${id}"><i>📩</i>${esc(t('recvS'))}</button>
       ${k === 'prono' ? `<button data-a="out" data-g="${id}"><i>📝</i>${esc(t('finalScore'))}</button>` : `<button data-a="key" data-g="${id}"><i>📋</i>${esc(k === 'quiz' ? t('keyS') : t('qsS'))}</button>`}
-      <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
+      <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div>`;
 }
 function bindCards() {
   app.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
@@ -409,8 +411,8 @@ function bindCards() {
   });
 }
 function hubCard() {
-  return `<div class="card hc" style="border-left:10px solid #1c5fd1"><div class="hc-h"><span class="hc-ic" style="background:#1c5fd1">${SPORT_ICON.foot}</span><div class="hc-t"><small>${esc(t('pronosF'))}</small><b style="color:#cfe0ff">${esc(t('hubT'))}</b><span>${esc(t('hubHost'))}</span></div></div>
-     <div class="row" style="margin-top:12px"><button class="btn" id="hubqr">📲 QR</button><button class="btn acc" id="hubgo" style="background:#1c5fd1">▶ ${esc(t('openHere'))}</button></div></div>`;
+  return `<div class="ncard" style="--c:#1c8cff"><i class="deco deco-fball"></i><div class="hc-h"><span class="hc-ic"><i class="ic-prono"></i></span><div class="hc-t"><small>${esc(t('pronosF'))}</small><b>${esc(t('hubT'))}</b><span>${esc(t('hubHost'))}</span></div></div>
+     <div class="row nbtns"><button class="btn" id="hubqr">▦ QR</button><button class="btn cbtn" id="hubgo">▶ ${esc(t('openHere'))}</button></div></div>`;
 }
 function bindHub() {
   if (!$('#hubgo')) return;
@@ -427,7 +429,7 @@ function hostHome() {
   app.innerHTML = topBar('', true) + backBar() + `<div class="homehead"><p class="brush">${esc(t('homeQa'))} <em>${esc(t('homeQb'))}</em> ?</p><button class="brushbtn" id="cr">+ ${esc(t('create'))}</button></div>
    <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
    <button class="bar2" id="sumh"><i>📅</i><span>${esc(t('doneB'))}</span><b>›</b></button><button class="bar2" id="plh"><i>👥</i><span>${esc(t('playersT'))}</span><b>›</b></button>
-   <p class="sec">🔥 ${esc(t('nowL'))}</p>${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
+   ${band('now', t('nowL'), '')}${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
   app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => go('admin=list:' + b.dataset.cat));
   $('#cr').onclick = () => go('admin=create');
@@ -444,9 +446,9 @@ function hostList(cat) {
   const up = gs.filter(g => !g.date || (g.until || g.date) >= today).sort((a, b) => ((a.date || '0') + (a.time || '')).localeCompare((b.date || '0') + (b.time || '')));
   const past = gs.filter(g => g.date && (g.until || g.date) < today).sort((a, b) => b.date.localeCompare(a.date));
   const title = { now: '🔥 ' + t('nowL'), quiz: '🧠 ' + t('quizzes'), poll: '📊 ' + t('polls'), prono: SPORT_ICON.foot + SPORT_ICON.rugby + ' ' + t('pronosF') }[cat];
-  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">${esc(title)}</h1>
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + band(cat, { now: t('nowL'), quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat], up.length ? t('upcoming') : '') + `
    ${cat === 'prono' ? hubCard() + `<button class="btn" id="sumb" style="margin-bottom:10px">📋 ${esc(t('doneB'))}</button><button class="btn ghost small" id="frall" style="width:100%">🔄 ${esc(t('fetchBtn'))}</button>` : ''}
-   ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(hostCard).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(hostCard).join('') : ''}
+   ${up.map(hostCard).join('')}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(hostCard).join('') : ''}
    ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('none'))}</p></div>` : ''}
    ${cat !== 'now' ? `<button class="btn ghost small" id="cr2" style="width:100%;margin-top:10px">➕ ${esc(t('create'))} · ${esc({ quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat])}</button>` : ''}`;
   bindCards(); bindHub();
