@@ -181,3 +181,38 @@ function contactsCSV(g) {
   const rows = [['prenom', 'canal', 'contact', 'accord_resultats', 'accord_infos_labull', 'date_accord', 'points', 'rang']].concat(rk.map((r, i) => [r.t, r.c?.m || '', r.c?.v || '', r.c ? 'oui' : '', r.c?.mk ? 'oui' : 'non', r.c?.at || '', out ? r.pts : '', out ? i + 1 : '']));
   download(`contacts-${g.id}.csv`, '﻿' + rows.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(';')).join('\n'), 'text/csv');
 }
+
+/* ---- summary of all predictions ---- */
+function hostPronoSummary(sel) {
+  setAcc('#2fbf6b');
+  const gs = allGames().filter(g => isProno(g) && Object.keys(getRes(g.id)).length).sort((a, b) => ((b.date || '') + (b.time || '')).localeCompare((a.date || '') + (a.time || '')));
+  // overall ranking by person (name + contact)
+  const tot = {};
+  gs.forEach(g => { const out = getOut(g.id); pronoRanked(g).forEach(r => { const k = r.k || r.t.toLowerCase(); const o = tot[k] || (tot[k] = { t: r.t, pts: 0, n: 0, ex: 0 }); o.n++; if (out) { o.pts += r.pts; scoreQs(g).forEach(([q, i]) => { if (answered(out[i]) && answered(r.a[i]) && r.a[i][0] === out[i][0] && r.a[i][1] === out[i][1]) o.ex++; }); } }); });
+  const overall = Object.values(tot).sort((a, b) => b.pts - a.pts || b.ex - a.ex || b.n - a.n);
+  const cell = (p, r) => {
+    if (!answered(p)) return '<td class="pm">–</td>';
+    const txt = `${p[0]}-${p[1]}`;
+    if (!answered(r)) return `<td>${txt}</td>`;
+    const cls = p[0] === r[0] && p[1] === r[1] ? 'px' : sgn(p[0] - p[1]) === sgn(r[0] - r[1]) ? 'pw' : 'pl';
+    return `<td class="${cls}">${txt}</td>`;
+  };
+  const table = g => {
+    const sq = scoreQs(g), out = getOut(g.id), rk = pronoRanked(g);
+    const head = sq.map(([q]) => `<th>${esc(qA(g, q).slice(0, 12))}<br><small>${esc(qB(g, q).slice(0, 12))}</small></th>`).join('');
+    const resRow = `<tr class="rr"><td>🏁 ${esc(t('real'))}</td>${sq.map(([q, i]) => `<td>${out && answered(out[i]) ? out[i].join('-') : '…'}</td>`).join('')}<td></td></tr>`;
+    let pos = 0, prev = null;
+    const rows = rk.map((r, j) => { if (r.pts !== prev) { pos = j + 1; prev = r.pts; } return `<tr data-k="${esc(r.k || r.t.toLowerCase())}" data-g="${esc(g.id)}"><td class="nm">${out ? (['🥇', '🥈', '🥉'][pos - 1] || pos) + ' ' : ''}${esc(r.t)}</td>${sq.map(([q, i]) => cell(r.a[i], out && out[i])).join('')}<td class="pt">${out ? r.pts : '·'}</td></tr>`; }).join('');
+    return `<div class="card" style="padding:12px"><p class="chalk" style="font-size:26px;margin:0 0 2px">${SPORT_ICON[g.sport] || '🏆'} ${esc(gTitle(g))}</p><p class="muted" style="margin:0 0 8px;font-size:13px">${esc(fmtDate(g.date))} · ${esc(t('pronos')(rk.length))}</p>
+      <div class="tw"><table class="pt-t"><thead><tr><th>${esc(t('playerL'))}</th>${head}<th>Pts</th></tr></thead><tbody>${resRow}${rows}</tbody></table></div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost small" data-open="${esc(g.id)}">🏆 ${esc(t('ranking'))}</button><button class="btn ghost small" data-fr="${esc(g.id)}">🔄 ${esc(t('fetchBtn'))}</button></div></div>`;
+  };
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">📋 ${esc(t('sumT'))}</h1>
+    ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('noRes'))}</p></div>` : `
+    <p class="sec">🏆 ${esc(t('bestT'))}</p><div class="card list" style="padding:4px 8px">${overall.map((o, i) => `<div class="it"><span class="rank">${['🥇', '🥈', '🥉'][i] || i + 1}</span><span class="nm">${esc(o.t)}<small>${esc(t('pronos')(o.n))} · ${o.ex} ${esc(t('exactL'))}</small></span><span class="score">${o.pts}<small style="font-size:15px;color:var(--muted)"> pts</small></span></div>`).join('')}</div>
+    <p class="muted" style="font-size:13px">${esc(t('legend'))}</p>
+    <p class="sec">⚽🏉 ${esc(t('byMatch'))}</p>` + gs.map(table).join('')}`;
+  app.querySelectorAll('tr[data-k]').forEach(tr => tr.onclick = () => go('admin=team:' + tr.dataset.g + ':' + encodeURIComponent(tr.dataset.k)));
+  app.querySelectorAll('[data-open]').forEach(b => b.onclick = () => go('admin=rank:' + b.dataset.open));
+  app.querySelectorAll('[data-fr]').forEach(b => b.onclick = () => fetchResults(findGame(b.dataset.fr)));
+}

@@ -181,6 +181,16 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .mini button{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;border-radius:12px;padding:6px 2px;color:var(--cream);font-size:11.5px;font-weight:600;line-height:1.15;text-align:center}
 .mini button i{font-style:normal;font-size:19px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,246,228,.08);box-shadow:inset 0 0 0 1px rgba(255,240,210,.25)}
 .mini button:active i{background:rgba(255,246,228,.2)}
+.tw{overflow-x:auto;margin:0 -4px;-webkit-overflow-scrolling:touch}
+.pt-t{border-collapse:separate;border-spacing:3px;font-size:14px;min-width:100%}
+.pt-t th{font-size:11px;font-weight:600;color:var(--gold2);padding:4px 6px;line-height:1.2;white-space:nowrap;text-align:center}
+.pt-t th:first-child{text-align:left}
+.pt-t td{text-align:center;padding:7px 6px;border-radius:8px;background:rgba(255,255,255,.05);font-weight:700;white-space:nowrap}
+.pt-t td.nm{text-align:left;font-weight:600;background:none;max-width:130px;overflow:hidden;text-overflow:ellipsis;position:sticky;left:0;background:var(--slate)}
+.pt-t td.pt{font-family:var(--chalk);font-size:22px;color:var(--gold2);background:none}
+.pt-t td.px{background:#2a9d5c;color:#fff}.pt-t td.pw{background:#b8861a;color:#fff}.pt-t td.pl{background:rgba(229,72,61,.35)}.pt-t td.pm{color:var(--muted);font-weight:400}
+.pt-t tr.rr td{background:rgba(245,184,46,.18);color:var(--gold2)}
+.pt-t tr[data-k]{cursor:pointer}
 #print{display:none}
 @media print{
   body{background:#fff}body::before,body::after{display:none}
@@ -1517,7 +1527,7 @@ fr: {
   ptsRule: 'Bon vainqueur (ou nul) : 3 pts · Bon écart : +2 pts · Score exact : +5 pts · Chaque question bonus juste : +1 pt. Égalité : le plus proche du score exact gagne.',
   real: 'Résultat réel', optional: 'facultatif', pronoDone: 'Prono enregistré ! Classement et tirage au sort après le match.', pronoSaved: 'Pronostic enregistré', needScore: 'Indiquez au moins le score du match.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Autre', teamAL: 'Équipe 1 (à domicile)', teamBL: 'Équipe 2', time: 'Heure du coup d\u2019envoi',
-  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', fetchBtn: 'Récupérer les résultats', fetching: 'Recherche des résultats…', fetchedOk: 'Nouveaux résultats trouvés : mise à jour !', fetchedNone: 'Pas encore de nouveaux résultats en ligne. Ils arrivent automatiquement chaque soir ; sinon, saisissez le score.', fetchErr: 'Impossible de vérifier (pas de connexion ?)', autoRes: 'Résultats mis à jour automatiquement', homeQ: 'Qu\u2019est-ce qu\u2019on propose ce soir ?', nowL: 'En ce moment', nowNone: 'Rien de prévu cette semaine… on crée quelque chose ?', createQ: 'Que voulez-vous créer ?', crQuiz: 'Questions avec bonnes réponses, classement et tirage au sort', crPoll: 'Avis, votes, notes en étoiles, réponses libres', crProno: 'Un match ou une journée : scores, questions bonus, classement', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
+  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', doneB: 'Pronostics déjà faits', sumT: 'Tous les pronostics', bestT: 'Meilleurs pronostiqueurs', byMatch: 'Qui a pronostiqué quoi', playerL: 'Joueur', exactL: 'score(s) exact(s)', legend: 'Vert : score exact · Doré : bon vainqueur · Rouge : raté. Touchez une ligne pour le détail.', fetchBtn: 'Récupérer les résultats', fetching: 'Recherche des résultats…', fetchedOk: 'Nouveaux résultats trouvés : mise à jour !', fetchedNone: 'Pas encore de nouveaux résultats en ligne. Ils arrivent automatiquement chaque soir ; sinon, saisissez le score.', fetchErr: 'Impossible de vérifier (pas de connexion ?)', autoRes: 'Résultats mis à jour automatiquement', homeQ: 'Qu\u2019est-ce qu\u2019on propose ce soir ?', nowL: 'En ce moment', nowNone: 'Rien de prévu cette semaine… on crée quelque chose ?', createQ: 'Que voulez-vous créer ?', crQuiz: 'Questions avec bonnes réponses, classement et tirage au sort', crPoll: 'Avis, votes, notes en étoiles, réponses libres', crProno: 'Un match ou une journée : scores, questions bonus, classement', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
   regT: 'Inscription', regS: 'Pour participer et recevoir vos résultats. Gratuit, sans obligation d\u2019achat.', regName: 'Prénom ou pseudo', regHow: 'Recevoir mes résultats par', sms: 'SMS', email: 'E-mail', regPhone: 'Numéro de portable', regMail: 'Adresse e-mail',
   c1: 'J\u2019accepte que LA BULL utilise mon prénom et mon numéro / e-mail uniquement pour m\u2019envoyer les résultats de mes pronostics. (obligatoire)',
   c2: 'J\u2019accepte aussi de recevoir les infos et les soirées de LA BULL. Je peux me désinscrire à tout moment (réponse « STOP » ou lien de désinscription). (facultatif)',
@@ -1571,7 +1581,7 @@ en: {
   ptsRule: 'Right winner (or draw): 3 pts · Right margin: +2 pts · Exact score: +5 pts · Each right bonus answer: +1 pt. Tie: closest to the exact score wins.',
   real: 'Actual result', optional: 'optional', pronoDone: 'Prediction saved! Ranking and prize draw after the match.', pronoSaved: 'Prediction saved', needScore: 'Please give at least the match score.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Other', teamAL: 'Team 1 (home)', teamBL: 'Team 2', time: 'Kick-off time',
-  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', fetchBtn: 'Fetch results', fetching: 'Looking for results…', fetchedOk: 'New results found: updating!', fetchedNone: 'No new results online yet. They arrive automatically every evening; otherwise, enter the score.', fetchErr: 'Could not check (no connection?)', autoRes: 'Results updated automatically', homeQ: 'What are we running tonight?', nowL: 'Right now', nowNone: 'Nothing planned this week… shall we create something?', createQ: 'What do you want to create?', crQuiz: 'Questions with right answers, ranking and prize draw', crPoll: 'Opinions, votes, star ratings, free answers', crProno: 'One match or a whole round: scores, bonus questions, ranking', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
+  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', doneB: 'Predictions made', sumT: 'All predictions', bestT: 'Best predictors', byMatch: 'Who predicted what', playerL: 'Player', exactL: 'exact score(s)', legend: 'Green: exact score · Gold: right winner · Red: wrong. Tap a row for details.', fetchBtn: 'Fetch results', fetching: 'Looking for results…', fetchedOk: 'New results found: updating!', fetchedNone: 'No new results online yet. They arrive automatically every evening; otherwise, enter the score.', fetchErr: 'Could not check (no connection?)', autoRes: 'Results updated automatically', homeQ: 'What are we running tonight?', nowL: 'Right now', nowNone: 'Nothing planned this week… shall we create something?', createQ: 'What do you want to create?', crQuiz: 'Questions with right answers, ranking and prize draw', crPoll: 'Opinions, votes, star ratings, free answers', crProno: 'One match or a whole round: scores, bonus questions, ranking', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
   regT: 'Sign up', regS: 'To take part and get your results. Free, no purchase necessary.', regName: 'First name or nickname', regHow: 'Get my results by', sms: 'Text', email: 'Email', regPhone: 'Mobile number', regMail: 'Email address',
   c1: 'I agree that LA BULL uses my first name and number / email only to send me the results of my predictions. (required)',
   c2: 'I also agree to receive LA BULL news and events. I can unsubscribe at any time (reply “STOP” or unsubscribe link). (optional)',
@@ -1803,6 +1813,7 @@ function hostRoute(v) {
   if (view === 'settings') return hostSettings();
   if (view === 'list') return hostList(id || 'now');
   if (view === 'create') return hostCreate();
+  if (view === 'sum') return hostPronoSummary();
   hostHome();
 }
 function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++) if (a[i] && LETTERS.indexOf(a[i]) === g.questions[i].a) s++; return s; }
@@ -1858,10 +1869,12 @@ function hostHome() {
   const cat = (k, ic, lab, n, col) => `<button class="cat" data-cat="${k}" style="--c:${col}"><i>${ic}</i><b>${esc(lab)}</b><em>${n}</em></button>`;
   app.innerHTML = topBar(t('hostSpace')) + backBar() + `<div class="homehead"><p class="chalk">${esc(t('homeQ'))}</p><button class="btn small" id="cr">➕ ${esc(t('create'))}</button></div>
    <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
+   <button class="btn ghost small" id="sumh" style="width:100%;margin-top:12px">📋 ${esc(t('doneB'))}</button>
    <p class="sec">🔥 ${esc(t('nowL'))}</p>${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
   app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => go('admin=list:' + b.dataset.cat));
   $('#cr').onclick = () => go('admin=create');
+  $('#sumh').onclick = () => go('admin=sum');
   bindCards();
   $('#set').onclick = () => go('admin=settings');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
@@ -1874,12 +1887,13 @@ function hostList(cat) {
   const past = gs.filter(g => g.date && (g.until || g.date) < today).sort((a, b) => b.date.localeCompare(a.date));
   const title = { now: '🔥 ' + t('nowL'), quiz: '🧠 ' + t('quizzes'), poll: '📊 ' + t('polls'), prono: SPORT_ICON.foot + SPORT_ICON.rugby + ' ' + t('pronosF') }[cat];
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">${esc(title)}</h1>
-   ${cat === 'prono' ? hubCard() + `<button class="btn ghost small" id="frall" style="width:100%">🔄 ${esc(t('fetchBtn'))}</button>` : ''}
+   ${cat === 'prono' ? hubCard() + `<button class="btn" id="sumb" style="margin-bottom:10px">📋 ${esc(t('doneB'))}</button><button class="btn ghost small" id="frall" style="width:100%">🔄 ${esc(t('fetchBtn'))}</button>` : ''}
    ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(hostCard).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(hostCard).join('') : ''}
    ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('none'))}</p></div>` : ''}
    ${cat !== 'now' ? `<button class="btn ghost small" id="cr2" style="width:100%;margin-top:10px">➕ ${esc(t('create'))} · ${esc({ quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat])}</button>` : ''}`;
   bindCards(); bindHub();
   if ($('#frall')) $('#frall').onclick = () => fetchResults(null);
+  if ($('#sumb')) $('#sumb').onclick = () => go('admin=sum');
   if ($('#cr2')) $('#cr2').onclick = () => go('admin=edit::' + cat);
 }
 function hostCreate() {
@@ -2212,6 +2226,41 @@ function contactsCSV(g) {
   const rk = pronoRanked(g), out = getOut(g.id);
   const rows = [['prenom', 'canal', 'contact', 'accord_resultats', 'accord_infos_labull', 'date_accord', 'points', 'rang']].concat(rk.map((r, i) => [r.t, r.c?.m || '', r.c?.v || '', r.c ? 'oui' : '', r.c?.mk ? 'oui' : 'non', r.c?.at || '', out ? r.pts : '', out ? i + 1 : '']));
   download(`contacts-${g.id}.csv`, '﻿' + rows.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(';')).join('\n'), 'text/csv');
+}
+
+/* ---- summary of all predictions ---- */
+function hostPronoSummary(sel) {
+  setAcc('#2fbf6b');
+  const gs = allGames().filter(g => isProno(g) && Object.keys(getRes(g.id)).length).sort((a, b) => ((b.date || '') + (b.time || '')).localeCompare((a.date || '') + (a.time || '')));
+  // overall ranking by person (name + contact)
+  const tot = {};
+  gs.forEach(g => { const out = getOut(g.id); pronoRanked(g).forEach(r => { const k = r.k || r.t.toLowerCase(); const o = tot[k] || (tot[k] = { t: r.t, pts: 0, n: 0, ex: 0 }); o.n++; if (out) { o.pts += r.pts; scoreQs(g).forEach(([q, i]) => { if (answered(out[i]) && answered(r.a[i]) && r.a[i][0] === out[i][0] && r.a[i][1] === out[i][1]) o.ex++; }); } }); });
+  const overall = Object.values(tot).sort((a, b) => b.pts - a.pts || b.ex - a.ex || b.n - a.n);
+  const cell = (p, r) => {
+    if (!answered(p)) return '<td class="pm">–</td>';
+    const txt = `${p[0]}-${p[1]}`;
+    if (!answered(r)) return `<td>${txt}</td>`;
+    const cls = p[0] === r[0] && p[1] === r[1] ? 'px' : sgn(p[0] - p[1]) === sgn(r[0] - r[1]) ? 'pw' : 'pl';
+    return `<td class="${cls}">${txt}</td>`;
+  };
+  const table = g => {
+    const sq = scoreQs(g), out = getOut(g.id), rk = pronoRanked(g);
+    const head = sq.map(([q]) => `<th>${esc(qA(g, q).slice(0, 12))}<br><small>${esc(qB(g, q).slice(0, 12))}</small></th>`).join('');
+    const resRow = `<tr class="rr"><td>🏁 ${esc(t('real'))}</td>${sq.map(([q, i]) => `<td>${out && answered(out[i]) ? out[i].join('-') : '…'}</td>`).join('')}<td></td></tr>`;
+    let pos = 0, prev = null;
+    const rows = rk.map((r, j) => { if (r.pts !== prev) { pos = j + 1; prev = r.pts; } return `<tr data-k="${esc(r.k || r.t.toLowerCase())}" data-g="${esc(g.id)}"><td class="nm">${out ? (['🥇', '🥈', '🥉'][pos - 1] || pos) + ' ' : ''}${esc(r.t)}</td>${sq.map(([q, i]) => cell(r.a[i], out && out[i])).join('')}<td class="pt">${out ? r.pts : '·'}</td></tr>`; }).join('');
+    return `<div class="card" style="padding:12px"><p class="chalk" style="font-size:26px;margin:0 0 2px">${SPORT_ICON[g.sport] || '🏆'} ${esc(gTitle(g))}</p><p class="muted" style="margin:0 0 8px;font-size:13px">${esc(fmtDate(g.date))} · ${esc(t('pronos')(rk.length))}</p>
+      <div class="tw"><table class="pt-t"><thead><tr><th>${esc(t('playerL'))}</th>${head}<th>Pts</th></tr></thead><tbody>${resRow}${rows}</tbody></table></div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost small" data-open="${esc(g.id)}">🏆 ${esc(t('ranking'))}</button><button class="btn ghost small" data-fr="${esc(g.id)}">🔄 ${esc(t('fetchBtn'))}</button></div></div>`;
+  };
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">📋 ${esc(t('sumT'))}</h1>
+    ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('noRes'))}</p></div>` : `
+    <p class="sec">🏆 ${esc(t('bestT'))}</p><div class="card list" style="padding:4px 8px">${overall.map((o, i) => `<div class="it"><span class="rank">${['🥇', '🥈', '🥉'][i] || i + 1}</span><span class="nm">${esc(o.t)}<small>${esc(t('pronos')(o.n))} · ${o.ex} ${esc(t('exactL'))}</small></span><span class="score">${o.pts}<small style="font-size:15px;color:var(--muted)"> pts</small></span></div>`).join('')}</div>
+    <p class="muted" style="font-size:13px">${esc(t('legend'))}</p>
+    <p class="sec">⚽🏉 ${esc(t('byMatch'))}</p>` + gs.map(table).join('')}`;
+  app.querySelectorAll('tr[data-k]').forEach(tr => tr.onclick = () => go('admin=team:' + tr.dataset.g + ':' + encodeURIComponent(tr.dataset.k)));
+  app.querySelectorAll('[data-open]').forEach(b => b.onclick = () => go('admin=rank:' + b.dataset.open));
+  app.querySelectorAll('[data-fr]').forEach(b => b.onclick = () => fetchResults(findGame(b.dataset.fr)));
 }
 
 /* ================= EDITOR ================= */
