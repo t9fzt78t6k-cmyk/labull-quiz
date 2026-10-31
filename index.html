@@ -50,7 +50,7 @@ h3{margin:0 0 6px;font-size:18px}
 p{margin:6px 0}
 .muted{color:var(--muted)}
 .center{text-align:center}
-.sec{display:block;width:fit-content;margin:22px auto 4px;font-family:var(--title);font-size:18px;letter-spacing:1px;text-transform:uppercase;color:#ffe9a8;background:var(--red);padding:6px 26px 4px;border-top:3px solid var(--gold);border-bottom:3px solid var(--gold);clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.sec{display:block;width:fit-content;margin:22px auto 4px;font-family:var(--chalk);font-size:24px;letter-spacing:.3px;color:#ffe9a8;background:var(--red);padding:6px 26px 4px;border-top:3px solid var(--gold);border-bottom:3px solid var(--gold);clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%);text-shadow:0 2px 0 rgba(0,0,0,.45)}
 
 /* ---- slate cards in wooden frame ---- */
 .card{position:relative;background:radial-gradient(140% 100% at 20% 0%,var(--slate2),var(--slate) 70%);border:6px solid var(--woodB);border-radius:20px;padding:16px;margin:14px 0;box-shadow:inset 0 0 0 2px #a8743c,inset 0 0 30px rgba(0,0,0,.6),0 6px 0 var(--ink),0 14px 30px rgba(0,0,0,.55)}
@@ -166,7 +166,7 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .hc-ic{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:28px;border:3px solid var(--ink);box-shadow:0 3px 0 var(--ink)}
 .hc-t{flex:1;min-width:0}
 .hc-t small{display:block;font-size:12px;font-weight:700;color:var(--gold2);text-transform:uppercase;letter-spacing:.6px}
-.hc-t b{display:block;font-family:var(--title);font-weight:400;font-size:24px;line-height:1.05;letter-spacing:.6px;color:#fff;text-shadow:var(--stroke);text-transform:uppercase;margin:2px 0}
+.hc-t b{display:block;font-family:var(--chalk);font-weight:400;font-size:30px;line-height:1.02;color:#fff8e6;text-shadow:0 0 1px rgba(255,255,255,.4),0 2px 3px rgba(0,0,0,.5);margin:2px 0}
 .hc-t span{display:block;font-size:14px;color:var(--cream)}
 .hc .row .btn{font-size:17px;padding:12px 8px}
 .cnt{position:absolute;top:-10px;right:-6px;background:var(--red);color:#fff;font-family:var(--body);font-style:normal;font-weight:800;font-size:13px;border:2px solid var(--gold);border-radius:99px;padding:1px 8px;text-shadow:none}
@@ -174,6 +174,20 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .mini button{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,244,222,.08);border:2px solid rgba(255,244,222,.25);border-radius:12px;padding:7px 2px;color:var(--cream);font-size:11.5px;font-weight:700;line-height:1.15;text-align:center}
 .mini button i{font-style:normal;font-size:20px}
 .mini button:active{background:rgba(255,244,222,.18)}
+.homehead{display:flex;align-items:center;gap:10px;margin:2px 0 6px}
+.homehead p{flex:1;margin:0;font-size:27px;line-height:1.1;color:#fff8e6;text-shadow:0 2px 4px rgba(0,0,0,.7)}
+.homehead .btn{flex:none;font-size:14px;padding:9px 12px}
+.cats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 4px}
+.cat{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:128px;background:radial-gradient(140% 100% at 20% 0%,var(--slate2),var(--slate) 70%);border:6px solid var(--woodB);border-radius:18px;box-shadow:inset 0 0 0 2px #a8743c,inset 0 0 30px rgba(0,0,0,.6),0 5px 0 var(--ink);color:#fff;padding:10px 6px}
+.cat i{font-style:normal;font-size:38px;line-height:1}
+.cat b{font-family:var(--chalk);font-weight:400;font-size:30px;line-height:1;color:var(--c);text-shadow:0 0 1px rgba(255,255,255,.35)}
+.cat em{position:absolute;top:8px;right:10px;font-style:normal;font-family:var(--chalk);font-size:24px;color:#f6f2e6;opacity:.9}
+.cat:active{transform:translateY(3px)}
+.chalkh{font-family:var(--chalk)!important;text-transform:none!important;letter-spacing:0!important;font-size:42px!important;color:#fff8e6!important;text-shadow:0 2px 6px rgba(0,0,0,.7)!important;margin:6px 0 4px!important}
+.cre{display:flex!important;align-items:center;gap:14px;width:100%;text-align:left;cursor:pointer;color:var(--cream)}
+.cre>i{font-style:normal;font-size:44px;flex:none}
+.cre b{display:block;font-weight:400;font-size:36px;line-height:1}
+.cre small{display:block;font-size:14px;color:var(--muted);margin-top:4px}
 #print{display:none}
 @media print{
   body{background:#fff}body::before,body::after{display:none}
@@ -1510,7 +1524,7 @@ fr: {
   ptsRule: 'Bon vainqueur (ou nul) : 3 pts · Bon écart : +2 pts · Score exact : +5 pts · Chaque question bonus juste : +1 pt. Égalité : le plus proche du score exact gagne.',
   real: 'Résultat réel', optional: 'facultatif', pronoDone: 'Prono enregistré ! Classement et tirage au sort après le match.', pronoSaved: 'Pronostic enregistré', needScore: 'Indiquez au moins le score du match.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Autre', teamAL: 'Équipe 1 (à domicile)', teamBL: 'Équipe 2', time: 'Heure du coup d\u2019envoi',
-  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
+  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', homeQ: 'Qu\u2019est-ce qu\u2019on propose ce soir ?', nowL: 'En ce moment', nowNone: 'Rien de prévu cette semaine… on crée quelque chose ?', createQ: 'Que voulez-vous créer ?', crQuiz: 'Questions avec bonnes réponses, classement et tirage au sort', crPoll: 'Avis, votes, notes en étoiles, réponses libres', crProno: 'Un match ou une journée : scores, questions bonus, classement', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
   regT: 'Inscription', regS: 'Pour participer et recevoir vos résultats. Gratuit, sans obligation d\u2019achat.', regName: 'Prénom ou pseudo', regHow: 'Recevoir mes résultats par', sms: 'SMS', email: 'E-mail', regPhone: 'Numéro de portable', regMail: 'Adresse e-mail',
   c1: 'J\u2019accepte que LA BULL utilise mon prénom et mon numéro / e-mail uniquement pour m\u2019envoyer les résultats de mes pronostics. (obligatoire)',
   c2: 'J\u2019accepte aussi de recevoir les infos et les soirées de LA BULL. Je peux me désinscrire à tout moment (réponse « STOP » ou lien de désinscription). (facultatif)',
@@ -1564,7 +1578,7 @@ en: {
   ptsRule: 'Right winner (or draw): 3 pts · Right margin: +2 pts · Exact score: +5 pts · Each right bonus answer: +1 pt. Tie: closest to the exact score wins.',
   real: 'Actual result', optional: 'optional', pronoDone: 'Prediction saved! Ranking and prize draw after the match.', pronoSaved: 'Prediction saved', needScore: 'Please give at least the match score.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Other', teamAL: 'Team 1 (home)', teamBL: 'Team 2', time: 'Kick-off time',
-  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
+  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', homeQ: 'What are we running tonight?', nowL: 'Right now', nowNone: 'Nothing planned this week… shall we create something?', createQ: 'What do you want to create?', crQuiz: 'Questions with right answers, ranking and prize draw', crPoll: 'Opinions, votes, star ratings, free answers', crProno: 'One match or a whole round: scores, bonus questions, ranking', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
   regT: 'Sign up', regS: 'To take part and get your results. Free, no purchase necessary.', regName: 'First name or nickname', regHow: 'Get my results by', sms: 'Text', email: 'Email', regPhone: 'Mobile number', regMail: 'Email address',
   c1: 'I agree that LA BULL uses my first name and number / email only to send me the results of my predictions. (required)',
   c2: 'I also agree to receive LA BULL news and events. I can unsubscribe at any time (reply “STOP” or unsubscribe link). (optional)',
@@ -1793,42 +1807,31 @@ function hostRoute(v) {
   if (view === 'key' && g) return hostKey(g);
   if (view === 'edit') return hostEdit(id ? findGame(id) : null, extra);
   if (view === 'settings') return hostSettings();
+  if (view === 'list') return hostList(id || 'now');
+  if (view === 'create') return hostCreate();
   hostHome();
 }
 function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++) if (a[i] && LETTERS.indexOf(a[i]) === g.questions[i].a) s++; return s; }
 function ranked(g) { return Object.values(getRes(g.id)).map(r => ({ ...r, s: scoreOf(g, r.a) })).sort((x, y) => y.s - x.s || x.ts - y.ts); }
 
-let homeFilter = 'all';
 const typeLabel = ty => t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : ty === 'text' ? 'tText' : ty === 'score' ? 'tScore' : 'tNumber');
 const kindIcon = g => isProno(g) ? (SPORT_ICON[g.sport] || '🏆') : kindOf(g) === 'poll' ? '📊' : '🧠';
-function hostHome() {
-  setAcc();
-  const today = new Date().toISOString().slice(0, 10);
-  const gs = allGames().filter(g => homeFilter === 'all' || kindOf(g) === homeFilter);
-  const up = gs.filter(g => !g.date || g.date >= today).sort((a, b) => (a.date || '9').localeCompare(b.date || '9'));
-  const past = gs.filter(g => g.date && g.date < today).sort((a, b) => b.date.localeCompare(a.date));
-  const card = g => {
-    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f6b81e'), id = esc(g.id), k = kindOf(g);
-    const kl = k === 'poll' ? t('kPoll') : k === 'prono' ? t('kProno') : t('kQuiz');
-    const title = gTitle(g);
-    const meta = [g.date ? fmtDate(g.date) + (g.time ? ' · ' + g.time : '') : '', isProno(g) ? '' : t('qCount')(g.questions.length)].filter(Boolean).join(' · ');
-    const resL = k === 'poll' ? t('stats') : k === 'prono' ? t('pronosF') : t('ranking');
-    return `<div class="card hc" style="border-left:10px solid ${c}">
-      <div class="hc-h"><span class="hc-ic" style="background:${c}">${kindIcon(g)}</span><div class="hc-t"><small>${esc(kl.replace(/^\S+\s/, ''))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</small><b>${esc(title)}</b><span>${esc(meta)}</span></div></div>
-      <div class="row" style="margin-top:12px"><button class="btn" data-a="qr" data-g="${id}">📲 QR</button><button class="btn acc" data-a="rank" data-g="${id}" style="position:relative">${k === 'poll' ? '📊' : '🏆'} ${esc(resL)}${n ? `<em class="cnt">${n}</em>` : ''}</button></div>
-      <div class="mini"><button data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
-        ${k === 'prono' ? `<button data-a="out" data-g="${id}"><i>📝</i>${esc(t('finalScore'))}</button>` : `<button data-a="key" data-g="${id}"><i>📋</i>${esc(k === 'quiz' ? t('keyS') : t('qsS'))}</button>`}
-        <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
-  };
-  app.innerHTML = topBar(t('hostSpace')) + backBar() + `<p class="sec" style="margin-top:6px">➕ ${esc(t('create'))}</p>
-   <div class="big3"><button class="btn" id="nq"><i>🧠</i>${esc(t('quizzes').replace(/zes$/, ''))}</button><button class="btn" id="np"><i>📊</i>${esc(t('kPoll').replace(/^\S+\s/, ''))}</button><button class="btn" id="nr"><i>🏉</i>${esc(t('newProno'))}</button></div>
-   <div class="card hc" style="border-left:10px solid #1c5fd1"><div class="hc-h"><span class="hc-ic" style="background:#1c5fd1">${SPORT_ICON.foot}</span><div class="hc-t"><small>${esc(t('pronosF'))}</small><b>${esc(t('hubT'))}</b><span>${esc(t('hubHost'))}</span></div></div>
-     <div class="row" style="margin-top:12px"><button class="btn" id="hubqr">📲 QR</button><button class="btn acc" id="hubgo" style="background:#1c5fd1">▶ ${esc(t('openHere'))}</button></div></div>
-   <div class="tabs">${[['all', 'all'], ['quiz', 'quizzes'], ['poll', 'polls'], ['prono', 'pronosF']].map(([f, k]) => `<button data-f="${f}" class="${homeFilter === f ? 'on' : ''}">${esc(t(k))}</button>`).join('')}</div>
-   ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(card).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(card).join('') : ''}
-   ${!gs.length ? `<div class="card center muted">${esc(t('none'))}</div>` : ''}
-   <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
-  app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { homeFilter = b.dataset.f; hostHome(); });
+const todayISO = () => new Date().toISOString().slice(0, 10);
+const plusDays = n => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10);
+const isActive = g => { const s = g.date || '', e = g.until || g.date || ''; return !s || (e >= todayISO() && s <= plusDays(7)); };
+function hostCard(g) {
+  const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f6b81e'), id = esc(g.id), k = kindOf(g);
+  const kl = k === 'poll' ? t('kPoll') : k === 'prono' ? t('kProno') : t('kQuiz');
+  const meta = [g.date ? fmtDate(g.date) + (g.time ? ' · ' + g.time : '') : '', isProno(g) ? '' : t('qCount')(g.questions.length)].filter(Boolean).join(' · ');
+  const resL = k === 'poll' ? t('stats') : k === 'prono' ? t('pronosF') : t('ranking');
+  return `<div class="card hc" style="border-left:10px solid ${c}">
+    <div class="hc-h"><span class="hc-ic" style="background:${c}">${kindIcon(g)}</span><div class="hc-t"><small>${esc(kl.replace(/^\S+\s/, ''))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</small><b style="color:${c === '#8a3fb0' || c === '#1c5fd1' ? '#cfe0ff' : '#fff8e6'}">${esc(gTitle(g))}</b><span>${esc(meta)}</span></div></div>
+    <div class="row" style="margin-top:12px"><button class="btn" data-a="qr" data-g="${id}">📲 QR</button><button class="btn acc" data-a="rank" data-g="${id}" style="position:relative">${k === 'poll' ? '📊' : '🏆'} ${esc(resL)}${n ? `<em class="cnt">${n}</em>` : ''}</button></div>
+    <div class="mini"><button data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
+      ${k === 'prono' ? `<button data-a="out" data-g="${id}"><i>📝</i>${esc(t('finalScore'))}</button>` : `<button data-a="key" data-g="${id}"><i>📋</i>${esc(k === 'quiz' ? t('keyS') : t('qsS'))}</button>`}
+      <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
+}
+function bindCards() {
   app.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
     const g = findGame(b.dataset.g), a = b.dataset.a;
     if (a === 'qr') return showQR(g);
@@ -1842,14 +1845,56 @@ function hostHome() {
       return go('admin=edit:' + g.id);
     }
   });
-  $('#nq').onclick = () => go('admin=edit::quiz'); $('#np').onclick = () => go('admin=edit::poll'); $('#nr').onclick = () => go('admin=edit::prono');
+}
+function hubCard() {
+  return `<div class="card hc" style="border-left:10px solid #1c5fd1"><div class="hc-h"><span class="hc-ic" style="background:#1c5fd1">${SPORT_ICON.foot}</span><div class="hc-t"><small>${esc(t('pronosF'))}</small><b style="color:#cfe0ff">${esc(t('hubT'))}</b><span>${esc(t('hubHost'))}</span></div></div>
+     <div class="row" style="margin-top:12px"><button class="btn" id="hubqr">📲 QR</button><button class="btn acc" id="hubgo" style="background:#1c5fd1">▶ ${esc(t('openHere'))}</button></div></div>`;
+}
+function bindHub() {
+  if (!$('#hubgo')) return;
   $('#hubgo').onclick = () => go('p');
   $('#hubqr').onclick = () => { const url = baseURL() + '#p'; const f = document.createElement('div'); f.className = 'full';
     f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#1c5fd1">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
     f.querySelector('.x').onclick = () => f.remove(); f.querySelector('[data-here]').onclick = () => { f.remove(); go('p'); }; document.body.appendChild(f); };
+}
+function hostHome() {
+  setAcc();
+  const all = allGames(), act = all.filter(isActive).sort((a, b) => ((a.date || '0') + (a.time || '')).localeCompare((b.date || '0') + (b.time || '')));
+  const cnt = k => all.filter(g => kindOf(g) === k).length;
+  const cat = (k, ic, lab, n, col) => `<button class="cat" data-cat="${k}" style="--c:${col}"><i>${ic}</i><b>${esc(lab)}</b><em>${n}</em></button>`;
+  app.innerHTML = topBar(t('hostSpace')) + `<div class="homehead"><p class="chalk">${esc(t('homeQ'))}</p><button class="btn small" id="cr">➕ ${esc(t('create'))}</button></div>
+   <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
+   <p class="sec">🔥 ${esc(t('nowL'))}</p>${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
+   <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
+  app.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => go('admin=list:' + b.dataset.cat));
+  $('#cr').onclick = () => go('admin=create');
+  bindCards();
   $('#set').onclick = () => go('admin=settings');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
 }
+function hostList(cat) {
+  setAcc();
+  const today = todayISO();
+  const gs = allGames().filter(g => cat === 'now' ? isActive(g) : kindOf(g) === cat);
+  const up = gs.filter(g => !g.date || (g.until || g.date) >= today).sort((a, b) => ((a.date || '0') + (a.time || '')).localeCompare((b.date || '0') + (b.time || '')));
+  const past = gs.filter(g => g.date && (g.until || g.date) < today).sort((a, b) => b.date.localeCompare(a.date));
+  const title = { now: '🔥 ' + t('nowL'), quiz: '🧠 ' + t('quizzes'), poll: '📊 ' + t('polls'), prono: SPORT_ICON.foot + SPORT_ICON.rugby + ' ' + t('pronosF') }[cat];
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">${esc(title)}</h1>
+   ${cat === 'prono' ? hubCard() : ''}
+   ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(hostCard).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(hostCard).join('') : ''}
+   ${!gs.length ? `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('none'))}</p></div>` : ''}
+   ${cat !== 'now' ? `<button class="btn ghost small" id="cr2" style="width:100%;margin-top:10px">➕ ${esc(t('create'))} · ${esc({ quiz: t('quizzes'), poll: t('polls'), prono: t('pronosF') }[cat])}</button>` : ''}`;
+  bindCards(); bindHub();
+  if ($('#cr2')) $('#cr2').onclick = () => go('admin=edit::' + cat);
+}
+function hostCreate() {
+  setAcc();
+  const ch = (k, ic, lab, desc, col) => `<button class="card cre" data-k="${k}" style="border-left:10px solid ${col}"><i>${ic}</i><span><b class="chalk" style="color:${col}">${esc(lab)}</b><small>${esc(desc)}</small></span></button>`;
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">➕ ${esc(t('createQ'))}</h1>` +
+    ch('quiz', '🧠', t('quizzes').replace(/zes$/, ''), t('crQuiz'), '#f6b81e') + ch('poll', '📊', t('kPoll').replace(/^\S+\s/, ''), t('crPoll'), '#3b8bff') + ch('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('newProno'), t('crProno'), '#2fbf6b');
+  app.querySelectorAll('[data-k]').forEach(b => b.onclick = () => go('admin=edit::' + b.dataset.k));
+}
+
 async function showQR(g) {
   const j = await joinURL(g);
   const f = document.createElement('div'); f.className = 'full';
