@@ -1862,7 +1862,7 @@ function hostHome() {
   const all = allGames(), act = all.filter(isActive).sort((a, b) => ((a.date || '0') + (a.time || '')).localeCompare((b.date || '0') + (b.time || '')));
   const cnt = k => all.filter(g => kindOf(g) === k).length;
   const cat = (k, ic, lab, n, col) => `<button class="cat" data-cat="${k}" style="--c:${col}"><i>${ic}</i><b>${esc(lab)}</b><em>${n}</em></button>`;
-  app.innerHTML = topBar(t('hostSpace')) + `<div class="homehead"><p class="chalk">${esc(t('homeQ'))}</p><button class="btn small" id="cr">➕ ${esc(t('create'))}</button></div>
+  app.innerHTML = topBar(t('hostSpace')) + backBar() + `<div class="homehead"><p class="chalk">${esc(t('homeQ'))}</p><button class="btn small" id="cr">➕ ${esc(t('create'))}</button></div>
    <div class="cats">${cat('now', '🔥', t('nowL'), act.length, '#e2453a')}${cat('quiz', '🧠', t('quizzes'), cnt('quiz'), '#f6b81e')}${cat('poll', '📊', t('polls'), cnt('poll'), '#3b8bff')}${cat('prono', SPORT_ICON.foot + SPORT_ICON.rugby, t('pronosF'), cnt('prono'), '#2fbf6b')}</div>
    <p class="sec">🔥 ${esc(t('nowL'))}</p>${act.length ? act.map(hostCard).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('nowNone'))}</p></div>`}
    <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
