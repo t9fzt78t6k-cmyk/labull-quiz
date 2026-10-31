@@ -690,3 +690,10 @@ function hostSettings() {
 }
 
 route();
+
+// Écran figé : pas de zoom (pincement / double tap), pas de glisser d'image
+['gesturestart','gesturechange','gestureend'].forEach(e => document.addEventListener(e, ev => ev.preventDefault(), { passive: false }));
+let _lastTap = 0;
+document.addEventListener('touchend', ev => { const n = Date.now(); if (n - _lastTap < 350 && !ev.target.closest('input,textarea,select')) ev.preventDefault(); _lastTap = n; }, { passive: false });
+document.addEventListener('touchmove', ev => { if (ev.touches.length > 1) ev.preventDefault(); }, { passive: false });
+document.addEventListener('dragstart', ev => ev.preventDefault());

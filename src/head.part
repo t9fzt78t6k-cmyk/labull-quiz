@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1a0f08">
 <title>LA BULL · Quiz & Sondages</title>
 <link rel="apple-touch-icon" href="icon.png">
@@ -221,7 +221,13 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .pt-t tr[data-k]{cursor:pointer}
 
 /* ===== v2 mockup style ===== */
-body{background:linear-gradient(180deg,rgba(14,8,4,.55),rgba(14,8,4,.9) 40%),url("data:image/jpeg;base64,__A_hbg2__") center top/cover fixed,#140b06}
+body{background:#140b06}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(14,8,4,.55),rgba(14,8,4,.9) 40%),url("data:image/jpeg;base64,__A_hbg2__") center top/cover no-repeat}
+html,body{overflow-x:hidden;max-width:100%;overscroll-behavior:none;touch-action:pan-y;-webkit-text-size-adjust:100%}
+#app,.copy,.navb{overflow-x:clip}
+*{-webkit-tap-highlight-color:transparent}
+button,a,.btn,input,select,label{touch-action:manipulation}
+img,i{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .hdr2{position:relative;display:flex;align-items:center;gap:10px;margin:0 -14px 4px;padding:34px 12px 14px;min-height:150px;background:linear-gradient(180deg,rgba(15,8,4,.1),rgba(15,8,4,.35)),url("data:image/jpeg;base64,__A_hbg2__") center/cover;overflow:hidden}
 .hdr2 .lamp2{position:absolute;left:50%;top:-8px;width:84px;height:80px;transform:translateX(-50%);background:url("data:image/webp;base64,__A_lamp2__") center/contain no-repeat;z-index:1;filter:drop-shadow(0 0 16px rgba(255,190,90,.6))}
 .hdr2 .dart2{position:absolute;right:-18px;top:44px;width:132px;height:122px;background:url("data:image/webp;base64,__A_dart2__") center/contain no-repeat;z-index:1}
