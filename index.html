@@ -1510,7 +1510,7 @@ fr: {
   ptsRule: 'Bon vainqueur (ou nul) : 3 pts · Bon écart : +2 pts · Score exact : +5 pts · Chaque question bonus juste : +1 pt. Égalité : le plus proche du score exact gagne.',
   real: 'Résultat réel', optional: 'facultatif', pronoDone: 'Prono enregistré ! Classement et tirage au sort après le match.', pronoSaved: 'Pronostic enregistré', needScore: 'Indiquez au moins le score du match.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Autre', teamAL: 'Équipe 1 (à domicile)', teamBL: 'Équipe 2', time: 'Heure du coup d\u2019envoi',
-  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
+  addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
   regT: 'Inscription', regS: 'Pour participer et recevoir vos résultats. Gratuit, sans obligation d\u2019achat.', regName: 'Prénom ou pseudo', regHow: 'Recevoir mes résultats par', sms: 'SMS', email: 'E-mail', regPhone: 'Numéro de portable', regMail: 'Adresse e-mail',
   c1: 'J\u2019accepte que LA BULL utilise mon prénom et mon numéro / e-mail uniquement pour m\u2019envoyer les résultats de mes pronostics. (obligatoire)',
   c2: 'J\u2019accepte aussi de recevoir les infos et les soirées de LA BULL. Je peux me désinscrire à tout moment (réponse « STOP » ou lien de désinscription). (facultatif)',
@@ -1564,7 +1564,7 @@ en: {
   ptsRule: 'Right winner (or draw): 3 pts · Right margin: +2 pts · Exact score: +5 pts · Each right bonus answer: +1 pt. Tie: closest to the exact score wins.',
   real: 'Actual result', optional: 'optional', pronoDone: 'Prediction saved! Ranking and prize draw after the match.', pronoSaved: 'Prediction saved', needScore: 'Please give at least the match score.',
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Other', teamAL: 'Team 1 (home)', teamBL: 'Team 2', time: 'Kick-off time',
-  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
+  addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
   regT: 'Sign up', regS: 'To take part and get your results. Free, no purchase necessary.', regName: 'First name or nickname', regHow: 'Get my results by', sms: 'Text', email: 'Email', regPhone: 'Mobile number', regMail: 'Email address',
   c1: 'I agree that LA BULL uses my first name and number / email only to send me the results of my predictions. (required)',
   c2: 'I also agree to receive LA BULL news and events. I can unsubscribe at any time (reply “STOP” or unsubscribe link). (optional)',
@@ -1643,6 +1643,8 @@ function topBar(sub) {
   <div class="lang"><button data-lang="fr" class="${lang === 'fr' ? 'on' : ''}">FR</button><button data-lang="en" class="${lang === 'en' ? 'on' : ''}">EN</button></div></div>`;
 }
 const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('home'))}</button></div>`;
+const pBar = g => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-pcancel="${esc(g.id)}">✕ ${esc(t('cancelS'))}</button></div>`;
+const backBar = () => `<div class="navb" style="position:static;background:none"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button></div>`;
 function fmtDate(s) { if (!s) return ''; try { return new Date(s + 'T12:00:00').toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return s; } }
 const fmtTime = ts => new Date(ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
 function toast(msg, ok = true) { const d = document.createElement('div'); d.className = 'toast'; if (!ok) d.style.background = 'var(--bad)'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
@@ -1662,6 +1664,8 @@ function pinConfirm(title, cb) {
 function confetti() { const cols = ['#f2b632', '#3ccf7a', '#ff6b5e', '#4ea8ff', '#fff']; for (let i = 0; i < 90; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length]; c.style.animationDuration = 1.8 + Math.random() * 1.8 + 's'; c.style.animationDelay = Math.random() * .6 + 's'; document.body.appendChild(c); setTimeout(() => c.remove(), 4500); } }
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; LS.set('lb_lang', lang); route(); return; }
+  const pc = e.target.closest('[data-pcancel]');
+  if (pc) { const id = pc.dataset.pcancel; return confirmBox(t('cancelQ'), t('cancelT'), t('cancelYes'), () => { LS.del('lb_play_' + id); const g = findGame(id); if (g && kindOf(g) === 'prono' && LS.get('lb_me', null)) go('p'); else { location.hash = 'j=' + encodeURIComponent(id); route(); } }, true); }
   const n = e.target.closest('[data-nav]'); if (n) { if (n.dataset.nav === 'home') go(''); else if (history.length > 1) history.back(); else go(''); }
 });
 
@@ -1682,7 +1686,7 @@ async function route() {
 }
 window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
-function notFound() { setAcc(); app.innerHTML = topBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
+function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
 /* ================= PARTICIPANT ================= */
 const pkey = g => 'lb_play_' + g.id;
@@ -1699,7 +1703,7 @@ function playerStart(g) {
   const head = !prono ? '' : g.teams ? `<div class="card center" style="margin-top:14px"><p style="margin:0;font-size:40px">${SPORT_ICON[g.sport] || '🏆'}</p><p class="gtitle" style="color:var(--gold2);font-size:30px;margin:4px 0">${esc(teamA(g))}<br><span style="font-size:20px;color:var(--cream)">${esc(t('vs'))}</span><br>${esc(teamB(g))}</p>
      <p class="muted" style="margin:6px 0 0">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''}</p></div><p class="muted center" style="font-size:13px">📏 ${esc(t('ptsRule'))}</p>`
      : `<div class="card" style="margin-top:14px"><p style="margin:0 0 6px;font-size:34px;text-align:center">${SPORT_ICON[g.sport] || '🏆'}</p>${sqs.map(([q]) => `<p style="margin:6px 0;font-weight:700;font-size:16px;display:flex;justify-content:space-between;gap:8px"><span>${esc(qA(g, q))} – ${esc(qB(g, q))}</span><span class="muted" style="font-weight:400;font-size:13px;white-space:nowrap">${esc(L(q.when) || '')}</span></p>`).join('')}</div><p class="muted center" style="font-size:13px">📏 ${esc(t('ptsRuleM'))}</p>`;
-  app.innerHTML = topBar(g.date ? fmtDate(g.date) : '') + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:${prono ? 110 : 160}px"><p style="margin:12px 0 0"><span class="kind">${esc(prono ? t('kProno') : poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
+  app.innerHTML = topBar(g.date ? fmtDate(g.date) : '') + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:${prono ? 110 : 160}px"><p style="margin:12px 0 0"><span class="kind">${esc(prono ? t('kProno') : poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
    <p class="muted" style="font-size:17px">${esc(L(g.sub))}</p>${prono ? '' : `<p><span class="pill">${esc(t('qCount')(g.questions.length))}</span>${g.date ? ` <span class="pill">${esc(fmtDate(g.date))}</span>` : ''}</p>`}</div>${head}
    <div class="card">${me ? `<p class="center" style="margin:0 0 4px;font-weight:700">👤 ${esc(me.name)} · <span class="muted" style="font-weight:400">${esc(me.v)}</span></p>` : askName ? `<label class="f" for="team">${esc(t(lab))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(ph))}">` : `<p class="center muted" style="margin:0 0 4px">🔒 ${esc(t('anonymous'))}</p>`}
    <div style="margin-top:14px"><button class="btn acc" id="go" ${askName && !me ? 'disabled' : ''}>${esc(t('start'))}</button></div></div>${me ? `<button class="btn ghost small" style="width:100%;margin-top:6px" onclick="location.hash='p'">← ${esc(t('allPronos'))}</button>` : ''}`;
@@ -1721,7 +1725,7 @@ function playerQ(g, st) {
   if (ty === 'number') body = `<p class="muted center" style="margin-top:-8px">${esc(t('numHint'))}${isProno(g) ? ' · ' + esc(t('optional')) : ''}</p><div style="display:flex">${stepper('n', st.a[i], '')}</div>`;
   if (ty === 'single' && isProno(g)) body = `<p class="muted" style="margin-top:-8px">${esc(t('optional'))}</p>` + body;
   if (ty === 'text') body = `<p class="muted" style="margin-top:-8px">${esc(t('textHint'))}</p><textarea class="in" id="tx" maxlength="80" placeholder="${esc(t('textPh'))}" style="min-height:110px;font-size:18px">${esc(st.a[i] || '')}</textarea>`;
-  app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="row" style="justify-content:space-between"><span class="qnum" style="flex:none">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill" style="flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(L(g.title))}</span></div>
+  app.innerHTML = topBar(st.team || t('anonymous')) + pBar(g) + `<div class="row" style="justify-content:space-between"><span class="qnum" style="flex:none">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill" style="flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(L(g.title))}</span></div>
    <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div><div class="qtext">${esc(L(q.q))}</div>${body}
    <div class="nav"><button class="btn ghost" id="pv" ${i === 0 ? 'disabled' : ''}>${esc(t('prev'))}</button><button class="btn acc" id="nx">${esc(i === n - 1 ? t('recap') : t('next'))}</button></div>`;
   app.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.o; save(); app.querySelectorAll('[data-o]').forEach(x => x.classList.toggle('sel', x === b)); advance(); });
@@ -1750,7 +1754,7 @@ function playerRecap(g, st) {
   const miss = st.a.filter(x => !answered(x)).length, quiz = kindOf(g) === 'quiz';
   const grid = quiz ? `<div class="grid" style="margin:14px 0">${st.a.map((a, i) => `<button class="tile ${a == null ? 'empty' : ''}" data-i="${i}"><b>${a == null ? '?' : LETTERS[a]}</b><small>${i + 1}</small></button>`).join('')}</div>`
     : g.questions.map((q, i) => `<button class="opt" data-i="${i}" style="display:block;font-size:15px;${answered(st.a[i]) ? '' : 'border-color:var(--bad)'}"><span class="muted" style="font-size:13px;display:block">${i + 1}. ${esc(L(q.q))}</span><b>${esc(ansLabel(g, q, st.a[i]))}</b></button>`).join('');
-  app.innerHTML = topBar(st.team || t('anonymous')) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>${grid}
+  app.innerHTML = topBar(st.team || t('anonymous')) + pBar(g) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>${grid}
    ${miss ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('missing')(miss))}</p>` : ''}<button class="btn acc" id="val" style="margin-top:10px">${esc(t('validate'))}</button>`;
   app.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
   $('#val').onclick = () => {
@@ -1762,11 +1766,12 @@ function playerRecap(g, st) {
 }
 function playerDone(g, st) {
   const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
-  app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>
+  app.innerHTML = topBar(st.team || t('anonymous')) + backBar() + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
+   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div><button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && getMe() ? `<button class="btn" style="margin:10px 0" onclick="location.hash='p'">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>`;
+  $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
 }
 
 /* ================= HOST ================= */
@@ -1815,7 +1820,7 @@ function hostHome() {
         ${k === 'prono' ? `<button data-a="out" data-g="${id}"><i>📝</i>${esc(t('finalScore'))}</button>` : `<button data-a="key" data-g="${id}"><i>📋</i>${esc(k === 'quiz' ? t('keyS') : t('qsS'))}</button>`}
         <button data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button><button data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
   };
-  app.innerHTML = topBar(t('hostSpace')) + `<p class="sec" style="margin-top:6px">➕ ${esc(t('create'))}</p>
+  app.innerHTML = topBar(t('hostSpace')) + backBar() + `<p class="sec" style="margin-top:6px">➕ ${esc(t('create'))}</p>
    <div class="big3"><button class="btn" id="nq"><i>🧠</i>${esc(t('quizzes').replace(/zes$/, ''))}</button><button class="btn" id="np"><i>📊</i>${esc(t('kPoll').replace(/^\S+\s/, ''))}</button><button class="btn" id="nr"><i>🏉</i>${esc(t('newProno'))}</button></div>
    <div class="card hc" style="border-left:10px solid #1c5fd1"><div class="hc-h"><span class="hc-ic" style="background:#1c5fd1">${SPORT_ICON.foot}</span><div class="hc-t"><small>${esc(t('pronosF'))}</small><b>${esc(t('hubT'))}</b><span>${esc(t('hubHost'))}</span></div></div>
      <div class="row" style="margin-top:12px"><button class="btn" id="hubqr">📲 QR</button><button class="btn acc" id="hubgo" style="background:#1c5fd1">▶ ${esc(t('openHere'))}</button></div></div>
@@ -1878,7 +1883,7 @@ function receive(p) {
   const g = findGame(r.g); setAcc(g && g.color);
   if (!g) { app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><h2>⚠️</h2><p>${esc(t('unknownGame'))}</p><p class="muted">${esc(r.t)} · ${esc(r.g)}</p></div>`; return; }
   const res = storeResult(g, r), poll = kindOf(g) === 'poll';
-  app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : poll ? t('pollSaved') : isProno(g) ? t('pronoSaved') : t('saved'))}</h2>
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : poll ? t('pollSaved') : isProno(g) ? t('pronoSaved') : t('saved'))}</h2>
    <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t || t('anonymous'))}</p>
    ${isProno(g) ? `<p class="muted" style="margin:6px 0 0">${esc(gTitle(g))}</p><p class="score" style="font-size:${scoreQs(g).length > 1 ? 30 : 48}px;margin:0">${esc(res.sc)}</p><p class="muted">${esc(t('pronos')(res.count))}</p>` : poll ? `<p class="score" style="font-size:40px;margin:0">${esc(t('participants')(res.count))}</p>` : `<p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p><p class="muted">${esc(t('rankNow')(res.pos))}</p>`}
    ${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}<p class="muted" style="font-size:14px">${esc(L(g.title))}</p></div>
@@ -2078,7 +2083,8 @@ function hostOutcome(g) {
         else if (ty === 'number') body = `<div style="display:flex">${stepper(i + 'n', out[i], '')}</div>`;
         else body = q.o.map((o, j) => `<button class="opt ${out[i] === j ? 'sel' : ''}" data-oi="${i}" data-oj="${j}" style="padding:8px 12px;font-size:16px"><span class="L" style="width:36px;height:36px;font-size:18px">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('');
         return `<div class="card qe"><p style="font-weight:700;margin:0 0 8px">${i + 1}. ${esc(L(q.q))}</p>${body}</div>`; }).join('') +
-      `<button class="btn" id="sv">💾 ${esc(t('saveOut'))}</button>`;
+      `<div class="row"><button class="btn ghost" id="cx">✕ ${esc(t('cancelS'))}</button><button class="btn" id="sv">💾 ${esc(t('saveOut'))}</button></div>`;
+    $('#cx').onclick = () => go('admin=rank:' + g.id);
     app.querySelectorAll('[data-oi]').forEach(b => b.onclick = () => { const i = +b.dataset.oi, j = +b.dataset.oj; out[i] = out[i] === j ? null : j; draw(); });
     const val = id => { const el = app.querySelector(`[data-sv="${id}"]`); return el.value === '' ? null : Math.max(0, parseInt(el.value, 10) || 0); };
     const sync = () => g.questions.forEach((q, i) => { const ty = q.type || 'single'; if (ty === 'score') { const a = val(i + 'a'), b = val(i + 'b'); out[i] = a == null || b == null ? null : [a, b]; } if (ty === 'number') out[i] = val(i + 'n'); });
@@ -2105,7 +2111,7 @@ function registerScreen(next) {
   setAcc('#1c5fd1');
   let how = 'sms';
   const draw = () => {
-    app.innerHTML = topBar(t('hubT')) + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:110px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted">${esc(t('regS'))}</p></div>
+    app.innerHTML = topBar(t('hubT')) + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:110px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted">${esc(t('regS'))}</p></div>
      <div class="card"><label class="f">${esc(t('regName'))}</label><input class="in" id="rn" maxlength="30" autocomplete="given-name">
      <label class="f">${esc(t('regHow'))}</label><div class="tabs" style="justify-content:flex-start"><button data-h="sms" class="${how === 'sms' ? 'on' : ''}">📱 ${esc(t('sms'))}</button><button data-h="email" class="${how === 'email' ? 'on' : ''}">✉️ ${esc(t('email'))}</button></div>
      ${how === 'sms' ? `<label class="f">${esc(t('regPhone'))}</label><input class="in" id="rv" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">` : `<label class="f">${esc(t('regMail'))}</label><input class="in" id="rv" type="email" inputmode="email" autocomplete="email" placeholder="prenom@exemple.fr">`}
@@ -2128,7 +2134,7 @@ function pronoHub() {
   const me = getMe(); if (!me) return registerScreen(() => pronoHub());
   const today = new Date().toISOString().slice(0, 10);
   const list = allGames().filter(g => isProno(g) && (!g.date || (g.until || g.date) >= today)).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
-  app.innerHTML = topBar(t('hubT')) + `<h1 style="font-size:32px;margin-top:4px">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1><p class="muted" style="margin-top:0">${esc(t('hello')(me.name))} ${esc(t('hubS'))}</p>` +
+  app.innerHTML = topBar(t('hubT')) + backBar() + `<h1 style="font-size:32px;margin-top:4px">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1><p class="muted" style="margin-top:0">${esc(t('hello')(me.name))} ${esc(t('hubS'))}</p>` +
     (list.length ? list.map(g => { const st = LS.get(pkey(g), null), done = st && st.done, sq = scoreQs(g);
       return `<div class="card hc" style="border-left:10px solid ${esc(g.color)}"><div class="hc-h"><span class="hc-ic" style="background:${esc(g.color)}">${SPORT_ICON[g.sport] || '🏆'}</span><div class="hc-t"><b>${esc(gTitle(g))}</b><span>${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''}</span></div></div>
        ${sq.length > 1 ? `<p class="muted" style="font-size:13px;margin:8px 0 0">${sq.map(([q]) => esc(qA(g, q) + ' – ' + qB(g, q))).join(' · ')}</p>` : ''}
@@ -2181,7 +2187,8 @@ function hostEdit(src, newKind) {
       <label class="f">${esc(t('qFr'))}</label><textarea class="in" data-k="q.${i}.q.fr">${esc(q.q.fr)}</textarea><label class="f">${esc(t('qEn'))}</label><textarea class="in" data-k="q.${i}.q.en">${esc(q.q.en)}</textarea>
       ${withO ? q.o.map((o, j) => `<div class="optrow">${typed ? `<span class="rad" style="display:grid;place-items:center">${LETTERS[j]}</span>` : `<button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button>`}<div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('') + (q.o.length < maxO ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : '') : ''}
       ${typed ? '' : `<label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}">`}</div>`; }).join('') +
-    `<button class="btn ghost" id="aq" style="margin-top:12px">${esc(t('addQ'))}</button><button class="btn" id="sv" style="margin-top:12px">💾 ${esc(t('save'))}</button>${src ? `<button class="btn danger" id="dl" style="margin-top:12px">${esc(t('del'))}</button>` : ''}`;
+    `<button class="btn ghost" id="aq" style="margin-top:12px">${esc(t('addQ'))}</button><div class="row" style="margin-top:12px"><button class="btn ghost" id="cx">✕ ${esc(t('cancelS'))}</button><button class="btn" id="sv">💾 ${esc(t('save'))}</button></div>${src ? `<button class="btn danger" id="dl" style="margin-top:12px">${esc(t('del'))}</button>` : ''}`;
+    $('#cx').onclick = () => confirmBox(t('cancelEd'), t('cancelEdT'), t('cancelYes'), () => go(''), true);
     app.querySelectorAll('[data-k]').forEach(el => el.oninput = el.onchange = () => {
       const p = el.dataset.k.split('.'); let o = p[0] === 'q' ? g.questions : g; const path = p[0] === 'q' ? p.slice(1) : p;
       for (let k = 0; k < path.length - 1; k++) { o[path[k]] = o[path[k]] ?? {}; o = o[path[k]]; } o[path[path.length - 1]] = el.value;
