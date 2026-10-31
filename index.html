@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#120c08">
-<title>LA BULL · Quiz</title>
+<title>LA BULL · Quiz & Sondages</title>
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -111,6 +111,22 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 .full svg{width:min(88vw,70vh);height:auto}
 .full h1{color:#1a1008;margin:0;font-size:34px}
 .full .x{position:absolute;top:14px;right:14px}
+.bar{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:10px;height:34px;margin:6px 0;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:color-mix(in srgb,var(--acc) 70%,transparent);border-radius:9px}
+.bar span{position:absolute;left:10px;right:10px;top:0;bottom:0;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:700;gap:8px}
+.bar span b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stars{display:flex;gap:8px;justify-content:center;margin:20px 0}
+.stars button{background:none;border:0;font-size:52px;line-height:1;padding:0;filter:grayscale(1) opacity(.35)}
+.stars button.on{filter:none}
+.kind{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--panel);border:1px solid var(--line);color:var(--gold);margin-right:6px}
+.chk{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--muted);display:grid;place-items:center;font-weight:700}
+.opt.sel .chk{background:var(--acc);border-color:var(--acc);color:#fff}
+.txtans{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0;font-size:15px}
+.txtans small{display:block;color:var(--muted);font-size:12px}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 4px}
+.big2 .btn{flex-direction:column;gap:2px;padding:14px 8px;font-size:16px}
+.big2 .btn i{font-style:normal;font-size:30px}
+.sec{font-family:var(--title);color:var(--muted);font-size:18px;letter-spacing:.5px;margin:18px 0 0;text-transform:uppercase}
 #print{display:none}
 @media print{
   body{background:#fff}
@@ -124,12 +140,13 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
   @page{size:A4;margin:14mm}
 }
 </style>
+
 </head>
 <body>
 <div id="app"></div>
 <div class="copy" id="copy"></div>
 <div id="print"></div>
-<script id="games-data" type="application/json">[{"id": "jazz-asia-2026-11-01", "title": {"fr": "Quiz · Jazz & Asia Night", "en": "Quiz · Jazz & Asia Night"}, "sub": {"fr": "Testez vos connaissances sur le jazz et l'Asie !", "en": "Test your knowledge about jazz and Asia!"}, "date": "2026-11-01", "mode": "team", "color": "#c41c24", "questions": [{"q": {"fr": "Dans quelle ville américaine le jazz est-il né ?", "en": "In which American city was jazz born?"}, "o": [{"fr": "Chicago", "en": "Chicago"}, {"fr": "La Nouvelle-Orléans", "en": "New Orleans"}, {"fr": "New York", "en": "New York"}], "a": 1, "info": {"fr": "La Nouvelle-Orléans, au début du XXe siècle.", "en": "New Orleans, in the early 20th century."}}, {"q": {"fr": "Quel trompettiste surnommé « Satchmo » chantait « What a Wonderful World » ?", "en": "Which trumpeter nicknamed “Satchmo” sang “What a Wonderful World”?"}, "o": [{"fr": "Miles Davis", "en": "Miles Davis"}, {"fr": "Dizzy Gillespie", "en": "Dizzy Gillespie"}, {"fr": "Louis Armstrong", "en": "Louis Armstrong"}], "a": 2, "info": {"fr": "Louis Armstrong, en 1967.", "en": "Louis Armstrong, in 1967."}}, {"q": {"fr": "Qui a inventé le saxophone ?", "en": "Who invented the saxophone?"}, "o": [{"fr": "Adolphe Sax", "en": "Adolphe Sax"}, {"fr": "Antoine Saxo", "en": "Antoine Saxo"}, {"fr": "Charlie Parker", "en": "Charlie Parker"}], "a": 0, "info": {"fr": "Le Belge Adolphe Sax, brevet déposé en 1846.", "en": "Belgian Adolphe Sax, patented in 1846."}}, {"q": {"fr": "Quel est le surnom du saxophoniste Charlie Parker ?", "en": "What was saxophonist Charlie Parker's nickname?"}, "o": [{"fr": "Duke", "en": "Duke"}, {"fr": "Bird", "en": "Bird"}, {"fr": "Count", "en": "Count"}], "a": 1, "info": {"fr": "« Bird » — Duke, c'est Ellington ; Count, c'est Basie.", "en": "“Bird” — Duke is Ellington, Count is Basie."}}, {"q": {"fr": "Comment appelle-t-on le chant jazz fait de syllabes sans paroles (« shoo-bi-doo-bi ») ?", "en": "What do you call jazz singing with wordless syllables (“shoo-bi-doo-bi”)?"}, "o": [{"fr": "Le yodel", "en": "Yodelling"}, {"fr": "Le scat", "en": "Scat"}, {"fr": "Le rap", "en": "Rap"}], "a": 1, "info": {"fr": "Le scat, popularisé par Louis Armstrong et Ella Fitzgerald.", "en": "Scat, made famous by Louis Armstrong and Ella Fitzgerald."}}, {"q": {"fr": "« Kind of Blue », l'un des albums de jazz les plus vendus, est signé…", "en": "“Kind of Blue”, one of the best-selling jazz albums, is by…"}, "o": [{"fr": "John Coltrane", "en": "John Coltrane"}, {"fr": "Ella Fitzgerald", "en": "Ella Fitzgerald"}, {"fr": "Miles Davis", "en": "Miles Davis"}], "a": 2, "info": {"fr": "Miles Davis, en 1959.", "en": "Miles Davis, in 1959."}}, {"q": {"fr": "Quelle chanteuse est surnommée « The First Lady of Song » ?", "en": "Which singer is nicknamed “The First Lady of Song”?"}, "o": [{"fr": "Billie Holiday", "en": "Billie Holiday"}, {"fr": "Ella Fitzgerald", "en": "Ella Fitzgerald"}, {"fr": "Nina Simone", "en": "Nina Simone"}], "a": 1, "info": {"fr": "Ella Fitzgerald, 13 Grammy Awards.", "en": "Ella Fitzgerald, winner of 13 Grammy Awards."}}, {"q": {"fr": "Quel guitariste manouche jouait avec seulement deux doigts valides à la main gauche ?", "en": "Which Gypsy jazz guitarist played with only two working fingers on his left hand?"}, "o": [{"fr": "Django Reinhardt", "en": "Django Reinhardt"}, {"fr": "Stéphane Grappelli", "en": "Stéphane Grappelli"}, {"fr": "Thomas Dutronc", "en": "Thomas Dutronc"}], "a": 0, "info": {"fr": "Django Reinhardt, blessé dans un incendie en 1928.", "en": "Django Reinhardt, injured in a fire in 1928."}}, {"q": {"fr": "Le festival Jazz in Marciac se tient dans quel département ?", "en": "In which French département is the Jazz in Marciac festival held?"}, "o": [{"fr": "La Gironde", "en": "Gironde"}, {"fr": "La Dordogne", "en": "Dordogne"}, {"fr": "Le Gers", "en": "Gers"}], "a": 2, "info": {"fr": "Dans le Gers, chaque été depuis 1978.", "en": "In the Gers, every summer since 1978."}}, {"q": {"fr": "En jazz, quand un musicien « fait un bœuf », il…", "en": "In French jazz slang, a musician who “fait un bœuf” (does an ox)…"}, "o": [{"fr": "mange une côte de bœuf", "en": "eats a rib of beef"}, {"fr": "improvise avec d'autres musiciens", "en": "jams with other musicians"}, {"fr": "rate une note", "en": "hits a wrong note"}], "a": 1, "info": {"fr": "Un bœuf = une jam session improvisée.", "en": "A “bœuf” is an improvised jam session."}}, {"q": {"fr": "Combien de touches compte un piano standard ?", "en": "How many keys does a standard piano have?"}, "o": [{"fr": "76", "en": "76"}, {"fr": "88", "en": "88"}, {"fr": "100", "en": "100"}], "a": 1, "info": {"fr": "88 touches : 52 blanches et 36 noires.", "en": "88 keys: 52 white and 36 black."}}, {"q": {"fr": "Qui a rendu célèbre « Fly Me to the Moon » en 1964 ?", "en": "Who made “Fly Me to the Moon” famous in 1964?"}, "o": [{"fr": "Frank Sinatra", "en": "Frank Sinatra"}, {"fr": "Elvis Presley", "en": "Elvis Presley"}, {"fr": "Johnny Hallyday", "en": "Johnny Hallyday"}], "a": 0, "info": {"fr": "Frank Sinatra, avec l'orchestre de Count Basie.", "en": "Frank Sinatra, with the Count Basie Orchestra."}}, {"q": {"fr": "Quel plat japonais est fait de riz vinaigré ?", "en": "Which Japanese dish is made with vinegared rice?"}, "o": [{"fr": "Les ramen", "en": "Ramen"}, {"fr": "Les gyozas", "en": "Gyoza"}, {"fr": "Les sushis", "en": "Sushi"}], "a": 2, "info": {"fr": "Les sushis : le riz est assaisonné au vinaigre de riz.", "en": "Sushi: the rice is seasoned with rice vinegar."}}, {"q": {"fr": "Le vrai wasabi, c'est…", "en": "Real wasabi is…"}, "o": [{"fr": "une plante à racine piquante", "en": "a plant with a spicy root"}, {"fr": "un poisson", "en": "a fish"}, {"fr": "une sauce au fromage", "en": "a cheese sauce"}], "a": 0, "info": {"fr": "Une plante japonaise ; on râpe sa tige souterraine.", "en": "A Japanese plant; its underground stem is grated."}}, {"q": {"fr": "De quel pays vient le pad thaï ?", "en": "Which country does pad thai come from?"}, "o": [{"fr": "Le Vietnam", "en": "Vietnam"}, {"fr": "La Thaïlande", "en": "Thailand"}, {"fr": "Le Japon", "en": "Japan"}], "a": 1, "info": {"fr": "La Thaïlande — son nom le dit !", "en": "Thailand — the name gives it away!"}}, {"q": {"fr": "Le phở est une soupe de quel pays ?", "en": "Pho is a soup from which country?"}, "o": [{"fr": "La Chine", "en": "China"}, {"fr": "La Corée", "en": "Korea"}, {"fr": "Le Vietnam", "en": "Vietnam"}], "a": 2, "info": {"fr": "Le Vietnam : bouillon, nouilles de riz et herbes fraîches.", "en": "Vietnam: broth, rice noodles and fresh herbs."}}, {"q": {"fr": "En Chine, on mange traditionnellement avec…", "en": "In China, people traditionally eat with…"}, "o": [{"fr": "une fourchette", "en": "a fork"}, {"fr": "une cuillère en bois", "en": "a wooden spoon"}, {"fr": "des baguettes", "en": "chopsticks"}], "a": 2, "info": {"fr": "Des baguettes — on ne les plante jamais dans le riz !", "en": "Chopsticks — never stick them upright in your rice!"}}, {"q": {"fr": "Selon l'astrologie chinoise, 2026 est l'année du…", "en": "According to Chinese astrology, 2026 is the year of the…"}, "o": [{"fr": "Cheval", "en": "Horse"}, {"fr": "Dragon", "en": "Dragon"}, {"fr": "Lapin", "en": "Rabbit"}], "a": 0, "info": {"fr": "Le Cheval de feu, depuis le 17 février 2026.", "en": "The Fire Horse, since 17 February 2026."}}, {"q": {"fr": "Dans quel pays le karaoké a-t-il été inventé ?", "en": "In which country was karaoke invented?"}, "o": [{"fr": "Le Japon", "en": "Japan"}, {"fr": "Les États-Unis", "en": "The United States"}, {"fr": "La Corée du Sud", "en": "South Korea"}], "a": 0, "info": {"fr": "Au Japon : « kara oke » = « orchestre vide ».", "en": "In Japan: “kara oke” means “empty orchestra”."}}, {"q": {"fr": "Quelle est la capitale du Japon ?", "en": "What is the capital of Japan?"}, "o": [{"fr": "Kyoto", "en": "Kyoto"}, {"fr": "Osaka", "en": "Osaka"}, {"fr": "Tokyo", "en": "Tokyo"}], "a": 2, "info": {"fr": "Tokyo (Kyoto fut la capitale pendant plus de 1 000 ans).", "en": "Tokyo (Kyoto was the capital for over 1,000 years)."}}, {"q": {"fr": "Le saké japonais est fabriqué à partir de…", "en": "Japanese sake is made from…"}, "o": [{"fr": "pommes", "en": "apples"}, {"fr": "orge", "en": "barley"}, {"fr": "riz", "en": "rice"}], "a": 2, "info": {"fr": "Du riz fermenté, de l'eau et un ferment, le koji.", "en": "Fermented rice, water and a mould called koji."}}, {"q": {"fr": "Combien mesure environ la Grande Muraille de Chine ?", "en": "Roughly how long is the Great Wall of China?"}, "o": [{"fr": "2 100 km", "en": "2,100 km"}, {"fr": "21 000 km", "en": "21,000 km"}, {"fr": "210 000 km", "en": "210,000 km"}], "a": 1, "info": {"fr": "Plus de 21 000 km selon le relevé chinois de 2012.", "en": "Over 21,000 km according to China's 2012 survey."}}, {"q": {"fr": "Pour faire des nems, on roule la farce dans…", "en": "To make spring rolls (nems), the filling is rolled in…"}, "o": [{"fr": "une crêpe bretonne", "en": "a Breton crêpe"}, {"fr": "une feuille de chou", "en": "a cabbage leaf"}, {"fr": "une galette de riz", "en": "rice paper"}], "a": 2, "info": {"fr": "Une galette de riz, puis on les fait frire.", "en": "Rice paper, then they're deep-fried."}}, {"q": {"fr": "Comment s'appelle l'art japonais du pliage de papier ?", "en": "What is the Japanese art of paper folding called?"}, "o": [{"fr": "L'ikebana", "en": "Ikebana"}, {"fr": "L'origami", "en": "Origami"}, {"fr": "Le bonsaï", "en": "Bonsai"}], "a": 1, "info": {"fr": "L'origami (l'ikebana, c'est l'art floral).", "en": "Origami (ikebana is flower arranging)."}}, {"q": {"fr": "Quelle ville, surnommée « le Paris de l'Orient », était la capitale du jazz en Asie dans les années 1930 ?", "en": "Which city, nicknamed “the Paris of the East”, was Asia's jazz capital in the 1930s?"}, "o": [{"fr": "Shanghai", "en": "Shanghai"}, {"fr": "Bangkok", "en": "Bangkok"}, {"fr": "Séoul", "en": "Seoul"}], "a": 0, "info": {"fr": "Shanghai et ses clubs de jazz des Années folles.", "en": "Shanghai and its Jazz Age clubs."}}]}, {"id": "stout-2026-11-05", "title": {"fr": "Pub Quiz · Stout Night", "en": "Pub Quiz · Stout Night"}, "sub": {"fr": "Spéciale Guinness — testez vos connaissances sur la Guinness et l'Irlande !", "en": "Guinness special — test your knowledge about Guinness and Ireland!"}, "date": "2026-11-05", "mode": "team", "color": "#1f9d55", "questions": [{"q": {"fr": "En quelle année Arthur Guinness a-t-il fondé sa brasserie de St. James's Gate ?", "en": "In which year did Arthur Guinness found his St. James's Gate brewery?"}, "o": [{"fr": "1759", "en": "1759"}, {"fr": "1821", "en": "1821"}, {"fr": "1903", "en": "1903"}], "a": 0, "info": {"fr": "Fondée en 1759 — d'où le « ESTD 1759 » sur le verre.", "en": "Founded in 1759 — hence “ESTD 1759” on the glass."}}, {"q": {"fr": "Pour quelle durée a-t-il signé le bail de sa brasserie ?", "en": "How long was the lease he signed for his brewery?"}, "o": [{"fr": "99 ans", "en": "99 years"}, {"fr": "500 ans", "en": "500 years"}, {"fr": "9 000 ans", "en": "9,000 years"}], "a": 2, "info": {"fr": "Un bail de 9 000 ans, pour 45 livres par an !", "en": "A 9,000-year lease, for £45 a year!"}}, {"q": {"fr": "Dans quelle ville se trouve cette brasserie ?", "en": "In which city is this brewery?"}, "o": [{"fr": "Belfast", "en": "Belfast"}, {"fr": "Dublin", "en": "Dublin"}, {"fr": "Cork", "en": "Cork"}], "a": 1, "info": {"fr": "La brasserie de St. James's Gate est à Dublin.", "en": "St. James's Gate brewery is in Dublin."}}, {"q": {"fr": "Quel instrument est l'emblème de Guinness… et de l'Irlande ?", "en": "Which instrument is the emblem of Guinness… and of Ireland?"}, "o": [{"fr": "Le violon", "en": "The fiddle"}, {"fr": "La cornemuse", "en": "The bagpipes"}, {"fr": "La harpe", "en": "The harp"}], "a": 2, "info": {"fr": "La harpe : emblème de Guinness depuis le XIXe siècle, et symbole de l'Irlande.", "en": "The harp: Guinness's emblem since the 19th century, and Ireland's symbol."}}, {"q": {"fr": "Selon Guinness, combien de temps faut-il pour servir la pinte parfaite ?", "en": "According to Guinness, how long does it take to pour the perfect pint?"}, "o": [{"fr": "30 secondes", "en": "30 seconds"}, {"fr": "119,5 secondes", "en": "119.5 seconds"}, {"fr": "5 minutes", "en": "5 minutes"}], "a": 1, "info": {"fr": "119,5 s : on remplit aux 3/4, on laisse reposer, puis on termine.", "en": "119.5 s: fill 3/4, let it settle, then top up."}}, {"q": {"fr": "Quel gaz donne à la Guinness pression sa mousse si crémeuse ?", "en": "Which gas gives draught Guinness its creamy head?"}, "o": [{"fr": "L'azote", "en": "Nitrogen"}, {"fr": "L'hélium", "en": "Helium"}, {"fr": "L'oxygène", "en": "Oxygen"}], "a": 0, "info": {"fr": "Un mélange d'azote et de CO2 donne les fines bulles crémeuses.", "en": "A nitrogen and CO2 mix makes the fine, creamy bubbles."}}, {"q": {"fr": "Officiellement, de quelle couleur est la Guinness ?", "en": "Officially, what colour is Guinness?"}, "o": [{"fr": "Noire", "en": "Black"}, {"fr": "Rouge rubis très foncé", "en": "Very dark ruby red"}, {"fr": "Marron foncé", "en": "Dark brown"}], "a": 1, "info": {"fr": "À contre-jour, la Guinness est rouge rubis, pas noire.", "en": "Held up to the light, Guinness is ruby red, not black."}}, {"q": {"fr": "Quel jour fête-t-on la Saint-Patrick ?", "en": "On which day is St. Patrick's Day celebrated?"}, "o": [{"fr": "Le 17 mars", "en": "17 March"}, {"fr": "Le 1er mai", "en": "1 May"}, {"fr": "Le 11 novembre", "en": "11 November"}], "a": 0, "info": {"fr": "Le 17 mars, jour de la mort de saint Patrick.", "en": "17 March, the day St Patrick died."}}, {"q": {"fr": "Quelle plante est le symbole de l'Irlande ?", "en": "Which plant is the symbol of Ireland?"}, "o": [{"fr": "La rose", "en": "The rose"}, {"fr": "Le trèfle", "en": "The shamrock"}, {"fr": "Le chardon", "en": "The thistle"}], "a": 1, "info": {"fr": "Le trèfle (shamrock) — le chardon est le symbole de l'Écosse.", "en": "The shamrock — the thistle is Scotland's symbol."}}, {"q": {"fr": "Le Livre Guinness des records a été créé à l'origine par…", "en": "Guinness World Records was originally created by…"}, "o": [{"fr": "La brasserie Guinness", "en": "The Guinness brewery"}, {"fr": "La BBC", "en": "The BBC"}, {"fr": "Un pub de Dublin", "en": "A Dublin pub"}], "a": 0, "info": {"fr": "Lancé en 1955, sur une idée de Sir Hugh Beaver, directeur de Guinness.", "en": "Launched in 1955, from an idea by Sir Hugh Beaver, Guinness's managing director."}}, {"q": {"fr": "Que veut dire « Sláinte » quand on trinque en Irlande ?", "en": "What does “Sláinte” mean when you raise a glass in Ireland?"}, "o": [{"fr": "Santé !", "en": "Cheers!"}, {"fr": "Au revoir !", "en": "Goodbye!"}, {"fr": "Encore une !", "en": "Another one!"}], "a": 0, "info": {"fr": "« Sláinte » veut dire « santé » en irlandais.", "en": "“Sláinte” means “health” in Irish."}}, {"q": {"fr": "Comment s'appelle le petit lutin farceur de la légende irlandaise ?", "en": "What is the mischievous little fairy of Irish legend called?"}, "o": [{"fr": "Le troll", "en": "A troll"}, {"fr": "Le leprechaun", "en": "A leprechaun"}, {"fr": "Le schtroumpf", "en": "A smurf"}], "a": 1, "info": {"fr": "Le leprechaun, lutin cordonnier qui garde jalousement son or.", "en": "The leprechaun, a fairy shoemaker who jealously guards his gold."}}, {"q": {"fr": "Selon la légende, que cache-t-il au pied de l'arc-en-ciel ?", "en": "According to legend, what does he hide at the end of the rainbow?"}, "o": [{"fr": "Une pinte de Guinness", "en": "A pint of Guinness"}, {"fr": "Ses chaussettes", "en": "His socks"}, {"fr": "Un chaudron d'or", "en": "A pot of gold"}], "a": 2, "info": {"fr": "Un chaudron d'or… que personne n'a encore trouvé !", "en": "A pot of gold… that nobody has found yet!"}}, {"q": {"fr": "Au château de Blarney, qu'embrasse-t-on pour devenir un beau parleur ?", "en": "At Blarney Castle, what do you kiss to get the gift of the gab?"}, "o": [{"fr": "Une pierre", "en": "A stone"}, {"fr": "Un mouton", "en": "A sheep"}, {"fr": "Le barman", "en": "The barman"}], "a": 0, "info": {"fr": "La pierre de Blarney, près de Cork — on l'embrasse la tête en bas !", "en": "The Blarney Stone, near Cork — you kiss it upside down!"}}, {"q": {"fr": "À Chicago, que teint-on en vert chaque année pour la Saint-Patrick ?", "en": "In Chicago, what is dyed green every year for St. Patrick's Day?"}, "o": [{"fr": "La bière du maire", "en": "The mayor's beer"}, {"fr": "La rivière", "en": "The river"}, {"fr": "Les taxis", "en": "The taxis"}], "a": 1, "info": {"fr": "La rivière Chicago est teinte en vert chaque année depuis 1962.", "en": "The Chicago River has been dyed green every year since 1962."}}, {"q": {"fr": "Quelles sont les couleurs du drapeau irlandais ?", "en": "What are the colours of the Irish flag?"}, "o": [{"fr": "Vert, blanc, orange", "en": "Green, white, orange"}, {"fr": "Vert, blanc, rouge", "en": "Green, white, red"}, {"fr": "Vert, jaune, orange", "en": "Green, yellow, orange"}], "a": 0, "info": {"fr": "Vert, blanc, orange (vert, blanc, rouge, c'est l'Italie).", "en": "Green, white, orange (green, white, red is Italy)."}}, {"q": {"fr": "Selon la légende, quel saint a chassé les serpents d'Irlande ?", "en": "According to legend, which saint drove the snakes out of Ireland?"}, "o": [{"fr": "Saint Bernard", "en": "St Bernard"}, {"fr": "Saint-Émilion", "en": "St Émilion"}, {"fr": "Saint Patrick", "en": "St Patrick"}], "a": 2, "info": {"fr": "Saint Patrick… même s'il n'y a jamais eu de serpents en Irlande !", "en": "St Patrick… even though Ireland never had any snakes!"}}, {"q": {"fr": "Qu'y a-t-il dans un Irish coffee, en plus du café, du sucre et de la crème ?", "en": "What goes into an Irish coffee, besides coffee, sugar and cream?"}, "o": [{"fr": "Du whiskey irlandais", "en": "Irish whiskey"}, {"fr": "De la Guinness", "en": "Guinness"}, {"fr": "Du thé", "en": "Tea"}], "a": 0, "info": {"fr": "Du whiskey irlandais, avec un « e » à l'irlandaise.", "en": "Irish whiskey — spelled with an “e” in Ireland."}}, {"q": {"fr": "En Irlande, que veut dire « the craic » ?", "en": "In Ireland, what does “the craic” mean?"}, "o": [{"fr": "Une fissure", "en": "A crack in the wall"}, {"fr": "L'ambiance, le fun", "en": "Fun, good times"}, {"fr": "Un biscuit", "en": "A biscuit"}], "a": 1, "info": {"fr": "« What's the craic? » = « Quoi de beau ? Ça s'amuse ? »", "en": "“What's the craic?” = “What's going on? Having fun?”"}}, {"q": {"fr": "Quel est le surnom de l'Irlande ?", "en": "What is Ireland's nickname?"}, "o": [{"fr": "L'île d'Émeraude", "en": "The Emerald Isle"}, {"fr": "L'île de Beauté", "en": "The Isle of Beauty"}, {"fr": "L'île aux Moutons", "en": "Sheep Island"}], "a": 0, "info": {"fr": "L'île d'Émeraude, pour ses prairies vertes (l'île de Beauté, c'est la Corse).", "en": "The Emerald Isle, for its green fields (the Isle of Beauty is Corsica)."}}, {"q": {"fr": "Quel écrivain irlandais a créé Dracula ?", "en": "Which Irish writer created Dracula?"}, "o": [{"fr": "Oscar Wilde", "en": "Oscar Wilde"}, {"fr": "James Joyce", "en": "James Joyce"}, {"fr": "Bram Stoker", "en": "Bram Stoker"}], "a": 2, "info": {"fr": "Bram Stoker, né à Dublin en 1847.", "en": "Bram Stoker, born in Dublin in 1847."}}, {"q": {"fr": "Quel sport irlandais se joue avec une crosse appelée « hurley » ?", "en": "Which Irish sport is played with a stick called a “hurley”?"}, "o": [{"fr": "Le curling", "en": "Curling"}, {"fr": "Le hurling", "en": "Hurling"}, {"fr": "Le bowling", "en": "Bowling"}], "a": 1, "info": {"fr": "Le hurling, l'un des plus vieux sports de terrain au monde.", "en": "Hurling, one of the oldest field sports in the world."}}, {"q": {"fr": "Quel célèbre groupe de rock est né à Dublin ?", "en": "Which famous rock band was born in Dublin?"}, "o": [{"fr": "U2", "en": "U2"}, {"fr": "Queen", "en": "Queen"}, {"fr": "ABBA", "en": "ABBA"}], "a": 0, "info": {"fr": "U2, formé à Dublin en 1976.", "en": "U2, formed in Dublin in 1976."}}, {"q": {"fr": "Quelle est la capitale de l'Irlande du Nord ?", "en": "What is the capital of Northern Ireland?"}, "o": [{"fr": "Galway", "en": "Galway"}, {"fr": "Belfast", "en": "Belfast"}, {"fr": "Derry", "en": "Derry"}], "a": 1, "info": {"fr": "Belfast, capitale de l'Irlande du Nord (Royaume-Uni).", "en": "Belfast, capital of Northern Ireland (UK)."}}, {"q": {"fr": "Comment s'appelle le musée de la Guinness à Dublin ?", "en": "What is the Guinness museum in Dublin called?"}, "o": [{"fr": "Le Guinness Palace", "en": "The Guinness Palace"}, {"fr": "La Black Tower", "en": "The Black Tower"}, {"fr": "Le Guinness Storehouse", "en": "The Guinness Storehouse"}], "a": 2, "info": {"fr": "Le Guinness Storehouse, ouvert en 2000, avec son bar panoramique.", "en": "The Guinness Storehouse, opened in 2000, with its rooftop bar."}}]}]</script>
+<script id="games-data" type="application/json">[{"id": "jazz-asia-2026-11-01", "title": {"fr": "Quiz · Jazz & Asia Night", "en": "Quiz · Jazz & Asia Night"}, "sub": {"fr": "Testez vos connaissances sur le jazz et l'Asie !", "en": "Test your knowledge about jazz and Asia!"}, "date": "2026-11-01", "mode": "team", "color": "#c41c24", "questions": [{"q": {"fr": "Dans quelle ville américaine le jazz est-il né ?", "en": "In which American city was jazz born?"}, "o": [{"fr": "Chicago", "en": "Chicago"}, {"fr": "La Nouvelle-Orléans", "en": "New Orleans"}, {"fr": "New York", "en": "New York"}], "a": 1, "info": {"fr": "La Nouvelle-Orléans, au début du XXe siècle.", "en": "New Orleans, in the early 20th century."}}, {"q": {"fr": "Quel trompettiste surnommé « Satchmo » chantait « What a Wonderful World » ?", "en": "Which trumpeter nicknamed “Satchmo” sang “What a Wonderful World”?"}, "o": [{"fr": "Miles Davis", "en": "Miles Davis"}, {"fr": "Dizzy Gillespie", "en": "Dizzy Gillespie"}, {"fr": "Louis Armstrong", "en": "Louis Armstrong"}], "a": 2, "info": {"fr": "Louis Armstrong, en 1967.", "en": "Louis Armstrong, in 1967."}}, {"q": {"fr": "Qui a inventé le saxophone ?", "en": "Who invented the saxophone?"}, "o": [{"fr": "Adolphe Sax", "en": "Adolphe Sax"}, {"fr": "Antoine Saxo", "en": "Antoine Saxo"}, {"fr": "Charlie Parker", "en": "Charlie Parker"}], "a": 0, "info": {"fr": "Le Belge Adolphe Sax, brevet déposé en 1846.", "en": "Belgian Adolphe Sax, patented in 1846."}}, {"q": {"fr": "Quel est le surnom du saxophoniste Charlie Parker ?", "en": "What was saxophonist Charlie Parker's nickname?"}, "o": [{"fr": "Duke", "en": "Duke"}, {"fr": "Bird", "en": "Bird"}, {"fr": "Count", "en": "Count"}], "a": 1, "info": {"fr": "« Bird » — Duke, c'est Ellington ; Count, c'est Basie.", "en": "“Bird” — Duke is Ellington, Count is Basie."}}, {"q": {"fr": "Comment appelle-t-on le chant jazz fait de syllabes sans paroles (« shoo-bi-doo-bi ») ?", "en": "What do you call jazz singing with wordless syllables (“shoo-bi-doo-bi”)?"}, "o": [{"fr": "Le yodel", "en": "Yodelling"}, {"fr": "Le scat", "en": "Scat"}, {"fr": "Le rap", "en": "Rap"}], "a": 1, "info": {"fr": "Le scat, popularisé par Louis Armstrong et Ella Fitzgerald.", "en": "Scat, made famous by Louis Armstrong and Ella Fitzgerald."}}, {"q": {"fr": "« Kind of Blue », l'un des albums de jazz les plus vendus, est signé…", "en": "“Kind of Blue”, one of the best-selling jazz albums, is by…"}, "o": [{"fr": "John Coltrane", "en": "John Coltrane"}, {"fr": "Ella Fitzgerald", "en": "Ella Fitzgerald"}, {"fr": "Miles Davis", "en": "Miles Davis"}], "a": 2, "info": {"fr": "Miles Davis, en 1959.", "en": "Miles Davis, in 1959."}}, {"q": {"fr": "Quelle chanteuse est surnommée « The First Lady of Song » ?", "en": "Which singer is nicknamed “The First Lady of Song”?"}, "o": [{"fr": "Billie Holiday", "en": "Billie Holiday"}, {"fr": "Ella Fitzgerald", "en": "Ella Fitzgerald"}, {"fr": "Nina Simone", "en": "Nina Simone"}], "a": 1, "info": {"fr": "Ella Fitzgerald, 13 Grammy Awards.", "en": "Ella Fitzgerald, winner of 13 Grammy Awards."}}, {"q": {"fr": "Quel guitariste manouche jouait avec seulement deux doigts valides à la main gauche ?", "en": "Which Gypsy jazz guitarist played with only two working fingers on his left hand?"}, "o": [{"fr": "Django Reinhardt", "en": "Django Reinhardt"}, {"fr": "Stéphane Grappelli", "en": "Stéphane Grappelli"}, {"fr": "Thomas Dutronc", "en": "Thomas Dutronc"}], "a": 0, "info": {"fr": "Django Reinhardt, blessé dans un incendie en 1928.", "en": "Django Reinhardt, injured in a fire in 1928."}}, {"q": {"fr": "Le festival Jazz in Marciac se tient dans quel département ?", "en": "In which French département is the Jazz in Marciac festival held?"}, "o": [{"fr": "La Gironde", "en": "Gironde"}, {"fr": "La Dordogne", "en": "Dordogne"}, {"fr": "Le Gers", "en": "Gers"}], "a": 2, "info": {"fr": "Dans le Gers, chaque été depuis 1978.", "en": "In the Gers, every summer since 1978."}}, {"q": {"fr": "En jazz, quand un musicien « fait un bœuf », il…", "en": "In French jazz slang, a musician who “fait un bœuf” (does an ox)…"}, "o": [{"fr": "mange une côte de bœuf", "en": "eats a rib of beef"}, {"fr": "improvise avec d'autres musiciens", "en": "jams with other musicians"}, {"fr": "rate une note", "en": "hits a wrong note"}], "a": 1, "info": {"fr": "Un bœuf = une jam session improvisée.", "en": "A “bœuf” is an improvised jam session."}}, {"q": {"fr": "Combien de touches compte un piano standard ?", "en": "How many keys does a standard piano have?"}, "o": [{"fr": "76", "en": "76"}, {"fr": "88", "en": "88"}, {"fr": "100", "en": "100"}], "a": 1, "info": {"fr": "88 touches : 52 blanches et 36 noires.", "en": "88 keys: 52 white and 36 black."}}, {"q": {"fr": "Qui a rendu célèbre « Fly Me to the Moon » en 1964 ?", "en": "Who made “Fly Me to the Moon” famous in 1964?"}, "o": [{"fr": "Frank Sinatra", "en": "Frank Sinatra"}, {"fr": "Elvis Presley", "en": "Elvis Presley"}, {"fr": "Johnny Hallyday", "en": "Johnny Hallyday"}], "a": 0, "info": {"fr": "Frank Sinatra, avec l'orchestre de Count Basie.", "en": "Frank Sinatra, with the Count Basie Orchestra."}}, {"q": {"fr": "Quel plat japonais est fait de riz vinaigré ?", "en": "Which Japanese dish is made with vinegared rice?"}, "o": [{"fr": "Les ramen", "en": "Ramen"}, {"fr": "Les gyozas", "en": "Gyoza"}, {"fr": "Les sushis", "en": "Sushi"}], "a": 2, "info": {"fr": "Les sushis : le riz est assaisonné au vinaigre de riz.", "en": "Sushi: the rice is seasoned with rice vinegar."}}, {"q": {"fr": "Le vrai wasabi, c'est…", "en": "Real wasabi is…"}, "o": [{"fr": "une plante à racine piquante", "en": "a plant with a spicy root"}, {"fr": "un poisson", "en": "a fish"}, {"fr": "une sauce au fromage", "en": "a cheese sauce"}], "a": 0, "info": {"fr": "Une plante japonaise ; on râpe sa tige souterraine.", "en": "A Japanese plant; its underground stem is grated."}}, {"q": {"fr": "De quel pays vient le pad thaï ?", "en": "Which country does pad thai come from?"}, "o": [{"fr": "Le Vietnam", "en": "Vietnam"}, {"fr": "La Thaïlande", "en": "Thailand"}, {"fr": "Le Japon", "en": "Japan"}], "a": 1, "info": {"fr": "La Thaïlande — son nom le dit !", "en": "Thailand — the name gives it away!"}}, {"q": {"fr": "Le phở est une soupe de quel pays ?", "en": "Pho is a soup from which country?"}, "o": [{"fr": "La Chine", "en": "China"}, {"fr": "La Corée", "en": "Korea"}, {"fr": "Le Vietnam", "en": "Vietnam"}], "a": 2, "info": {"fr": "Le Vietnam : bouillon, nouilles de riz et herbes fraîches.", "en": "Vietnam: broth, rice noodles and fresh herbs."}}, {"q": {"fr": "En Chine, on mange traditionnellement avec…", "en": "In China, people traditionally eat with…"}, "o": [{"fr": "une fourchette", "en": "a fork"}, {"fr": "une cuillère en bois", "en": "a wooden spoon"}, {"fr": "des baguettes", "en": "chopsticks"}], "a": 2, "info": {"fr": "Des baguettes — on ne les plante jamais dans le riz !", "en": "Chopsticks — never stick them upright in your rice!"}}, {"q": {"fr": "Selon l'astrologie chinoise, 2026 est l'année du…", "en": "According to Chinese astrology, 2026 is the year of the…"}, "o": [{"fr": "Cheval", "en": "Horse"}, {"fr": "Dragon", "en": "Dragon"}, {"fr": "Lapin", "en": "Rabbit"}], "a": 0, "info": {"fr": "Le Cheval de feu, depuis le 17 février 2026.", "en": "The Fire Horse, since 17 February 2026."}}, {"q": {"fr": "Dans quel pays le karaoké a-t-il été inventé ?", "en": "In which country was karaoke invented?"}, "o": [{"fr": "Le Japon", "en": "Japan"}, {"fr": "Les États-Unis", "en": "The United States"}, {"fr": "La Corée du Sud", "en": "South Korea"}], "a": 0, "info": {"fr": "Au Japon : « kara oke » = « orchestre vide ».", "en": "In Japan: “kara oke” means “empty orchestra”."}}, {"q": {"fr": "Quelle est la capitale du Japon ?", "en": "What is the capital of Japan?"}, "o": [{"fr": "Kyoto", "en": "Kyoto"}, {"fr": "Osaka", "en": "Osaka"}, {"fr": "Tokyo", "en": "Tokyo"}], "a": 2, "info": {"fr": "Tokyo (Kyoto fut la capitale pendant plus de 1 000 ans).", "en": "Tokyo (Kyoto was the capital for over 1,000 years)."}}, {"q": {"fr": "Le saké japonais est fabriqué à partir de…", "en": "Japanese sake is made from…"}, "o": [{"fr": "pommes", "en": "apples"}, {"fr": "orge", "en": "barley"}, {"fr": "riz", "en": "rice"}], "a": 2, "info": {"fr": "Du riz fermenté, de l'eau et un ferment, le koji.", "en": "Fermented rice, water and a mould called koji."}}, {"q": {"fr": "Combien mesure environ la Grande Muraille de Chine ?", "en": "Roughly how long is the Great Wall of China?"}, "o": [{"fr": "2 100 km", "en": "2,100 km"}, {"fr": "21 000 km", "en": "21,000 km"}, {"fr": "210 000 km", "en": "210,000 km"}], "a": 1, "info": {"fr": "Plus de 21 000 km selon le relevé chinois de 2012.", "en": "Over 21,000 km according to China's 2012 survey."}}, {"q": {"fr": "Pour faire des nems, on roule la farce dans…", "en": "To make spring rolls (nems), the filling is rolled in…"}, "o": [{"fr": "une crêpe bretonne", "en": "a Breton crêpe"}, {"fr": "une feuille de chou", "en": "a cabbage leaf"}, {"fr": "une galette de riz", "en": "rice paper"}], "a": 2, "info": {"fr": "Une galette de riz, puis on les fait frire.", "en": "Rice paper, then they're deep-fried."}}, {"q": {"fr": "Comment s'appelle l'art japonais du pliage de papier ?", "en": "What is the Japanese art of paper folding called?"}, "o": [{"fr": "L'ikebana", "en": "Ikebana"}, {"fr": "L'origami", "en": "Origami"}, {"fr": "Le bonsaï", "en": "Bonsai"}], "a": 1, "info": {"fr": "L'origami (l'ikebana, c'est l'art floral).", "en": "Origami (ikebana is flower arranging)."}}, {"q": {"fr": "Quelle ville, surnommée « le Paris de l'Orient », était la capitale du jazz en Asie dans les années 1930 ?", "en": "Which city, nicknamed “the Paris of the East”, was Asia's jazz capital in the 1930s?"}, "o": [{"fr": "Shanghai", "en": "Shanghai"}, {"fr": "Bangkok", "en": "Bangkok"}, {"fr": "Séoul", "en": "Seoul"}], "a": 0, "info": {"fr": "Shanghai et ses clubs de jazz des Années folles.", "en": "Shanghai and its Jazz Age clubs."}}], "kind": "quiz"}, {"id": "stout-2026-11-05", "title": {"fr": "Pub Quiz · Stout Night", "en": "Pub Quiz · Stout Night"}, "sub": {"fr": "Spéciale Guinness — testez vos connaissances sur la Guinness et l'Irlande !", "en": "Guinness special — test your knowledge about Guinness and Ireland!"}, "date": "2026-11-05", "mode": "team", "color": "#1f9d55", "questions": [{"q": {"fr": "En quelle année Arthur Guinness a-t-il fondé sa brasserie de St. James's Gate ?", "en": "In which year did Arthur Guinness found his St. James's Gate brewery?"}, "o": [{"fr": "1759", "en": "1759"}, {"fr": "1821", "en": "1821"}, {"fr": "1903", "en": "1903"}], "a": 0, "info": {"fr": "Fondée en 1759 — d'où le « ESTD 1759 » sur le verre.", "en": "Founded in 1759 — hence “ESTD 1759” on the glass."}}, {"q": {"fr": "Pour quelle durée a-t-il signé le bail de sa brasserie ?", "en": "How long was the lease he signed for his brewery?"}, "o": [{"fr": "99 ans", "en": "99 years"}, {"fr": "500 ans", "en": "500 years"}, {"fr": "9 000 ans", "en": "9,000 years"}], "a": 2, "info": {"fr": "Un bail de 9 000 ans, pour 45 livres par an !", "en": "A 9,000-year lease, for £45 a year!"}}, {"q": {"fr": "Dans quelle ville se trouve cette brasserie ?", "en": "In which city is this brewery?"}, "o": [{"fr": "Belfast", "en": "Belfast"}, {"fr": "Dublin", "en": "Dublin"}, {"fr": "Cork", "en": "Cork"}], "a": 1, "info": {"fr": "La brasserie de St. James's Gate est à Dublin.", "en": "St. James's Gate brewery is in Dublin."}}, {"q": {"fr": "Quel instrument est l'emblème de Guinness… et de l'Irlande ?", "en": "Which instrument is the emblem of Guinness… and of Ireland?"}, "o": [{"fr": "Le violon", "en": "The fiddle"}, {"fr": "La cornemuse", "en": "The bagpipes"}, {"fr": "La harpe", "en": "The harp"}], "a": 2, "info": {"fr": "La harpe : emblème de Guinness depuis le XIXe siècle, et symbole de l'Irlande.", "en": "The harp: Guinness's emblem since the 19th century, and Ireland's symbol."}}, {"q": {"fr": "Selon Guinness, combien de temps faut-il pour servir la pinte parfaite ?", "en": "According to Guinness, how long does it take to pour the perfect pint?"}, "o": [{"fr": "30 secondes", "en": "30 seconds"}, {"fr": "119,5 secondes", "en": "119.5 seconds"}, {"fr": "5 minutes", "en": "5 minutes"}], "a": 1, "info": {"fr": "119,5 s : on remplit aux 3/4, on laisse reposer, puis on termine.", "en": "119.5 s: fill 3/4, let it settle, then top up."}}, {"q": {"fr": "Quel gaz donne à la Guinness pression sa mousse si crémeuse ?", "en": "Which gas gives draught Guinness its creamy head?"}, "o": [{"fr": "L'azote", "en": "Nitrogen"}, {"fr": "L'hélium", "en": "Helium"}, {"fr": "L'oxygène", "en": "Oxygen"}], "a": 0, "info": {"fr": "Un mélange d'azote et de CO2 donne les fines bulles crémeuses.", "en": "A nitrogen and CO2 mix makes the fine, creamy bubbles."}}, {"q": {"fr": "Officiellement, de quelle couleur est la Guinness ?", "en": "Officially, what colour is Guinness?"}, "o": [{"fr": "Noire", "en": "Black"}, {"fr": "Rouge rubis très foncé", "en": "Very dark ruby red"}, {"fr": "Marron foncé", "en": "Dark brown"}], "a": 1, "info": {"fr": "À contre-jour, la Guinness est rouge rubis, pas noire.", "en": "Held up to the light, Guinness is ruby red, not black."}}, {"q": {"fr": "Quel jour fête-t-on la Saint-Patrick ?", "en": "On which day is St. Patrick's Day celebrated?"}, "o": [{"fr": "Le 17 mars", "en": "17 March"}, {"fr": "Le 1er mai", "en": "1 May"}, {"fr": "Le 11 novembre", "en": "11 November"}], "a": 0, "info": {"fr": "Le 17 mars, jour de la mort de saint Patrick.", "en": "17 March, the day St Patrick died."}}, {"q": {"fr": "Quelle plante est le symbole de l'Irlande ?", "en": "Which plant is the symbol of Ireland?"}, "o": [{"fr": "La rose", "en": "The rose"}, {"fr": "Le trèfle", "en": "The shamrock"}, {"fr": "Le chardon", "en": "The thistle"}], "a": 1, "info": {"fr": "Le trèfle (shamrock) — le chardon est le symbole de l'Écosse.", "en": "The shamrock — the thistle is Scotland's symbol."}}, {"q": {"fr": "Le Livre Guinness des records a été créé à l'origine par…", "en": "Guinness World Records was originally created by…"}, "o": [{"fr": "La brasserie Guinness", "en": "The Guinness brewery"}, {"fr": "La BBC", "en": "The BBC"}, {"fr": "Un pub de Dublin", "en": "A Dublin pub"}], "a": 0, "info": {"fr": "Lancé en 1955, sur une idée de Sir Hugh Beaver, directeur de Guinness.", "en": "Launched in 1955, from an idea by Sir Hugh Beaver, Guinness's managing director."}}, {"q": {"fr": "Que veut dire « Sláinte » quand on trinque en Irlande ?", "en": "What does “Sláinte” mean when you raise a glass in Ireland?"}, "o": [{"fr": "Santé !", "en": "Cheers!"}, {"fr": "Au revoir !", "en": "Goodbye!"}, {"fr": "Encore une !", "en": "Another one!"}], "a": 0, "info": {"fr": "« Sláinte » veut dire « santé » en irlandais.", "en": "“Sláinte” means “health” in Irish."}}, {"q": {"fr": "Comment s'appelle le petit lutin farceur de la légende irlandaise ?", "en": "What is the mischievous little fairy of Irish legend called?"}, "o": [{"fr": "Le troll", "en": "A troll"}, {"fr": "Le leprechaun", "en": "A leprechaun"}, {"fr": "Le schtroumpf", "en": "A smurf"}], "a": 1, "info": {"fr": "Le leprechaun, lutin cordonnier qui garde jalousement son or.", "en": "The leprechaun, a fairy shoemaker who jealously guards his gold."}}, {"q": {"fr": "Selon la légende, que cache-t-il au pied de l'arc-en-ciel ?", "en": "According to legend, what does he hide at the end of the rainbow?"}, "o": [{"fr": "Une pinte de Guinness", "en": "A pint of Guinness"}, {"fr": "Ses chaussettes", "en": "His socks"}, {"fr": "Un chaudron d'or", "en": "A pot of gold"}], "a": 2, "info": {"fr": "Un chaudron d'or… que personne n'a encore trouvé !", "en": "A pot of gold… that nobody has found yet!"}}, {"q": {"fr": "Au château de Blarney, qu'embrasse-t-on pour devenir un beau parleur ?", "en": "At Blarney Castle, what do you kiss to get the gift of the gab?"}, "o": [{"fr": "Une pierre", "en": "A stone"}, {"fr": "Un mouton", "en": "A sheep"}, {"fr": "Le barman", "en": "The barman"}], "a": 0, "info": {"fr": "La pierre de Blarney, près de Cork — on l'embrasse la tête en bas !", "en": "The Blarney Stone, near Cork — you kiss it upside down!"}}, {"q": {"fr": "À Chicago, que teint-on en vert chaque année pour la Saint-Patrick ?", "en": "In Chicago, what is dyed green every year for St. Patrick's Day?"}, "o": [{"fr": "La bière du maire", "en": "The mayor's beer"}, {"fr": "La rivière", "en": "The river"}, {"fr": "Les taxis", "en": "The taxis"}], "a": 1, "info": {"fr": "La rivière Chicago est teinte en vert chaque année depuis 1962.", "en": "The Chicago River has been dyed green every year since 1962."}}, {"q": {"fr": "Quelles sont les couleurs du drapeau irlandais ?", "en": "What are the colours of the Irish flag?"}, "o": [{"fr": "Vert, blanc, orange", "en": "Green, white, orange"}, {"fr": "Vert, blanc, rouge", "en": "Green, white, red"}, {"fr": "Vert, jaune, orange", "en": "Green, yellow, orange"}], "a": 0, "info": {"fr": "Vert, blanc, orange (vert, blanc, rouge, c'est l'Italie).", "en": "Green, white, orange (green, white, red is Italy)."}}, {"q": {"fr": "Selon la légende, quel saint a chassé les serpents d'Irlande ?", "en": "According to legend, which saint drove the snakes out of Ireland?"}, "o": [{"fr": "Saint Bernard", "en": "St Bernard"}, {"fr": "Saint-Émilion", "en": "St Émilion"}, {"fr": "Saint Patrick", "en": "St Patrick"}], "a": 2, "info": {"fr": "Saint Patrick… même s'il n'y a jamais eu de serpents en Irlande !", "en": "St Patrick… even though Ireland never had any snakes!"}}, {"q": {"fr": "Qu'y a-t-il dans un Irish coffee, en plus du café, du sucre et de la crème ?", "en": "What goes into an Irish coffee, besides coffee, sugar and cream?"}, "o": [{"fr": "Du whiskey irlandais", "en": "Irish whiskey"}, {"fr": "De la Guinness", "en": "Guinness"}, {"fr": "Du thé", "en": "Tea"}], "a": 0, "info": {"fr": "Du whiskey irlandais, avec un « e » à l'irlandaise.", "en": "Irish whiskey — spelled with an “e” in Ireland."}}, {"q": {"fr": "En Irlande, que veut dire « the craic » ?", "en": "In Ireland, what does “the craic” mean?"}, "o": [{"fr": "Une fissure", "en": "A crack in the wall"}, {"fr": "L'ambiance, le fun", "en": "Fun, good times"}, {"fr": "Un biscuit", "en": "A biscuit"}], "a": 1, "info": {"fr": "« What's the craic? » = « Quoi de beau ? Ça s'amuse ? »", "en": "“What's the craic?” = “What's going on? Having fun?”"}}, {"q": {"fr": "Quel est le surnom de l'Irlande ?", "en": "What is Ireland's nickname?"}, "o": [{"fr": "L'île d'Émeraude", "en": "The Emerald Isle"}, {"fr": "L'île de Beauté", "en": "The Isle of Beauty"}, {"fr": "L'île aux Moutons", "en": "Sheep Island"}], "a": 0, "info": {"fr": "L'île d'Émeraude, pour ses prairies vertes (l'île de Beauté, c'est la Corse).", "en": "The Emerald Isle, for its green fields (the Isle of Beauty is Corsica)."}}, {"q": {"fr": "Quel écrivain irlandais a créé Dracula ?", "en": "Which Irish writer created Dracula?"}, "o": [{"fr": "Oscar Wilde", "en": "Oscar Wilde"}, {"fr": "James Joyce", "en": "James Joyce"}, {"fr": "Bram Stoker", "en": "Bram Stoker"}], "a": 2, "info": {"fr": "Bram Stoker, né à Dublin en 1847.", "en": "Bram Stoker, born in Dublin in 1847."}}, {"q": {"fr": "Quel sport irlandais se joue avec une crosse appelée « hurley » ?", "en": "Which Irish sport is played with a stick called a “hurley”?"}, "o": [{"fr": "Le curling", "en": "Curling"}, {"fr": "Le hurling", "en": "Hurling"}, {"fr": "Le bowling", "en": "Bowling"}], "a": 1, "info": {"fr": "Le hurling, l'un des plus vieux sports de terrain au monde.", "en": "Hurling, one of the oldest field sports in the world."}}, {"q": {"fr": "Quel célèbre groupe de rock est né à Dublin ?", "en": "Which famous rock band was born in Dublin?"}, "o": [{"fr": "U2", "en": "U2"}, {"fr": "Queen", "en": "Queen"}, {"fr": "ABBA", "en": "ABBA"}], "a": 0, "info": {"fr": "U2, formé à Dublin en 1976.", "en": "U2, formed in Dublin in 1976."}}, {"q": {"fr": "Quelle est la capitale de l'Irlande du Nord ?", "en": "What is the capital of Northern Ireland?"}, "o": [{"fr": "Galway", "en": "Galway"}, {"fr": "Belfast", "en": "Belfast"}, {"fr": "Derry", "en": "Derry"}], "a": 1, "info": {"fr": "Belfast, capitale de l'Irlande du Nord (Royaume-Uni).", "en": "Belfast, capital of Northern Ireland (UK)."}}, {"q": {"fr": "Comment s'appelle le musée de la Guinness à Dublin ?", "en": "What is the Guinness museum in Dublin called?"}, "o": [{"fr": "Le Guinness Palace", "en": "The Guinness Palace"}, {"fr": "La Black Tower", "en": "The Black Tower"}, {"fr": "Le Guinness Storehouse", "en": "The Guinness Storehouse"}], "a": 2, "info": {"fr": "Le Guinness Storehouse, ouvert en 2000, avec son bar panoramique.", "en": "The Guinness Storehouse, opened in 2000, with its rooftop bar."}}], "kind": "quiz"}, {"id": "avis-la-bull", "kind": "poll", "anon": true, "title": {"fr": "Sondage · Votre avis sur LA BULL", "en": "Poll · Your opinion on LA BULL"}, "sub": {"fr": "30 secondes pour nous aider à faire encore mieux !", "en": "30 seconds to help us do even better!"}, "date": "", "color": "#1c5fd1", "questions": [{"type": "stars", "q": {"fr": "Comment notez-vous LA BULL ?", "en": "How would you rate LA BULL?"}, "o": []}, {"type": "single", "q": {"fr": "Quelle soirée aimeriez-vous le plus revoir ?", "en": "Which night would you most like to see again?"}, "o": [{"fr": "Karaoké", "en": "Karaoke"}, {"fr": "Pub quiz", "en": "Pub quiz"}, {"fr": "Concert live", "en": "Live concert"}, {"fr": "Soirée à thème", "en": "Theme night"}]}, {"type": "multi", "q": {"fr": "Qu’est-ce qui vous plaît à LA BULL ?", "en": "What do you like at LA BULL?"}, "o": [{"fr": "Les fléchettes", "en": "Darts"}, {"fr": "La pétanque", "en": "Pétanque"}, {"fr": "Les Bull’izzas", "en": "Bull’izzas"}, {"fr": "Les bières", "en": "The beers"}, {"fr": "L’ambiance", "en": "The atmosphere"}]}, {"type": "text", "q": {"fr": "Une idée de soirée pour nous ?", "en": "An idea for a night?"}, "o": []}]}]</script>
 <script>/* QRCode for JavaScript — Copyright (c) 2009 Kazuhiko Arase — MIT license */
 var QRLib=(function(){var M={};function req(p){return M[path(p)]}function path(p){var s=p.split("/");var n=s[s.length-1];return n==""||n==".."?"index":n}
 M["QRMode"]=(function(){var module={exports:{}};var require=req;
@@ -1401,93 +1418,91 @@ const LS = {
   del(k) { try { localStorage.removeItem(k); } catch (e) {} }
 };
 
-/* ---------------- texts ---------------- */
+/* ================= TEXTS ================= */
 const T = {
 fr: {
-  copy: `© ${YEAR} Tous droits réservés · Propriété de SKÅL / LA BULL`,
-  choose: 'Choisissez votre jeu', chooseT: 'Touchez un jeu pour afficher son QR code à scanner.', tapQR: 'Toucher pour afficher le QR · Tap to show the QR',
-  scanToPlay: 'Scannez le QR code de la partie affiché au bar pour jouer.',
-  hostSpace: 'Espace animateur', team: 'Nom de votre équipe', solo: 'Votre prénom & nom',
-  teamPh: 'Ex. : Les Leprechauns', soloPh: 'Ex. : Marie Dupont', start: 'C’est parti !',
-  q: 'Question', prev: '← Précédent', next: 'Suivant →', recap: 'Récapitulatif', review: 'Vérifiez vos réponses',
-  tapEdit: 'Touchez une case pour modifier.', missing: n => `${n} question(s) sans réponse`, validate: 'Valider mes réponses',
+  copy: `© ${YEAR} Tous droits réservés · Propriété de SKÅL / LA BULL`, appSub: 'Quiz · Sondages',
+  scanToPlay: 'Scannez le QR code affiché au bar pour participer.', hostSpace: 'Espace animateur',
+  team: 'Nom de votre équipe', solo: 'Votre prénom & nom', name: 'Votre prénom', teamPh: 'Ex. : Les Leprechauns', soloPh: 'Ex. : Marie Dupont', namePh: 'Ex. : Marie',
+  start: 'C’est parti !', q: 'Question', prev: '← Précédent', next: 'Suivant →', recap: 'Récapitulatif', review: 'Vérifiez vos réponses',
+  tapEdit: 'Touchez une réponse pour la modifier.', missing: n => `${n} question(s) sans réponse`, validate: 'Valider mes réponses',
   confirmV: 'Valider définitivement ?', confirmVt: 'Vous ne pourrez plus modifier vos réponses.', yes: 'Oui, valider', no: 'Annuler',
-  showQR: 'Montrez ce QR code à l’animateur', locked: 'Réponses validées et verrouillées ✔',
-  results: 'Résultats et tirage au sort en fin de partie !', yourAns: 'Vos réponses', notFound: 'Partie introuvable',
-  notFoundT: 'Ce QR code ne correspond à aucune partie. Demandez au bar le bon QR code.',
-  pin: 'Code animateur', pinPh: '••••', enter: 'Entrer', badPin: 'Code incorrect', back: '← Retour',
-  games: 'Mes jeux', play: 'QR pour les joueurs', playHere: 'Jouer sur ce téléphone', newGame: '+ Créer un jeu', builtIn: 'intégré à l’appli', local: 'sur ce téléphone',
-  qCount: n => `${n} questions`, received: n => `${n} fiche(s) reçue(s)`, joinTitle: 'Scannez pour jouer', joinEn: 'Scan to play',
-  fullscreen: 'Plein écran', print: 'Imprimer l’affichette', ranking: 'Classement', scan: 'Scanner une fiche',
-  manual: 'Saisie manuelle', key: 'Corrigé', reset: 'Effacer les résultats', zeroT: 'Remise à zéro', zeroGame: 'Effacer les scores de ce jeu', zeroAll: 'Tout remettre à zéro (tous les jeux)', zeroPin: 'Entrez le code animateur pour confirmer. Les scores effacés ne pourront pas être récupérés.', zeroGo: 'Effacer', zeroDone: 'Scores remis à zéro', resetQ: 'Effacer tous les résultats de cette partie ?',
-  howRecv: 'Pour recevoir une fiche : scannez le QR du joueur avec l’appareil photo de ce téléphone (ou le bouton Scanner).',
+  showQR: 'Montrez ce QR code à l’animateur', locked: 'Réponses validées et verrouillées ✔', results: 'Résultats et tirage au sort en fin de partie !',
+  pollThanks: 'Merci pour votre participation !', yourAns: 'Vos réponses', notFound: 'Introuvable', notFoundT: 'Ce QR code ne correspond à aucun jeu ni sondage. Demandez au bar le bon QR code.',
+  pin: 'Code animateur', enter: 'Entrer', badPin: 'Code incorrect', back: '← Retour', backS: 'Retour', home: 'Accueil',
+  homeT: 'Touchez « QR pour participer » pour faire scanner un quiz ou un sondage.', newQuiz: 'Créer un quiz', newPoll: 'Créer un sondage',
+  all: 'Tout', quizzes: 'Quiz', polls: 'Sondages', upcoming: 'Aujourd’hui et à venir', past: 'Passés', none: 'Rien ici pour l’instant.',
+  kQuiz: '🧠 Quiz', kPoll: '📊 Sondage', qCount: n => `${n} question(s)`, received: n => `${n} fiche(s) reçue(s)`, participants: n => `${n} participant(s)`,
+  playQR: 'QR pour participer', recvS: 'Recevoir une fiche', ranking: 'Classement', stats: 'Résultats', keyS: 'Questions & corrigé', qsS: 'Questions',
+  playHereS: 'Participer ici', edit: 'Modifier', dup: 'Dupliquer', settings: 'Réglages', lock: 'Verrouiller', printS: 'Imprimer',
+  joinTitle: 'Scannez pour participer', printLine: 'Scannez avec l’appareil photo de votre téléphone · Scan with your phone camera',
+  recvT: 'Recevoir une fiche', recvHow: 'Ouvrez l’appareil photo de votre téléphone et visez le QR code affiché sur le téléphone du participant, puis touchez le lien qui apparaît : la fiche s’enregistre toute seule.',
+  manual: 'Saisie manuelle', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)', add: 'Ajouter', close: 'Fermer',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
-  noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous',
-  drawGo: 'Lancer le tirage !', winner: 'Gagnant !', again: 'Relancer', close: 'Fermer', details: 'Détail', myQuiz: 'Mes quiz', homeT: 'Touchez « QR pour les joueurs » pour faire scanner le quiz.', recvS: 'Recevoir une fiche', keyS: 'Questions & corrigé', playHereS: 'Jouer ici', backS: 'Retour', lock: 'Verrouiller', printS: 'Imprimer', recvT: 'Recevoir une fiche joueur', recvHow: 'Ouvrez l\u2019appareil photo de votre téléphone et visez le QR code affiché sur le téléphone du joueur, puis touchez le lien qui apparaît : la fiche s\u2019enregistre toute seule avec son score.', seeAns: 'Voir ses réponses en détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Fiche reçue à',
-  edit: 'Modifier', dup: 'Dupliquer', del: 'Supprimer', delQ: 'Supprimer ce jeu ?', save: 'Enregistrer',
-  title: 'Titre', subtitle: 'Accroche', date: 'Date', mode: 'Type de partie', modeTeam: 'Par équipe', modeSolo: 'Individuel',
-  color: 'Couleur', questions: 'Questions', addQ: '+ Ajouter une question', correct: 'Touchez la bonne réponse (en vert)',
-  info: 'Anecdote pour le corrigé (facultatif)', qFr: 'Question en français', qEn: 'Question en anglais',
-  optFr: 'Réponse FR', optEn: 'Réponse EN', addOpt: '+ réponse', export: 'Mettre à jour le fichier de l’appli',
-  exportT: 'Télécharge une nouvelle version de l’appli avec tous vos jeux dedans. Remplacez le fichier en ligne par celui-ci.',
-  backup: 'Sauvegarder mes jeux (.json)', import: 'Importer des jeux (.json)', settings: 'Réglages', newPin: 'Nouveau code animateur',
-  pinSaved: 'Code enregistré', logout: 'Quitter le mode animateur', tooLong: 'Ce jeu est trop long pour être mis dans le QR code. Utilisez « Mettre à jour le fichier de l’appli » puis remettez le fichier en ligne.',
-  embedded: 'Jeu transmis par le QR code (pas besoin de mettre à jour le fichier).', inFile: 'Jeu intégré au fichier de l’appli.',
-  unknownGame: 'Cette fiche concerne un jeu absent de ce téléphone.', mismatch: 'Attention : le nombre de questions ne correspond pas au jeu.',
-  camErr: 'Impossible d’ouvrir la caméra ici. Utilisez l’appareil photo du téléphone pour scanner la fiche.',
-  noScanner: 'Scanner intégré non disponible sur ce navigateur : utilisez simplement l’appareil photo du téléphone.',
-  scanning: 'Visez le QR code du joueur…', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)',
-  add: 'Ajouter', answers: 'Réponses', builtinRO: 'Jeu intégré : dupliquez-le pour le modifier.', minQ: 'Ajoutez au moins une question complète.',
-  offline: 'Cette appli n\u2019est pas encore en ligne : ce QR code ne peut pas être lu par les téléphones (« aucune donnée »). Mettez le fichier en ligne, puis ouvrez l\u2019appli depuis son adresse internet.',
-  baseL: 'Adresse de l\u2019appli en ligne', baseT: 'Appli ouverte hors ligne : indiquez ici son adresse internet (https://…) pour que les QR codes fonctionnent.', baseOn: 'Appli en ligne à l\u2019adresse :',
-  hostHint: 'Code par défaut : 0901 — changez-le dans Réglages.', gameOf: (a, b) => `${a} / ${b}`, missingL: 'sans réponse',
-  printLine: 'Scannez avec l’appareil photo de votre téléphone · Scan with your phone camera'
+  pollSaved: 'Réponse enregistrée', seeStats: 'Voir les résultats', seeAns: 'Voir ses réponses en détail',
+  noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous', drawGo: 'Lancer le tirage !', again: 'Relancer',
+  details: 'Détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Reçue à',
+  zeroT: 'Remise à zéro', zeroGame: 'Effacer les résultats de ce jeu', zeroAll: 'Tout remettre à zéro (tous les jeux et sondages)',
+  zeroPin: 'Entrez le code animateur pour confirmer. Les résultats effacés ne pourront pas être récupérés.', zeroGo: 'Effacer', zeroDone: 'Résultats remis à zéro',
+  avg: 'Moyenne', answers: n => `${n} réponse(s)`, anonymous: 'Anonyme', byPerson: 'Réponses par participant',
+  tSingle: 'Choix unique', tMulti: 'Choix multiples', tStars: 'Note de 1 à 5 ★', tText: 'Réponse libre',
+  multiHint: 'Plusieurs réponses possibles', starsHint: 'Touchez une étoile', textHint: 'Quelques mots (facultatif)', textPh: 'Votre réponse…',
+  title: 'Titre', subtitle: 'Accroche', date: 'Date', mode: 'Type de participation', modeTeam: 'Par équipe', modeSolo: 'Individuel',
+  anonL: 'Participants', anonY: 'Anonyme', anonN: 'Avec prénom', color: 'Couleur', questions: 'Questions', addQ: '+ Ajouter une question',
+  qType: 'Type de question', correct: 'Touchez la bonne réponse (en vert)', info: 'Anecdote pour le corrigé (facultatif)', qFr: 'Question en français', qEn: 'Question en anglais',
+  optFr: 'Réponse FR', optEn: 'Réponse EN', addOpt: '+ réponse', save: 'Enregistrer', del: 'Supprimer', delQ: 'Supprimer ?', minQ: 'Ajoutez au moins une question complète.',
+  builtinRO: 'Intégré à l’appli : dupliquez-le pour le modifier.', newPin: 'Nouveau code animateur', pinSaved: 'Enregistré',
+  export: 'Mettre à jour le fichier de l’appli', exportT: 'Télécharge une version de l’appli contenant tous vos jeux et sondages.',
+  backup: 'Sauvegarder mes créations (.json)', import: 'Importer (.json)', baseL: 'Adresse de l’appli en ligne', baseT: 'Appli ouverte hors ligne : indiquez son adresse internet (https://…) pour que les QR codes fonctionnent.', baseOn: 'Appli en ligne à l’adresse :',
+  offline: 'Appli pas encore en ligne : ce QR code ne pourra pas être lu.', tooLong: 'Trop long pour tenir dans le QR code : demandez à l’intégrer à l’appli.',
+  unknownGame: 'Cette fiche concerne un jeu absent de ce téléphone.', mismatch: 'Attention : le nombre de questions ne correspond pas.',
+  camErr: 'Impossible d’ouvrir la caméra ici. Utilisez l’appareil photo du téléphone.', scanning: 'Visez le QR code du participant…',
+  createdLocal: 'créé sur ce téléphone', builtIn: 'intégré'
 },
 en: {
-  copy: `© ${YEAR} All rights reserved · Property of SKÅL / LA BULL`,
-  choose: 'Choose your game', chooseT: 'Tap a game to show its QR code to scan.', tapQR: 'Tap to show the QR · Toucher pour afficher le QR',
-  scanToPlay: 'Scan the game QR code displayed at the bar to play.',
-  hostSpace: 'Quiz master area', team: 'Your team name', solo: 'Your first & last name',
-  teamPh: 'E.g.: The Leprechauns', soloPh: 'E.g.: Mary Smith', start: 'Let’s go!',
-  q: 'Question', prev: '← Previous', next: 'Next →', recap: 'Summary', review: 'Check your answers',
-  tapEdit: 'Tap a box to change it.', missing: n => `${n} unanswered question(s)`, validate: 'Submit my answers',
+  copy: `© ${YEAR} All rights reserved · Property of SKÅL / LA BULL`, appSub: 'Quizzes · Polls',
+  scanToPlay: 'Scan the QR code displayed at the bar to take part.', hostSpace: 'Quiz master area',
+  team: 'Your team name', solo: 'Your first & last name', name: 'Your first name', teamPh: 'E.g.: The Leprechauns', soloPh: 'E.g.: Mary Smith', namePh: 'E.g.: Mary',
+  start: 'Let’s go!', q: 'Question', prev: '← Previous', next: 'Next →', recap: 'Summary', review: 'Check your answers',
+  tapEdit: 'Tap an answer to change it.', missing: n => `${n} unanswered question(s)`, validate: 'Submit my answers',
   confirmV: 'Submit for good?', confirmVt: 'You won’t be able to change your answers.', yes: 'Yes, submit', no: 'Cancel',
-  showQR: 'Show this QR code to the quiz master', locked: 'Answers submitted and locked ✔',
-  results: 'Results and prize draw at the end of the game!', yourAns: 'Your answers', notFound: 'Game not found',
-  notFoundT: 'This QR code doesn’t match any game. Ask the bar for the right QR code.',
-  pin: 'Quiz master code', pinPh: '••••', enter: 'Enter', badPin: 'Wrong code', back: '← Back',
-  games: 'My games', play: 'QR for players', playHere: 'Play on this phone', newGame: '+ Create a game', builtIn: 'built into the app', local: 'on this phone',
-  qCount: n => `${n} questions`, received: n => `${n} sheet(s) received`, joinTitle: 'Scan to play', joinEn: 'Scannez pour jouer',
-  fullscreen: 'Full screen', print: 'Print the table card', ranking: 'Ranking', scan: 'Scan a sheet',
-  manual: 'Manual entry', key: 'Answer key', reset: 'Clear results', zeroT: 'Reset', zeroGame: 'Clear this game\u2019s scores', zeroAll: 'Reset everything (all games)', zeroPin: 'Enter the quiz master code to confirm. Cleared scores can\u2019t be recovered.', zeroGo: 'Clear', zeroDone: 'Scores reset', resetQ: 'Clear all results for this game?',
-  howRecv: 'To receive a sheet: scan the player’s QR with this phone’s camera (or the Scan button).',
+  showQR: 'Show this QR code to the quiz master', locked: 'Answers submitted and locked ✔', results: 'Results and prize draw at the end of the game!',
+  pollThanks: 'Thank you for taking part!', yourAns: 'Your answers', notFound: 'Not found', notFoundT: 'This QR code doesn’t match any game or poll. Ask the bar for the right QR code.',
+  pin: 'Quiz master code', enter: 'Enter', badPin: 'Wrong code', back: '← Back', backS: 'Back', home: 'Home',
+  homeT: 'Tap “QR to take part” to let people scan a quiz or a poll.', newQuiz: 'Create a quiz', newPoll: 'Create a poll',
+  all: 'All', quizzes: 'Quizzes', polls: 'Polls', upcoming: 'Today and upcoming', past: 'Past', none: 'Nothing here yet.',
+  kQuiz: '🧠 Quiz', kPoll: '📊 Poll', qCount: n => `${n} question(s)`, received: n => `${n} sheet(s) received`, participants: n => `${n} participant(s)`,
+  playQR: 'QR to take part', recvS: 'Receive a sheet', ranking: 'Ranking', stats: 'Results', keyS: 'Questions & key', qsS: 'Questions',
+  playHereS: 'Take part here', edit: 'Edit', dup: 'Duplicate', settings: 'Settings', lock: 'Lock', printS: 'Print',
+  joinTitle: 'Scan to take part', printLine: 'Scan with your phone camera · Scannez avec l’appareil photo de votre téléphone',
+  recvT: 'Receive a sheet', recvHow: 'Open your phone’s camera and point it at the QR code on the participant’s phone, then tap the link that appears: the sheet is saved automatically.',
+  manual: 'Manual entry', manualT: 'Team name, then the answers in order (e.g. ACBBA…)', add: 'Add', close: 'Close',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
-  noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone',
-  drawGo: 'Start the draw!', winner: 'Winner!', again: 'Draw again', close: 'Close', details: 'Details', myQuiz: 'My quizzes', homeT: 'Tap “QR for players” to let players scan the quiz.', recvS: 'Receive a sheet', keyS: 'Questions & key', playHereS: 'Play here', backS: 'Back', lock: 'Lock', printS: 'Print', recvT: 'Receive a player sheet', recvHow: 'Open your phone\u2019s camera and point it at the QR code on the player\u2019s phone, then tap the link that appears: the sheet is saved automatically with its score.', seeAns: 'See their answers in detail', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Sheet received at',
-  edit: 'Edit', dup: 'Duplicate', del: 'Delete', delQ: 'Delete this game?', save: 'Save',
-  title: 'Title', subtitle: 'Tagline', date: 'Date', mode: 'Game type', modeTeam: 'Teams', modeSolo: 'Individual',
-  color: 'Colour', questions: 'Questions', addQ: '+ Add a question', correct: 'Tap the correct answer (green)',
-  info: 'Fun fact for the answer key (optional)', qFr: 'Question in French', qEn: 'Question in English',
-  optFr: 'Answer FR', optEn: 'Answer EN', addOpt: '+ answer', export: 'Update the app file',
-  exportT: 'Downloads a new version of the app with all your games inside. Replace the online file with it.',
-  backup: 'Back up my games (.json)', import: 'Import games (.json)', settings: 'Settings', newPin: 'New quiz master code',
-  pinSaved: 'Code saved', logout: 'Leave quiz master mode', tooLong: 'This game is too long to fit in the QR code. Use “Update the app file” and put the file back online.',
-  embedded: 'Game carried by the QR code (no need to update the file).', inFile: 'Game built into the app file.',
-  unknownGame: 'This sheet is for a game that isn’t on this phone.', mismatch: 'Warning: the number of questions doesn’t match the game.',
-  camErr: 'Can’t open the camera here. Use the phone’s camera app to scan the sheet.',
-  noScanner: 'Built-in scanner not available in this browser: just use the phone’s camera app.',
-  scanning: 'Point at the player’s QR code…', manualT: 'Team name, then the answers in order (e.g. ACBBA…)',
-  add: 'Add', answers: 'Answers', builtinRO: 'Built-in game: duplicate it to edit.', minQ: 'Add at least one complete question.',
-  offline: 'This app isn\u2019t online yet: phones can\u2019t read this QR code (“no usable data”). Put the file online, then open the app from its web address.',
-  baseL: 'Online app address', baseT: 'App opened offline: enter its web address (https://…) so the QR codes work.', baseOn: 'App online at:',
-  hostHint: 'Default code: 0901 — change it in Settings.', gameOf: (a, b) => `${a} / ${b}`, missingL: 'unanswered',
-  printLine: 'Scan with your phone camera · Scannez avec l’appareil photo de votre téléphone'
+  pollSaved: 'Answer saved', seeStats: 'See the results', seeAns: 'See their answers in detail',
+  noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone', drawGo: 'Start the draw!', again: 'Draw again',
+  details: 'Details', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Received at',
+  zeroT: 'Reset', zeroGame: 'Clear this game’s results', zeroAll: 'Reset everything (all games and polls)',
+  zeroPin: 'Enter the quiz master code to confirm. Cleared results can’t be recovered.', zeroGo: 'Clear', zeroDone: 'Results reset',
+  avg: 'Average', answers: n => `${n} answer(s)`, anonymous: 'Anonymous', byPerson: 'Answers per participant',
+  tSingle: 'Single choice', tMulti: 'Multiple choice', tStars: '1 to 5 ★ rating', tText: 'Free answer',
+  multiHint: 'Several answers allowed', starsHint: 'Tap a star', textHint: 'A few words (optional)', textPh: 'Your answer…',
+  title: 'Title', subtitle: 'Tagline', date: 'Date', mode: 'Participation', modeTeam: 'Teams', modeSolo: 'Individual',
+  anonL: 'Participants', anonY: 'Anonymous', anonN: 'With first name', color: 'Colour', questions: 'Questions', addQ: '+ Add a question',
+  qType: 'Question type', correct: 'Tap the correct answer (green)', info: 'Fun fact for the answer key (optional)', qFr: 'Question in French', qEn: 'Question in English',
+  optFr: 'Answer FR', optEn: 'Answer EN', addOpt: '+ answer', save: 'Save', del: 'Delete', delQ: 'Delete?', minQ: 'Add at least one complete question.',
+  builtinRO: 'Built into the app: duplicate it to edit.', newPin: 'New quiz master code', pinSaved: 'Saved',
+  export: 'Update the app file', exportT: 'Downloads a version of the app containing all your games and polls.',
+  backup: 'Back up my creations (.json)', import: 'Import (.json)', baseL: 'Online app address', baseT: 'App opened offline: enter its web address (https://…) so the QR codes work.', baseOn: 'App online at:',
+  offline: 'App not online yet: this QR code can’t be read.', tooLong: 'Too long to fit in the QR code: ask for it to be built into the app.',
+  unknownGame: 'This sheet is for a game that isn’t on this phone.', mismatch: 'Warning: the number of questions doesn’t match.',
+  camErr: 'Can’t open the camera here. Use the phone’s camera app.', scanning: 'Point at the participant’s QR code…',
+  createdLocal: 'created on this phone', builtIn: 'built in'
 }};
 let lang = LS.get('lb_lang', (navigator.language || 'fr').startsWith('fr') ? 'fr' : 'en');
 const t = k => T[lang][k];
 const L = o => (o && (o[lang] || o.fr || o.en)) || '';
 
-/* ---------------- games ---------------- */
+/* ================= DATA ================= */
 let BUILTIN = [];
 try { BUILTIN = JSON.parse($('#games-data').textContent || '[]'); } catch (e) {}
 const myGames = () => LS.get('lb_games', []);
@@ -1495,9 +1510,14 @@ const saveMyGames = a => LS.set('lb_games', a);
 const allGames = () => { const m = myGames(); const ids = new Set(m.map(g => g.id)); return [...BUILTIN.filter(g => !ids.has(g.id)), ...m]; };
 const findGame = id => allGames().find(g => g.id === id);
 const isBuiltin = id => BUILTIN.some(g => g.id === id) && !myGames().some(g => g.id === id);
-const LETTERS = 'ABCD';
+const kindOf = g => g.kind === 'poll' ? 'poll' : 'quiz';
+const qType = (g, q) => kindOf(g) === 'quiz' ? 'single' : (q.type || 'single');
+const LETTERS = 'ABCDEF';
+const resKey = id => 'lb_res_' + id;
+const getRes = id => LS.get(resKey(id), {});
+const isHost = () => LS.get('lb_host', false) === true;
 
-/* ---------------- encoding ---------------- */
+/* ================= ENCODING ================= */
 const b64u = bytes => { let s = ''; bytes.forEach(b => s += String.fromCharCode(b)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
 const unb64u = str => { str = str.replace(/-/g, '+').replace(/_/g, '/'); while (str.length % 4) str += '='; const s = atob(str); return Uint8Array.from(s, c => c.charCodeAt(0)); };
 const enc = s => new TextEncoder().encode(s), dec = b => new TextDecoder().decode(b);
@@ -1506,23 +1526,31 @@ async function inflate(bytes) { const ds = new DecompressionStream('deflate-raw'
 const ONLINE = /^https?:$/.test(location.protocol) && !/^(localhost|127\.|10\.|192\.168\.|\[)/.test(location.hostname);
 const baseURL = () => { const b = (LS.get('lb_base', '') || '').trim(); return b && !ONLINE ? b.split('#')[0] : location.href.split('#')[0]; };
 const qrUsable = () => ONLINE || /^https:\/\//.test((LS.get('lb_base', '') || '').trim());
-function resultPayload(g, team, answers) { return b64u(enc(['1', g.id, g.questions.length, answers.map(a => a == null ? '-' : LETTERS[a]).join(''), team].join('|'))); }
-function parseResult(p) { const parts = dec(unb64u(p)).split('|'); if (parts[0] !== '1') throw 0; return { g: parts[1], n: +parts[2], a: parts[3], t: parts.slice(4).join('|') }; }
+function resultPayload(g, st) {
+  if (kindOf(g) === 'quiz') return b64u(enc(['1', g.id, g.questions.length, st.a.map(a => a == null ? '-' : LETTERS[a]).join(''), st.team].join('|')));
+  return b64u(enc(JSON.stringify({ v: 2, g: g.id, n: g.questions.length, p: st.pid, t: st.team || '', a: st.a })));
+}
+function parseResult(p) {
+  const s = dec(unb64u(p));
+  if (s[0] === '{') { const o = JSON.parse(s); return { g: o.g, n: o.n, a: o.a, t: o.t || '', p: o.p, v: 2 }; }
+  const parts = s.split('|'); if (parts[0] !== '1') throw 0;
+  return { g: parts[1], n: +parts[2], a: parts[3], t: parts.slice(4).join('|'), v: 1 };
+}
 async function joinURL(g) {
   if (isBuiltin(g.id)) return { url: baseURL() + '#j=' + encodeURIComponent(g.id), embedded: false };
-  const slim = { id: g.id, t: g.title, s: g.sub, d: g.date, m: g.mode, c: g.color, q: g.questions.map(q => [q.q.fr, q.q.en, q.o.map(o => [o.fr, o.en])]) };
+  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, d: g.date, m: g.mode, an: !!g.anon, c: g.color, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en])]) };
   const url = baseURL() + '#j=~' + b64u(await deflate(JSON.stringify(slim)));
   return { url, embedded: true, tooLong: url.length > 1800 };
 }
 async function gameFromHash(v) {
   if (v.startsWith('~')) {
     const s = JSON.parse(await inflate(unb64u(v.slice(1))));
-    return { id: s.id, title: s.t, sub: s.s, date: s.d, mode: s.m, color: s.c, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, o: q[2].map(o => ({ fr: o[0], en: o[1] })) })) };
+    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, date: s.d, mode: s.m, anon: s.an, color: s.c, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })) })) };
   }
   return findGame(decodeURIComponent(v));
 }
 
-/* ---------------- QR ---------------- */
+/* ================= QR ================= */
 function qrSVG(text, ecl = 'M') {
   const q = new QRLib.QRCode(-1, QRLib.ECL[ecl]); q.addData(text); q.make();
   const n = q.getModuleCount(), m = 4; let d = '';
@@ -1530,32 +1558,41 @@ function qrSVG(text, ecl = 'M') {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n + 2 * m} ${n + 2 * m}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
 }
 
-/* ---------------- UI helpers ---------------- */
+/* ================= UI HELPERS ================= */
 const app = $('#app');
 function setAcc(c) { document.documentElement.style.setProperty('--acc', c || '#f2b632'); }
 function topBar(sub) {
-  return `<div class="top"><img src="${LOGO}" alt="LA BULL"><div class="tt"><b>LA BULL · QUIZ</b><small>${esc(sub || 'Serres-et-Montguyard')}</small></div>
+  return `<div class="top"><img src="${LOGO}" alt="LA BULL"><div class="tt"><b>LA BULL</b><small>${esc(sub || t('appSub'))}</small></div>
   <div class="lang"><button data-lang="fr" class="${lang === 'fr' ? 'on' : ''}">FR</button><button data-lang="en" class="${lang === 'en' ? 'on' : ''}">EN</button></div></div>`;
 }
+const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('home'))}</button></div>`;
 function fmtDate(s) { if (!s) return ''; try { return new Date(s + 'T12:00:00').toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return s; } }
+const fmtTime = ts => new Date(ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
 function toast(msg, ok = true) { const d = document.createElement('div'); d.className = 'toast'; if (!ok) d.style.background = 'var(--bad)'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
 function modal(html, onMount) { const m = document.createElement('div'); m.className = 'modal'; m.innerHTML = `<div class="card">${html}</div>`; document.body.appendChild(m); m.addEventListener('click', e => { if (e.target === m) m.remove(); }); onMount && onMount(m); return m; }
 function confirmBox(title, text, yes, cb, danger) {
   modal(`<h3>${esc(title)}</h3><p class="muted">${esc(text || '')}</p><div class="row" style="margin-top:14px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small ${danger ? 'danger' : ''}" data-y>${esc(yes)}</button></div>`,
     m => { m.querySelector('[data-x]').onclick = () => m.remove(); m.querySelector('[data-y]').onclick = () => { m.remove(); cb(); }; });
 }
+function pinConfirm(title, cb) {
+  modal(`<h3>⚠️ ${esc(title)}</h3><p class="muted" style="font-size:14px">${esc(t('zeroPin'))}</p><input class="in big-in" id="zp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+   <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn danger small" data-y>${esc(t('zeroGo'))}</button></div>`, m => {
+    const inp = m.querySelector('#zp'); inp.focus();
+    const ok = () => { if (inp.value === LS.get('lb_pin', '0901')) { m.remove(); cb(); } else { inp.value = ''; toast(t('badPin'), false); } };
+    m.querySelector('[data-x]').onclick = () => m.remove(); m.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
+  });
+}
 function confetti() { const cols = ['#f2b632', '#3ccf7a', '#ff6b5e', '#4ea8ff', '#fff']; for (let i = 0; i < 90; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length]; c.style.animationDuration = 1.8 + Math.random() * 1.8 + 's'; c.style.animationDelay = Math.random() * .6 + 's'; document.body.appendChild(c); setTimeout(() => c.remove(), 4500); } }
-document.addEventListener('click', e => { const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; LS.set('lb_lang', lang); document.documentElement.lang = lang; route(); } });
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; LS.set('lb_lang', lang); route(); return; }
+  const n = e.target.closest('[data-nav]'); if (n) { if (n.dataset.nav === 'home') go(''); else if (history.length > 1) history.back(); else go(''); }
+});
 
-/* ---------------- routing ---------------- */
-let current = null; // player game
-const isHost = () => LS.get('lb_host', false) === true;
+/* ================= ROUTING ================= */
 async function route() {
   document.querySelectorAll('.modal,.full').forEach(m => m.remove());
-  $('#copy').textContent = t('copy');
-  document.documentElement.lang = lang;
-  const h = location.hash.slice(1);
-  const [k, ...rest] = h.split('='); const v = rest.join('=');
+  $('#copy').textContent = t('copy'); document.documentElement.lang = lang;
+  const h = location.hash.slice(1); const [k, ...rest] = h.split('='); const v = rest.join('=');
   try {
     if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
     if (k === 'r' && v) return receive(v);
@@ -1567,131 +1604,122 @@ async function route() {
 }
 window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
-
-function landing() { hostHome(); }
-async function showQR(g) {
-  const j = await joinURL(g);
-  const f = document.createElement('div'); f.className = 'full';
-  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p><p style="margin:0;font-size:14px;color:#555">${esc(T.fr.printLine)}</p>
-  <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHere'))}</button><button class="btn ghost small" data-pr style="flex:1;color:#1a1008;border-color:#ccc">🖨 ${esc(t('printS'))}</button></div>`;
-  f.querySelector('[data-pr]').onclick = () => printCard(g, j);
-  f.querySelector('.x').onclick = () => f.remove();
-  f.querySelector('[data-here]').onclick = () => { f.remove(); go('j=' + encodeURIComponent(g.id)); };
-  document.body.appendChild(f);
-}
-function printCard(g, j) { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010</small>`; window.print(); }
-function receiveHelp(g) {
-  if ('BarcodeDetector' in window) return scanner(g);
-  modal(`<p style="font-size:44px;margin:0;text-align:center">📷</p><h3 class="center">${esc(t('recvT'))}</h3><p>${esc(t('recvHow'))}</p>
-   <button class="btn small" data-m style="width:100%;margin-top:10px">⌨️ ${esc(t('manual'))}</button><button class="btn ghost small" data-c style="width:100%;margin-top:10px">${esc(t('close'))}</button>`,
-   m => { m.querySelector('[data-c]').onclick = () => m.remove(); m.querySelector('[data-m]').onclick = () => { m.remove(); manualEntry(g); }; });
-}
-const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('myQuiz'))}</button></div>`;
-document.addEventListener('click', e => { const n = e.target.closest('[data-nav]'); if (!n) return; if (n.dataset.nav === 'home') go(''); else if (history.length > 1) history.back(); else go(''); });
 function notFound() { setAcc(); app.innerHTML = topBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-/* ---------------- player ---------------- */
-function pkey(g) { return 'lb_play_' + g.id; }
+/* ================= PARTICIPANT ================= */
+const pkey = g => 'lb_play_' + g.id;
 function playerStart(g) {
-  current = g; setAcc(g.color);
+  setAcc(g.color);
   const st = LS.get(pkey(g), null);
   if (st && st.done) return playerDone(g, st);
-  if (st && st.team) return playerQ(g, st);
-  const solo = g.mode === 'solo';
-  app.innerHTML = topBar(fmtDate(g.date)) + `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1>${esc(L(g.title))}</h1>
+  if (st && st.started) return playerQ(g, st);
+  const poll = kindOf(g) === 'poll', askName = poll ? !g.anon : true;
+  const lab = poll ? 'name' : (g.mode === 'solo' ? 'solo' : 'team'), ph = poll ? 'namePh' : (g.mode === 'solo' ? 'soloPh' : 'teamPh');
+  app.innerHTML = topBar(fmtDate(g.date)) + `<div class="hero"><img src="${LOGO}" alt="LA BULL"><p style="margin:12px 0 0"><span class="kind">${esc(poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
    <p class="muted" style="font-size:17px">${esc(L(g.sub))}</p><p><span class="pill">${esc(t('qCount')(g.questions.length))}</span> <span class="pill">${esc(fmtDate(g.date))}</span></p></div>
-   <div class="card"><label class="f" for="team">${esc(t(solo ? 'solo' : 'team'))}</label>
-   <input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(solo ? 'soloPh' : 'teamPh'))}">
-   <div style="margin-top:14px"><button class="btn acc" id="go" disabled>${esc(t('start'))}</button></div></div>`;
+   <div class="card">${askName ? `<label class="f" for="team">${esc(t(lab))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(ph))}">` : `<p class="center muted" style="margin:0 0 4px">🔒 ${esc(t('anonymous'))}</p>`}
+   <div style="margin-top:14px"><button class="btn acc" id="go" ${askName ? 'disabled' : ''}>${esc(t('start'))}</button></div></div>`;
   const inp = $('#team'), b = $('#go');
-  inp.oninput = () => b.disabled = !inp.value.trim();
-  b.onclick = () => { const s = { team: inp.value.trim(), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
+  if (inp) inp.oninput = () => b.disabled = !inp.value.trim();
+  b.onclick = () => { const s = { started: true, team: inp ? inp.value.trim() : '', pid: 'p' + Math.random().toString(36).slice(2, 9), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
 }
+function answered(v) { return v != null && !(Array.isArray(v) && !v.length) && v !== ''; }
 function playerQ(g, st) {
   const n = g.questions.length, i = st.i;
   if (i >= n) return playerRecap(g, st);
-  const q = g.questions[i];
-  app.innerHTML = topBar(st.team) + `<div class="row" style="justify-content:space-between"><span class="qnum">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill">${esc(L(g.title))}</span></div>
-   <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div>
-   <div class="qtext">${esc(L(q.q))}</div>
-   ${q.o.map((o, j) => `<button class="opt ${st.a[i] === j ? 'sel' : ''}" data-o="${j}"><span class="L">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('')}
+  const q = g.questions[i], ty = qType(g, q), save = () => LS.set(pkey(g), st);
+  const advance = () => setTimeout(() => { if (st.i === i) { st.i = i + 1; save(); playerQ(g, st); } }, 320);
+  let body = '';
+  if (ty === 'single') body = q.o.map((o, j) => `<button class="opt ${st.a[i] === j ? 'sel' : ''}" data-o="${j}"><span class="L">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('');
+  if (ty === 'multi') body = `<p class="muted" style="margin-top:-8px">${esc(t('multiHint'))}</p>` + q.o.map((o, j) => `<button class="opt ${(st.a[i] || []).includes(j) ? 'sel' : ''}" data-m="${j}"><span class="chk">${(st.a[i] || []).includes(j) ? '✓' : ''}</span><span>${esc(L(o))}</span></button>`).join('');
+  if (ty === 'stars') body = `<p class="muted center" style="margin-top:-8px">${esc(t('starsHint'))}</p><div class="stars">${[1, 2, 3, 4, 5].map(k => `<button data-s="${k}" class="${(st.a[i] || 0) >= k ? 'on' : ''}">⭐</button>`).join('')}</div>`;
+  if (ty === 'text') body = `<p class="muted" style="margin-top:-8px">${esc(t('textHint'))}</p><textarea class="in" id="tx" maxlength="80" placeholder="${esc(t('textPh'))}" style="min-height:110px;font-size:18px">${esc(st.a[i] || '')}</textarea>`;
+  app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="row" style="justify-content:space-between"><span class="qnum" style="flex:none">${esc(t('q'))} ${i + 1}/${n}</span><span class="pill" style="flex:none;max-width:60%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(L(g.title))}</span></div>
+   <div class="prog"><i style="width:${(i + 1) / n * 100}%"></i></div><div class="qtext">${esc(L(q.q))}</div>${body}
    <div class="nav"><button class="btn ghost" id="pv" ${i === 0 ? 'disabled' : ''}>${esc(t('prev'))}</button><button class="btn acc" id="nx">${esc(i === n - 1 ? t('recap') : t('next'))}</button></div>`;
-  app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
-    st.a[i] = +b.dataset.o; LS.set(pkey(g), st);
-    app.querySelectorAll('.opt').forEach(x => x.classList.toggle('sel', x === b));
-    setTimeout(() => { if (st.i === i) { st.i = i + 1; LS.set(pkey(g), st); playerQ(g, st); } }, 320);
-  });
-  $('#pv').onclick = () => { st.i = Math.max(0, i - 1); LS.set(pkey(g), st); playerQ(g, st); };
-  $('#nx').onclick = () => { st.i = i + 1; LS.set(pkey(g), st); playerQ(g, st); };
+  app.querySelectorAll('[data-o]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.o; save(); app.querySelectorAll('[data-o]').forEach(x => x.classList.toggle('sel', x === b)); advance(); });
+  app.querySelectorAll('[data-m]').forEach(b => b.onclick = () => { const j = +b.dataset.m; const cur = new Set(st.a[i] || []); cur.has(j) ? cur.delete(j) : cur.add(j); st.a[i] = [...cur].sort(); save(); b.classList.toggle('sel', cur.has(j)); b.querySelector('.chk').textContent = cur.has(j) ? '✓' : ''; });
+  app.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { st.a[i] = +b.dataset.s; save(); app.querySelectorAll('[data-s]').forEach(x => x.classList.toggle('on', +x.dataset.s <= st.a[i])); advance(); });
+  const tx = $('#tx'); if (tx) tx.oninput = () => { st.a[i] = tx.value.slice(0, 80); save(); };
+  $('#pv').onclick = () => { st.i = Math.max(0, i - 1); save(); playerQ(g, st); };
+  $('#nx').onclick = () => { st.i = i + 1; save(); playerQ(g, st); };
   window.scrollTo(0, 0);
 }
+function ansLabel(g, q, v, short) {
+  const ty = qType(g, q);
+  if (!answered(v)) return '–';
+  if (ty === 'single') return short ? LETTERS[v] : `${LETTERS[v]} — ${L(q.o[v])}`;
+  if (ty === 'multi') return short ? v.map(j => LETTERS[j]).join('') : v.map(j => L(q.o[j])).join(', ');
+  if (ty === 'stars') return '★'.repeat(v);
+  return short ? '✎' : v;
+}
 function playerRecap(g, st) {
-  const miss = st.a.filter(x => x == null).length;
-  app.innerHTML = topBar(st.team) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>
-   <div class="grid" style="margin:14px 0">${st.a.map((a, i) => `<button class="tile ${a == null ? 'empty' : ''}" data-i="${i}"><b>${a == null ? '?' : LETTERS[a]}</b><small>${i + 1}</small></button>`).join('')}</div>
-   ${miss ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('missing')(miss))}</p>` : ''}
-   <button class="btn acc" id="val" style="margin-top:10px">${esc(t('validate'))}</button>`;
-  app.querySelectorAll('.tile').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
+  const miss = st.a.filter(x => !answered(x)).length, quiz = kindOf(g) === 'quiz';
+  const grid = quiz ? `<div class="grid" style="margin:14px 0">${st.a.map((a, i) => `<button class="tile ${a == null ? 'empty' : ''}" data-i="${i}"><b>${a == null ? '?' : LETTERS[a]}</b><small>${i + 1}</small></button>`).join('')}</div>`
+    : g.questions.map((q, i) => `<button class="opt" data-i="${i}" style="display:block;font-size:15px;${answered(st.a[i]) ? '' : 'border-color:var(--bad)'}"><span class="muted" style="font-size:13px;display:block">${i + 1}. ${esc(L(q.q))}</span><b>${esc(ansLabel(g, q, st.a[i]))}</b></button>`).join('');
+  app.innerHTML = topBar(st.team || t('anonymous')) + `<h2>${esc(t('review'))}</h2><p class="muted">${esc(t('tapEdit'))}</p>${grid}
+   ${miss ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('missing')(miss))}</p>` : ''}<button class="btn acc" id="val" style="margin-top:10px">${esc(t('validate'))}</button>`;
+  app.querySelectorAll('[data-i]').forEach(b => b.onclick = () => { st.i = +b.dataset.i; LS.set(pkey(g), st); playerQ(g, st); });
   $('#val').onclick = () => confirmBox(t('confirmV'), t('confirmVt'), t('yes'), () => { st.done = true; st.ts = Date.now(); LS.set(pkey(g), st); playerDone(g, st); });
   window.scrollTo(0, 0);
 }
 function playerDone(g, st) {
-  const url = baseURL() + '#r=' + resultPayload(g, st.team, st.a);
-  app.innerHTML = topBar(st.team) + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   <h1 style="font-size:30px">${esc(t('showQR'))}</h1>
-   <div class="qrbox">${qrSVG(url, 'M')}</div>
-   <h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>
-   <p class="muted">${esc(L(g.title))}</p>
-   <div class="card"><p style="font-weight:700">🎁 ${esc(t('results'))}</p></div>
-   <div class="card" style="text-align:left"><p class="muted" style="margin-top:0">${esc(t('yourAns'))}</p>
-   <div class="ans">${st.a.map((a, i) => `<span>${i + 1}·${a == null ? '–' : LETTERS[a]}</span>`).join('')}</div></div></div>`;
+  const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
+  app.innerHTML = topBar(st.team || t('anonymous')) + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
+   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>
+   ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
+   <p class="muted">${esc(L(g.title))}</p><div class="card"><p style="font-weight:700">${poll ? '🙏 ' + esc(t('pollThanks')) : '🎁 ' + esc(t('results'))}</p></div></div>`;
 }
 
-/* ---------------- host ---------------- */
+/* ================= HOST ================= */
 function pinScreen(next, entry) {
   setAcc();
-  app.innerHTML = topBar() + (entry ? `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1 style="color:var(--gold)">LA BULL · QUIZ</h1></div>` : '') + `<div class="card"><h2 style="margin-top:0">${esc(t('hostSpace'))}</h2><label class="f" for="pin">${esc(t('pin'))}</label>
-   <input class="in big-in" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="${t('pinPh')}">
-   <button class="btn" id="ok" style="margin-top:10px">${esc(t('enter'))}</button></div>${entry ? `<p class="center muted" style="margin-top:18px">${esc(t('scanToPlay'))}</p>` : `<button class="btn ghost" id="bk">${esc(t('back'))}</button>`}`;
+  app.innerHTML = topBar() + (entry ? `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1 style="color:var(--gold)">LA BULL</h1><p class="muted" style="margin:0">${esc(t('appSub'))}</p></div>` : navBar()) +
+   `<div class="card"><h2 style="margin-top:0">${esc(t('hostSpace'))}</h2><label class="f" for="pin">${esc(t('pin'))}</label>
+   <input class="in big-in" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="••••"><button class="btn" id="ok" style="margin-top:10px">${esc(t('enter'))}</button></div>
+   ${entry ? `<p class="center muted" style="margin-top:18px">${esc(t('scanToPlay'))}</p>` : ''}`;
   const ok = () => { if ($('#pin').value === LS.get('lb_pin', '0901')) { LS.set('lb_host', true); next(); } else { toast(t('badPin'), false); $('#pin').value = ''; } };
   $('#ok').onclick = ok; $('#pin').onkeydown = e => { if (e.key === 'Enter') ok(); };
-  if ($('#bk')) $('#bk').onclick = () => go('');
-  $('#pin').focus();
 }
 function hostRoute(v) {
   if (!isHost()) return pinScreen(() => hostRoute(v));
-  const [view, id, extra] = (v || '').split(':');
-  if (view === 'team' && findGame(id)) return hostTeam(findGame(id), decodeURIComponent(extra || ''));
-  if (view === 'game' && findGame(id)) return hostGame(findGame(id));
-  if (view === 'rank' && findGame(id)) return hostRank(findGame(id));
-  if (view === 'key' && findGame(id)) return hostKey(findGame(id));
-  if (view === 'edit') return hostEdit(id ? findGame(id) : null);
+  const [view, id, extra] = (v || '').split(':'); const g = id && findGame(id);
+  if (view === 'team' && g) return hostTeam(g, decodeURIComponent(extra || ''));
+  if (view === 'rank' && g) return kindOf(g) === 'poll' ? hostStats(g) : hostRank(g);
+  if (view === 'key' && g) return hostKey(g);
+  if (view === 'edit') return hostEdit(id ? findGame(id) : null, extra);
   if (view === 'settings') return hostSettings();
   hostHome();
 }
-const resKey = id => 'lb_res_' + id;
-const getRes = id => LS.get(resKey(id), {});
 function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++) if (a[i] && LETTERS.indexOf(a[i]) === g.questions[i].a) s++; return s; }
 function ranked(g) { return Object.values(getRes(g.id)).map(r => ({ ...r, s: scoreOf(g, r.a) })).sort((x, y) => y.s - x.s || x.ts - y.ts); }
 
+let homeFilter = 'all';
 function hostHome() {
   setAcc();
-  const gs = allGames();
-  app.innerHTML = topBar(t('hostSpace')) + `<h1 style="color:var(--gold);font-size:34px;margin:4px 0 2px">${esc(t('myQuiz'))}</h1><p class="muted" style="margin:0 0 6px">${esc(t('homeT'))}</p>` + gs.map(g => {
-    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f2b632'), id = esc(g.id);
-    return `<div class="card" style="border-left:8px solid ${c};padding:14px">
-    <b style="display:block;font-family:var(--title);font-weight:400;font-size:28px;line-height:1.1;color:${c};text-transform:uppercase">${esc(L(g.title))}</b>
-    <p class="muted" style="font-size:14px;margin:4px 0 10px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</p>
-    <button class="btn" data-a="qr" data-g="${id}">📲 ${esc(t('play'))}</button>
-    <div class="tiles">
-      <button class="tl" data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
-      <button class="tl" data-a="rank" data-g="${id}"><i>🏆</i>${esc(t('ranking'))}${n ? `<em>${n}</em>` : ''}</button>
-      <button class="tl" data-a="key" data-g="${id}"><i>📋</i>${esc(t('keyS'))}</button>
+  const today = new Date().toISOString().slice(0, 10);
+  const gs = allGames().filter(g => homeFilter === 'all' || kindOf(g) === homeFilter);
+  const up = gs.filter(g => !g.date || g.date >= today).sort((a, b) => (a.date || '9').localeCompare(b.date || '9'));
+  const past = gs.filter(g => g.date && g.date < today).sort((a, b) => b.date.localeCompare(a.date));
+  const card = g => {
+    const n = Object.keys(getRes(g.id)).length, c = esc(g.color || '#f2b632'), id = esc(g.id), poll = kindOf(g) === 'poll';
+    return `<div class="card" style="border-left:8px solid ${c};padding:14px"><span class="kind">${esc(poll ? t('kPoll') : t('kQuiz'))}</span>
+    <b style="display:block;font-family:var(--title);font-weight:400;font-size:27px;line-height:1.1;color:${c};text-transform:uppercase;margin-top:6px">${esc(L(g.title))}</b>
+    <p class="muted" style="font-size:14px;margin:4px 0 10px">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}${isBuiltin(g.id) ? '' : ' · ' + esc(t('createdLocal'))}</p>
+    <button class="btn" data-a="qr" data-g="${id}">📲 ${esc(t('playQR'))}</button>
+    <div class="tiles"><button class="tl" data-a="recv" data-g="${id}"><i>📥</i>${esc(t('recvS'))}</button>
+      <button class="tl" data-a="rank" data-g="${id}"><i>${poll ? '📊' : '🏆'}</i>${esc(poll ? t('stats') : t('ranking'))}${n ? `<em>${n}</em>` : ''}</button>
+      <button class="tl" data-a="key" data-g="${id}"><i>📋</i>${esc(poll ? t('qsS') : t('keyS'))}</button>
       <button class="tl" data-a="here" data-g="${id}"><i>▶️</i>${esc(t('playHereS'))}</button>
-      <button class="tl" data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button>
-    </div></div>`;
-  }).join('') + `<button class="btn" id="new" style="margin-top:6px">${esc(t('newGame'))}</button>
-   <div class="row" style="margin-top:12px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
+      <button class="tl" data-a="edit" data-g="${id}"><i>✏️</i>${esc(isBuiltin(g.id) ? t('dup') : t('edit'))}</button></div></div>`;
+  };
+  app.innerHTML = topBar(t('hostSpace')) + `<div class="big2"><button class="btn" id="nq"><i>🧠</i>+ ${esc(t('newQuiz'))}</button><button class="btn" id="np"><i>📊</i>+ ${esc(t('newPoll'))}</button></div>
+   <div class="tabs">${['all', 'quiz', 'poll'].map(f => `<button data-f="${f}" class="${homeFilter === f ? 'on' : ''}">${esc(t(f === 'all' ? 'all' : f === 'quiz' ? 'quizzes' : 'polls'))}</button>`).join('')}</div>
+   <p class="muted center" style="font-size:14px;margin:4px 0 0">${esc(t('homeT'))}</p>
+   ${up.length ? `<p class="sec">${esc(t('upcoming'))}</p>` + up.map(card).join('') : ''}${past.length ? `<p class="sec">${esc(t('past'))}</p>` + past.map(card).join('') : ''}
+   ${!gs.length ? `<div class="card center muted">${esc(t('none'))}</div>` : ''}
+   <div class="row" style="margin-top:14px"><button class="btn ghost small" id="set">⚙️ ${esc(t('settings'))}</button><button class="btn ghost small" id="out">🔒 ${esc(t('lock'))}</button></div>`;
+  app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { homeFilter = b.dataset.f; hostHome(); });
   app.querySelectorAll('[data-a]').forEach(b => b.onclick = () => {
     const g = findGame(b.dataset.g), a = b.dataset.a;
     if (a === 'qr') return showQR(g);
@@ -1704,65 +1732,58 @@ function hostHome() {
       return go('admin=edit:' + g.id);
     }
   });
-  $('#new').onclick = () => go('admin=edit:');
+  $('#nq').onclick = () => go('admin=edit::quiz'); $('#np').onclick = () => go('admin=edit::poll');
   $('#set').onclick = () => go('admin=settings');
   $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
 }
-
-async function hostGame(g) {
-  setAcc(g.color);
-  const j = await joinURL(g), n = Object.keys(getRes(g.id)).length;
-  app.innerHTML = topBar(t('hostSpace')) + navBar() + `
-   <h1 style="font-size:32px">${esc(L(g.title))}</h1><p class="muted">${esc(fmtDate(g.date))} · ${esc(t('qCount')(g.questions.length))}</p>
-   <div class="card center"><p style="font-family:var(--title);font-size:26px;margin:0 0 10px;color:var(--gold)">${esc(t('joinTitle'))} · ${esc(t('joinEn'))}</p>
-   <div class="qrbox">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div>
-   <p class="muted" style="font-size:13px">${esc(j.embedded ? t('embedded') : t('inFile'))}</p>
-   ${j.tooLong ? `<p style="color:var(--bad);font-weight:700">⚠️ ${esc(t('tooLong'))}</p>` : ''}
-   ${qrUsable() ? '' : `<p style="color:var(--bad);font-weight:700;font-size:15px">⚠️ ${esc(t('offline'))}</p>`}
-   <div class="row" style="margin-top:8px"><button class="btn small" id="fs">⛶ ${esc(t('fullscreen'))}</button><button class="btn ghost small" id="pr">🖨 ${esc(t('print'))}</button></div>
-   <button class="btn ghost small" id="ph" style="margin-top:10px;width:100%">▶ ${esc(t('playHere'))}</button></div>
-   <div class="card"><p style="font-size:20px;font-weight:700;margin:0">📥 ${esc(t('received')(n))}</p><p class="muted" style="font-size:14px">${esc(t('howRecv'))}</p>
-   <div class="stack" style="margin-top:12px"><button class="btn acc" id="rk">🏆 ${esc(t('ranking'))}</button>
-   <div class="row"><button class="btn ghost small" id="sc">📷 ${esc(t('scan'))}</button><button class="btn ghost small" id="mn">⌨️ ${esc(t('manual'))}</button></div>
-   <div class="row"><button class="btn ghost small" id="ky">📋 ${esc(t('key'))}</button><button class="btn danger small" id="rs">${esc(t('reset'))}</button></div></div></div>`;
-  $('#fs').onclick = () => { const f = document.createElement('div'); f.className = 'full'; f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:16px"><h1>${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>`; f.querySelector('.x').onclick = () => f.remove(); document.body.appendChild(f); };
-  $('#pr').onclick = () => { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010 · ${esc(T.fr.copy)}</small>`; window.print(); };
-  $('#ph').onclick = () => go('j=' + encodeURIComponent(g.id));
-  $('#rk').onclick = () => go('admin=rank:' + g.id);
-  $('#ky').onclick = () => go('admin=key:' + g.id);
-  $('#sc').onclick = () => scanner(g);
-  $('#mn').onclick = () => manualEntry(g);
-  $('#rs').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); hostGame(g); });
+async function showQR(g) {
+  const j = await joinURL(g);
+  const f = document.createElement('div'); f.className = 'full';
+  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}
+   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>
+   ${j.tooLong ? `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('tooLong'))}</p>` : ''}${qrUsable() ? '' : `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('offline'))}</p>`}
+   <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHereS'))}</button><button class="btn ghost small" data-pr style="flex:1;color:#1a1008;border-color:#ccc">🖨 ${esc(t('printS'))}</button></div>`;
+  f.querySelector('.x').onclick = () => f.remove();
+  f.querySelector('[data-here]').onclick = () => { f.remove(); go('j=' + encodeURIComponent(g.id)); };
+  f.querySelector('[data-pr]').onclick = () => { $('#print').innerHTML = `<img src="${LOGO}"><h1>${esc(g.title.fr)}</h1><p>${esc(fmtDate(g.date))}</p><div class="q">${qrSVG(j.url, j.embedded ? 'L' : 'M')}</div><p><b>${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</b></p><p>${esc(T.fr.printLine)}</p><p>LA BULL · 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard · 07 68 11 79 87</p><small>SIRET : 990 143 810 00010</small>`; window.print(); };
+  document.body.appendChild(f);
+}
+function receiveHelp(g) {
+  if ('BarcodeDetector' in window) return scanner(g);
+  modal(`<p style="font-size:44px;margin:0;text-align:center">📷</p><h3 class="center">${esc(t('recvT'))}</h3><p>${esc(t('recvHow'))}</p>
+   ${kindOf(g) === 'quiz' ? `<button class="btn small" data-m style="width:100%;margin-top:10px">⌨️ ${esc(t('manual'))}</button>` : ''}<button class="btn ghost small" data-c style="width:100%;margin-top:10px">${esc(t('close'))}</button>`,
+   m => { m.querySelector('[data-c]').onclick = () => m.remove(); const mm = m.querySelector('[data-m]'); if (mm) mm.onclick = () => { m.remove(); manualEntry(g); }; });
 }
 function storeResult(g, r) {
-  const all = getRes(g.id); const k = r.t.trim().toLowerCase(); const had = !!all[k];
+  const all = getRes(g.id);
+  if (kindOf(g) === 'poll') { const k = r.p || ('x' + Date.now()); const had = !!all[k]; all[k] = { t: r.t || '', a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all); return { had, count: Object.keys(all).length }; }
+  const k = r.t.trim().toLowerCase(); const had = !!all[k];
   all[k] = { t: r.t.trim(), a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all);
-  const rk = ranked(g); const pos = rk.findIndex(x => x.t.trim().toLowerCase() === k) + 1;
+  const pos = ranked(g).findIndex(x => x.t.trim().toLowerCase() === k) + 1;
   return { had, s: scoreOf(g, r.a), pos };
 }
 function receive(p) {
   if (!isHost()) return pinScreen(() => receive(p));
   let r; try { r = parseResult(p); } catch (e) { return notFound(); }
   const g = findGame(r.g); setAcc(g && g.color);
-  if (!g) { app.innerHTML = topBar(t('hostSpace')) + `<div class="card center"><h2>⚠️</h2><p>${esc(t('unknownGame'))}</p><p class="muted">${esc(r.t)} · ${esc(r.g)}</p></div><button class="btn ghost" onclick="location.hash='admin'">${esc(t('back'))}</button>`; return; }
-  const res = storeResult(g, r);
-  app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : t('saved'))}</h2>
-   <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t)}</p><p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p>
-   <p class="muted">${esc(t('rankNow')(res.pos))}</p>${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}</div>
-   <button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button><button class="btn acc" id="rk" style="margin-top:10px">🏆 ${esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">🏠 ${esc(t('myQuiz'))}</button>`;
-  $('#dt').onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(r.t.trim().toLowerCase()));
+  if (!g) { app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><h2>⚠️</h2><p>${esc(t('unknownGame'))}</p><p class="muted">${esc(r.t)} · ${esc(r.g)}</p></div>`; return; }
+  const res = storeResult(g, r), poll = kindOf(g) === 'poll';
+  app.innerHTML = topBar(t('hostSpace')) + `<div class="card center" style="border:2px solid var(--ok)"><p style="font-size:54px;margin:0">✅</p><h2 style="margin:4px 0;color:var(--ok)">${esc(res.had ? t('already') : poll ? t('pollSaved') : t('saved'))}</h2>
+   <p style="font-size:24px;font-weight:700;margin:10px 0 0">${esc(r.t || t('anonymous'))}</p>
+   ${poll ? `<p class="score" style="font-size:40px;margin:0">${esc(t('participants')(res.count))}</p>` : `<p class="score" style="font-size:48px;margin:0">${res.s} / ${g.questions.length}</p><p class="muted">${esc(t('rankNow')(res.pos))}</p>`}
+   ${r.n !== g.questions.length ? `<p style="color:var(--bad)">${esc(t('mismatch'))}</p>` : ''}<p class="muted" style="font-size:14px">${esc(L(g.title))}</p></div>
+   ${poll ? '' : `<button class="btn" id="dt">📋 ${esc(t('seeAns'))}</button>`}<button class="btn acc" id="rk" style="margin-top:10px">${poll ? '📊 ' + esc(t('seeStats')) : '🏆 ' + esc(t('ranking'))}</button><button class="btn ghost" id="gm" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
+  if ($('#dt')) $('#dt').onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(r.t.trim().toLowerCase()));
   $('#rk').onclick = () => go('admin=rank:' + g.id); $('#gm').onclick = () => go('');
-  history.replaceState(null, '', '#admin=rank:' + g.id);
+  history.replaceState(null, '', '#admin');
 }
 async function scanner(g) {
-  if (!('BarcodeDetector' in window)) return modal(`<p>${esc(t('noScanner'))}</p><button class="btn small" data-c>${esc(t('close'))}</button>`, m => m.querySelector('[data-c]').onclick = () => m.remove());
   let stream; try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); } catch (e) { return toast(t('camErr'), false); }
   const det = new BarcodeDetector({ formats: ['qr_code'] }); let live = true, last = '';
-  const m = modal(`<p class="muted center">${esc(t('scanning'))}</p><video playsinline muted style="width:100%;border-radius:14px;background:#000"></video><button class="btn small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`, mm => {});
+  const m = modal(`<p class="muted center">${esc(t('scanning'))}</p><video playsinline muted style="width:100%;border-radius:14px;background:#000"></video><button class="btn small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`);
   const v = m.querySelector('video'); v.srcObject = stream; await v.play().catch(() => {});
-  const stop = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); route(); };
-  m.querySelector('[data-c]').onclick = stop;
-  const loop = async () => { if (!live) return; try { const codes = await det.detect(v); for (const c of codes) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); if (r.g !== g.id) { toast(t('unknownGame'), false); continue; } const res = storeResult(g, r); toast(`${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${g.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
+  m.querySelector('[data-c]').onclick = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); route(); };
+  const loop = async () => { if (!live) return; try { for (const c of await det.detect(v)) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); const gg = findGame(r.g); if (!gg) { toast(t('unknownGame'), false); continue; } const res = storeResult(gg, r); toast(kindOf(gg) === 'poll' ? `✅ ${t('participants')(res.count)}` : `${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${gg.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
   loop();
 }
 function manualEntry(g) {
@@ -1771,137 +1792,152 @@ function manualEntry(g) {
     m.querySelector('[data-a]').onclick = () => { const tm = m.querySelector('#mt').value.trim(); const a = m.querySelector('#ma').value.toUpperCase().replace(/[^ABCD\-]/g, '').padEnd(g.questions.length, '-'); if (!tm) return; const res = storeResult(g, { t: tm, a }); m.remove(); toast(`✅ ${tm} · ${res.s}/${g.questions.length}`); route(); };
   });
 }
-function pinConfirm(title, cb) {
-  modal(`<h3>⚠️ ${esc(title)}</h3><p class="muted" style="font-size:14px">${esc(t('zeroPin'))}</p><input class="in big-in" id="zp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
-   <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn danger small" data-y>${esc(t('zeroGo'))}</button></div>`, m => {
-    const inp = m.querySelector('#zp'); inp.focus();
-    const ok = () => { if (inp.value === LS.get('lb_pin', '0901')) { m.remove(); cb(); } else { inp.value = ''; toast(t('badPin'), false); } };
-    m.querySelector('[data-x]').onclick = () => m.remove(); m.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
-  });
+function resetBox() {
+  return `<div class="card stack" style="margin-top:22px;border-color:var(--bad)"><p style="margin:0;font-weight:700;color:var(--bad)">🗑 ${esc(t('zeroT'))}</p>
+   <button class="btn danger small" id="z1" style="width:100%">${esc(t('zeroGame'))}</button><button class="btn danger small" id="z2" style="width:100%">${esc(t('zeroAll'))}</button></div>`;
+}
+function bindReset(g, again) {
+  $('#z1').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); again(); });
+  $('#z2').onclick = () => pinConfirm(t('zeroAll'), () => { try { Object.keys(localStorage).filter(k => k.startsWith('lb_res_')).forEach(k => localStorage.removeItem(k)); } catch (e) {} toast('✔ ' + t('zeroDone')); again(); });
 }
 function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
-  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p><div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
-   ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}
-   <div class="card stack" style="margin-top:22px;border-color:var(--bad)"><p style="margin:0;font-weight:700;color:var(--bad)">🗑 ${esc(t('zeroT'))}</p>
-   <button class="btn danger small" id="z1" style="width:100%">${esc(t('zeroGame'))}</button>
-   <button class="btn danger small" id="z2" style="width:100%">${esc(t('zeroAll'))}</button></div>`;
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
+   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
+   ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
-  const dr = $('#dr'); if (dr) dr.onclick = () => drawModal(g, rk);
+  if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.s === rk[0].s).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
   $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
-  $('#z1').onclick = () => pinConfirm(t('zeroGame') + ' — ' + L(g.title), () => { LS.del(resKey(g.id)); toast('✔ ' + t('zeroDone')); hostRank(g); });
-  $('#z2').onclick = () => pinConfirm(t('zeroAll'), () => { allGames().forEach(x => LS.del(resKey(x.id))); try { Object.keys(localStorage).filter(k => k.startsWith('lb_res_')).forEach(k => localStorage.removeItem(k)); } catch (e) {} toast('✔ ' + t('zeroDone')); hostRank(g); });
+  bindReset(g, () => hostRank(g));
 }
-function drawModal(g, rk) {
-  let pool = 'top';
-  const m = modal(`<h3 class="center">🎁 ${esc(t('draw'))}</h3><div class="tabs" style="justify-content:center"><button data-p="top" class="on">${esc(t('drawTop'))}</button><button data-p="all">${esc(t('drawAll'))}</button></div>
-   <p class="muted center" id="cnt"></p><div class="draw" id="dw">?</div><button class="btn acc" id="go">${esc(t('drawGo'))}</button><button class="btn ghost small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`, () => {});
-  const cands = () => pool === 'top' ? rk.filter(r => r.s === rk[0].s) : rk;
-  const upd = () => { m.querySelector('#cnt').textContent = cands().map(r => r.t).join(' · '); };
-  m.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { pool = b.dataset.p; m.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x === b)); upd(); });
+function bar(label, n, total) { const pc = total ? Math.round(n / total * 100) : 0; return `<div class="bar"><i style="width:${pc}%"></i><span><b>${esc(label)}</b><em style="font-style:normal">${n} · ${pc}%</em></span></div>`; }
+function hostStats(g) {
+  setAcc(g.color);
+  const rs = Object.values(getRes(g.id)).sort((a, b) => a.ts - b.ts), N = rs.length;
+  const blocks = g.questions.map((q, i) => {
+    const ty = qType(g, q), vals = rs.map(r => r.a[i]).filter(answered);
+    let body = '';
+    if (ty === 'single') body = q.o.map((o, j) => bar(L(o), vals.filter(v => v === j).length, vals.length)).join('');
+    if (ty === 'multi') body = q.o.map((o, j) => bar(L(o), vals.filter(v => v.includes(j)).length, vals.length)).join('');
+    if (ty === 'stars') { const avg = vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length) : 0; body = `<p style="font-size:30px;margin:4px 0;font-weight:700;color:var(--gold)">${avg.toFixed(1)} / 5 <span style="font-size:22px">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</span></p>` + [5, 4, 3, 2, 1].map(k => bar('★'.repeat(k), vals.filter(v => v === k).length, vals.length)).join(''); }
+    if (ty === 'text') body = rs.filter(r => answered(r.a[i])).map(r => `<div class="txtans">${esc(r.a[i])}${g.anon || !r.t ? '' : `<small>— ${esc(r.t)}</small>`}</div>`).join('') || `<p class="muted">–</p>`;
+    return `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${esc(t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : 'tText'))} · ${esc(t('answers')(vals.length))}</p><p style="font-weight:700;margin:4px 0 8px">${esc(L(q.q))}</p>${body}</div>`;
+  }).join('');
+  const named = !g.anon && rs.some(r => r.t);
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">📊 ${esc(t('stats'))}</h1><p class="muted">${esc(L(g.title))} · <b style="color:var(--gold)">${esc(t('participants')(N))}</b></p>
+   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
+   ${N ? (named ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button>` : '') + blocks : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}
+   ${named && N ? `<h2>${esc(t('byPerson'))}</h2><div class="card list" style="padding:4px 8px">` + rs.map(r => `<div class="it" style="display:block"><b>${esc(r.t || t('anonymous'))}</b> <small class="muted">${fmtTime(r.ts)}</small><div style="font-size:13px;color:var(--muted);margin-top:4px">${g.questions.map((q, i) => `${i + 1}. ${esc(ansLabel(g, q, r.a[i]))}`).join(' · ')}</div></div>`).join('') + `</div>` : ''}` + resetBox();
+  if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawAll'), names: rs.filter(r => r.t).map(r => r.t) }]);
+  $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
+  bindReset(g, () => hostStats(g));
+}
+function drawModal(pools) {
+  let pi = 0;
+  const m = modal(`<h3 class="center">🎁 ${esc(t('draw'))}</h3>${pools.length > 1 ? `<div class="tabs">${pools.map((p, i) => `<button data-p="${i}" class="${i ? '' : 'on'}">${esc(p.label)}</button>`).join('')}</div>` : ''}
+   <p class="muted center" id="cnt" style="font-size:14px"></p><div class="draw" id="dw">?</div><button class="btn acc" id="go">${esc(t('drawGo'))}</button><button class="btn ghost small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`);
+  const upd = () => { m.querySelector('#cnt').textContent = pools[pi].names.join(' · '); };
+  m.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { pi = +b.dataset.p; m.querySelectorAll('[data-p]').forEach(x => x.classList.toggle('on', x === b)); upd(); });
   upd(); m.querySelector('[data-c]').onclick = () => m.remove();
   m.querySelector('#go').onclick = () => {
-    const c = cands(); const win = c[Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32 * c.length)];
-    const dw = m.querySelector('#dw'); const btn = m.querySelector('#go'); btn.disabled = true; dw.classList.remove('winner'); dw.style.color = '';
+    const c = pools[pi].names; if (!c.length) return;
+    const win = c[Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32 * c.length)];
+    const dw = m.querySelector('#dw'), btn = m.querySelector('#go'); btn.disabled = true; dw.classList.remove('winner');
     let k = 0, delay = 45; const steps = 22;
-    const tick = () => { k++; if (k < steps) { dw.textContent = c[k % c.length].t; delay *= 1.1; setTimeout(tick, delay); } else { dw.textContent = '🏆 ' + win.t; dw.classList.add('winner'); dw.style.color = 'var(--gold2)'; btn.disabled = false; btn.textContent = t('again'); confetti(); } };
+    const tick = () => { k++; if (k < steps) { dw.textContent = c[k % c.length]; delay *= 1.1; setTimeout(tick, delay); } else { dw.textContent = '🏆 ' + win; dw.classList.add('winner'); btn.disabled = false; btn.textContent = t('again'); confetti(); } };
     tick();
   };
 }
 function hostTeam(g, key) {
   setAcc(g.color);
-  const r = getRes(g.id)[key];
-  if (!r) return go('admin=rank:' + g.id);
-  const N = g.questions.length, a = r.a.padEnd(N, '-'), sc = scoreOf(g, r.a);
-  const rk = ranked(g); const pos = rk.findIndex(x => x.t.trim().toLowerCase() === key) + 1;
+  const r = getRes(g.id)[key]; if (!r) return go('admin=rank:' + g.id);
+  const N = g.questions.length, a = r.a.padEnd(N, '-'), sc = scoreOf(g, r.a), pos = ranked(g).findIndex(x => x.t.trim().toLowerCase() === key) + 1;
   let only = false;
   const draw = () => {
     const items = g.questions.map((q, i) => {
-      const c = a[i], gi = LETTERS.indexOf(c), ok = gi === q.a;
-      if (only && ok) return '';
-      return `<div class="card" style="border-left:6px solid ${ok ? 'var(--ok)' : 'var(--bad)'};padding:12px 14px">
-        <p style="margin:0;font-size:13px;color:var(--muted)">${esc(t('q'))} ${i + 1} ${ok ? '✅' : '❌'}</p>
-        <p style="margin:4px 0 8px;font-weight:700">${esc(L(q.q))}</p>
-        <p style="margin:0;color:${ok ? 'var(--ok)' : 'var(--bad)'};font-weight:700">${esc(t('given'))} : ${gi < 0 ? esc(t('noAns')) : `${c} — ${esc(L(q.o[gi]))}`}</p>
-        ${ok ? '' : `<p style="margin:4px 0 0;color:var(--ok)">${esc(t('good'))} : ${LETTERS[q.a]} — ${esc(L(q.o[q.a]))}</p>`}
-        ${!ok && q.info && L(q.info) ? `<p style="margin:6px 0 0;font-size:13px">💡 ${esc(L(q.info))}</p>` : ''}</div>`;
+      const c = a[i], gi = LETTERS.indexOf(c), ok = gi === q.a; if (only && ok) return '';
+      return `<div class="card" style="border-left:6px solid ${ok ? 'var(--ok)' : 'var(--bad)'};padding:12px 14px"><p style="margin:0;font-size:13px;color:var(--muted)">${esc(t('q'))} ${i + 1} ${ok ? '✅' : '❌'}</p>
+        <p style="margin:4px 0 8px;font-weight:700">${esc(L(q.q))}</p><p style="margin:0;color:${ok ? 'var(--ok)' : 'var(--bad)'};font-weight:700">${esc(t('given'))} : ${gi < 0 ? esc(t('noAns')) : `${c} — ${esc(L(q.o[gi]))}`}</p>
+        ${ok ? '' : `<p style="margin:4px 0 0;color:var(--ok)">${esc(t('good'))} : ${LETTERS[q.a]} — ${esc(L(q.o[q.a]))}</p>`}${!ok && q.info && L(q.info) ? `<p style="margin:6px 0 0;font-size:13px">💡 ${esc(L(q.info))}</p>` : ''}</div>`;
     }).join('');
-    app.innerHTML = topBar(t('hostSpace')) + navBar() + `
-      <div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
-      <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p>
-      <p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${new Date(r.ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' })}</p></div>
-      <div class="tabs" style="justify-content:center"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
+      <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p><p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${fmtTime(r.ts)}</p></div>
+      <div class="tabs"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
     app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { only = b.dataset.f === '1'; draw(); });
   };
   draw();
 }
 function hostKey(g) {
-  setAcc(g.color);
-  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:30px">📋 ${esc(t('key'))}</h1><p class="muted">${esc(L(g.title))}</p>` +
-    g.questions.map((q, i) => `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${esc(L(q.q))}</p><p style="font-size:20px;font-weight:700;margin:6px 0"><span class="pill" style="background:var(--ok);color:#06210f;border:0">${LETTERS[q.a]}</span> ${esc(L(q.o[q.a]))}</p>${q.info && L(q.info) ? `<p style="font-size:14px;margin:0">💡 ${esc(L(q.info))}</p>` : ''}</div>`).join('');
+  setAcc(g.color); const quiz = kindOf(g) === 'quiz';
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:30px">📋 ${esc(quiz ? t('keyS') : t('qsS'))}</h1><p class="muted">${esc(L(g.title))}</p>` +
+    g.questions.map((q, i) => { const ty = qType(g, q); return `<div class="card qe"><p class="muted" style="margin:0;font-size:13px">${i + 1}. ${quiz ? '' : esc(t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : 'tText'))}</p><p style="font-weight:700;margin:4px 0">${esc(L(q.q))}</p>
+     ${quiz ? `<p style="font-size:18px;font-weight:700;margin:6px 0"><span class="pill" style="background:var(--ok);color:#06210f;border:0">${LETTERS[q.a]}</span> ${esc(L(q.o[q.a]))}</p>${q.info && L(q.info) ? `<p style="font-size:14px;margin:0">💡 ${esc(L(q.info))}</p>` : ''}`
+      : (q.o && q.o.length && (ty === 'single' || ty === 'multi') ? `<p class="muted" style="font-size:14px;margin:0">${q.o.map((o, j) => `${LETTERS[j]}. ${esc(L(o))}`).join(' · ')}</p>` : '')}</div>`; }).join('');
 }
 
-/* ---------------- editor ---------------- */
+/* ================= EDITOR ================= */
 const COLORS = ['#1f9d55', '#c41c24', '#e07a10', '#8a3fb0', '#1c5fd1', '#d61f7a', '#b08a18', '#0e8f8f'];
-function blankQ() { return { q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }, { fr: '', en: '' }], a: 0, info: { fr: '', en: '' } }; }
-function hostEdit(src) {
-  const g = src ? JSON.parse(JSON.stringify(src)) : { id: 'g-' + Date.now().toString(36), title: { fr: '', en: '' }, sub: { fr: '', en: '' }, date: new Date().toISOString().slice(0, 10), mode: 'team', color: COLORS[0], questions: [blankQ()] };
-  if (src && isBuiltin(src.id)) { toast(t('builtinRO'), false); return go('admin'); }
+const blankQ = (kind, type = 'single') => kind === 'poll' ? { type, q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }] } : { q: { fr: '', en: '' }, o: [{ fr: '', en: '' }, { fr: '', en: '' }, { fr: '', en: '' }], a: 0, info: { fr: '', en: '' } };
+function hostEdit(src, newKind) {
+  if (src && isBuiltin(src.id)) { toast(t('builtinRO'), false); return go(''); }
+  const kind = src ? kindOf(src) : (newKind === 'poll' ? 'poll' : 'quiz');
+  const g = src ? JSON.parse(JSON.stringify(src)) : { id: (kind === 'poll' ? 's-' : 'g-') + Date.now().toString(36), kind, title: { fr: '', en: '' }, sub: { fr: '', en: '' }, date: new Date().toISOString().slice(0, 10), mode: 'team', anon: true, color: COLORS[kind === 'poll' ? 4 : 0], questions: [blankQ(kind)] };
+  const poll = kind === 'poll';
   setAcc(g.color);
   const draw = () => {
-    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>${esc(src ? t('edit') : t('newGame').replace('+ ', ''))}</h2>
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>${esc(poll ? t('kPoll') : t('kQuiz'))} · ${esc(src ? t('edit') : (poll ? t('newPoll') : t('newQuiz')))}</h2>
     <div class="card"><label class="f">${esc(t('title'))} FR</label><input class="in" data-k="title.fr" value="${esc(g.title.fr)}"><label class="f">${esc(t('title'))} EN</label><input class="in" data-k="title.en" value="${esc(g.title.en)}">
     <label class="f">${esc(t('subtitle'))} FR</label><input class="in" data-k="sub.fr" value="${esc(g.sub.fr)}"><label class="f">${esc(t('subtitle'))} EN</label><input class="in" data-k="sub.en" value="${esc(g.sub.en)}">
-    <div class="row"><div><label class="f">${esc(t('date'))}</label><input class="in" type="date" data-k="date" value="${esc(g.date)}"></div><div><label class="f">${esc(t('mode'))}</label><select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select></div></div>
+    <div class="row"><div><label class="f">${esc(t('date'))}</label><input class="in" type="date" data-k="date" value="${esc(g.date)}"></div>
+    <div><label class="f">${esc(poll ? t('anonL') : t('mode'))}</label>${poll ? `<select class="in" id="an"><option value="1" ${g.anon ? 'selected' : ''}>${esc(t('anonY'))}</option><option value="0" ${g.anon ? '' : 'selected'}>${esc(t('anonN'))}</option></select>` : `<select class="in" data-k="mode"><option value="team" ${g.mode === 'team' ? 'selected' : ''}>${esc(t('modeTeam'))}</option><option value="solo" ${g.mode === 'solo' ? 'selected' : ''}>${esc(t('modeSolo'))}</option></select>`}</div></div>
     <label class="f">${esc(t('color'))}</label><div class="colors">${COLORS.map(c => `<button data-col="${c}" class="${g.color === c ? 'on' : ''}" style="background:${c}"></button>`).join('')}</div></div>
-    <h2>${esc(t('questions'))} (${g.questions.length})</h2><p class="muted" style="font-size:14px">${esc(t('correct'))}</p>` +
-    g.questions.map((q, i) => `<div class="card qe"><div class="row" style="justify-content:space-between"><b class="qnum" style="flex:none">${i + 1}</b><span style="flex:none;display:flex;gap:6px"><button class="btn ghost small" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-dn="${i}" ${i === g.questions.length - 1 ? 'disabled' : ''}>↓</button><button class="btn danger small" data-rm="${i}">✕</button></span></div>
+    <h2>${esc(t('questions'))} (${g.questions.length})</h2>${poll ? '' : `<p class="muted" style="font-size:14px">${esc(t('correct'))}</p>`}` +
+    g.questions.map((q, i) => { const ty = poll ? (q.type || 'single') : 'single', withO = ty === 'single' || ty === 'multi', maxO = poll ? 6 : 4;
+      return `<div class="card qe"><div class="row" style="justify-content:space-between"><b class="qnum" style="flex:none">${i + 1}</b><span style="flex:none;display:flex;gap:6px"><button class="btn ghost small" data-up="${i}" ${i === 0 ? 'disabled' : ''}>↑</button><button class="btn ghost small" data-dn="${i}" ${i === g.questions.length - 1 ? 'disabled' : ''}>↓</button><button class="btn danger small" data-rm="${i}">✕</button></span></div>
+      ${poll ? `<label class="f">${esc(t('qType'))}</label><select class="in" data-ty="${i}">${['single', 'multi', 'stars', 'text'].map(x => `<option value="${x}" ${ty === x ? 'selected' : ''}>${esc(t(x === 'single' ? 'tSingle' : x === 'multi' ? 'tMulti' : x === 'stars' ? 'tStars' : 'tText'))}</option>`).join('')}</select>` : ''}
       <label class="f">${esc(t('qFr'))}</label><textarea class="in" data-k="q.${i}.q.fr">${esc(q.q.fr)}</textarea><label class="f">${esc(t('qEn'))}</label><textarea class="in" data-k="q.${i}.q.en">${esc(q.q.en)}</textarea>
-      ${q.o.map((o, j) => `<div class="optrow"><button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button><div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('')}
-      ${q.o.length < 4 ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : ''}
-      <label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}"></div>`).join('') +
+      ${withO ? q.o.map((o, j) => `<div class="optrow">${poll ? `<span class="rad" style="display:grid;place-items:center">${LETTERS[j]}</span>` : `<button class="rad ${q.a === j ? 'on' : ''}" data-ok="${i}.${j}">${LETTERS[j]}</button>`}<div class="two"><input class="in" placeholder="${esc(t('optFr'))}" data-k="q.${i}.o.${j}.fr" value="${esc(o.fr)}"><input class="in" placeholder="${esc(t('optEn'))}" data-k="q.${i}.o.${j}.en" value="${esc(o.en)}"></div>${q.o.length > 2 ? `<button class="btn ghost small" data-ro="${i}.${j}" style="flex:none">✕</button>` : ''}</div>`).join('') + (q.o.length < maxO ? `<button class="btn ghost small" data-ao="${i}" style="margin-top:8px">${esc(t('addOpt'))}</button>` : '') : ''}
+      ${poll ? '' : `<label class="f">${esc(t('info'))}</label><input class="in" placeholder="FR" data-k="q.${i}.info.fr" value="${esc(q.info?.fr || '')}"><input class="in" style="margin-top:6px" placeholder="EN" data-k="q.${i}.info.en" value="${esc(q.info?.en || '')}">`}</div>`; }).join('') +
     `<button class="btn ghost" id="aq">${esc(t('addQ'))}</button><button class="btn" id="sv" style="margin-top:12px">💾 ${esc(t('save'))}</button>${src ? `<button class="btn danger" id="dl" style="margin-top:12px">${esc(t('del'))}</button>` : ''}`;
-    app.querySelectorAll('[data-k]').forEach(el => el.oninput = () => {
+    app.querySelectorAll('[data-k]').forEach(el => el.oninput = el.onchange = () => {
       const p = el.dataset.k.split('.'); let o = p[0] === 'q' ? g.questions : g; const path = p[0] === 'q' ? p.slice(1) : p;
       for (let k = 0; k < path.length - 1; k++) { o[path[k]] = o[path[k]] ?? {}; o = o[path[k]]; } o[path[path.length - 1]] = el.value;
     });
+    const an = $('#an'); if (an) an.onchange = () => { g.anon = an.value === '1'; };
+    app.querySelectorAll('[data-ty]').forEach(s => s.onchange = () => { const q = g.questions[+s.dataset.ty]; q.type = s.value; if ((s.value === 'single' || s.value === 'multi') && (!q.o || q.o.length < 2)) q.o = [{ fr: '', en: '' }, { fr: '', en: '' }]; draw(); });
     app.querySelectorAll('[data-col]').forEach(b => b.onclick = () => { g.color = b.dataset.col; setAcc(g.color); draw(); });
     app.querySelectorAll('[data-ok]').forEach(b => b.onclick = () => { const [i, j] = b.dataset.ok.split('.').map(Number); g.questions[i].a = j; draw(); });
     app.querySelectorAll('[data-ao]').forEach(b => b.onclick = () => { g.questions[+b.dataset.ao].o.push({ fr: '', en: '' }); draw(); });
     app.querySelectorAll('[data-ro]').forEach(b => b.onclick = () => { const [i, j] = b.dataset.ro.split('.').map(Number); const q = g.questions[i]; q.o.splice(j, 1); if (q.a >= q.o.length) q.a = 0; draw(); });
-    app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { g.questions.splice(+b.dataset.rm, 1); if (!g.questions.length) g.questions.push(blankQ()); draw(); });
+    app.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { g.questions.splice(+b.dataset.rm, 1); if (!g.questions.length) g.questions.push(blankQ(kind)); draw(); });
     app.querySelectorAll('[data-up]').forEach(b => b.onclick = () => { const i = +b.dataset.up; [g.questions[i - 1], g.questions[i]] = [g.questions[i], g.questions[i - 1]]; draw(); });
     app.querySelectorAll('[data-dn]').forEach(b => b.onclick = () => { const i = +b.dataset.dn; [g.questions[i + 1], g.questions[i]] = [g.questions[i], g.questions[i + 1]]; draw(); });
-    $('#aq').onclick = () => { g.questions.push(blankQ()); draw(); setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50); };
+    $('#aq').onclick = () => { const last = g.questions[g.questions.length - 1]; g.questions.push(blankQ(kind, last && last.type || 'single')); draw(); setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50); };
     $('#sv').onclick = () => {
-      g.questions = g.questions.filter(q => (q.q.fr || q.q.en) && q.o.filter(o => o.fr || o.en).length >= 2);
-      g.questions.forEach(q => { q.q.fr ||= q.q.en; q.q.en ||= q.q.fr; q.o.forEach(o => { o.fr ||= o.en; o.en ||= o.fr; }); });
-      if (!g.questions.length) { g.questions.push(blankQ()); draw(); return toast(t('minQ'), false); }
-      g.title.fr ||= g.title.en || 'Quiz'; g.title.en ||= g.title.fr;
-      const list = myGames().filter(x => x.id !== g.id); list.push(g); saveMyGames(list); toast('✔ ' + t('save')); go('admin=game:' + g.id);
+      g.questions = g.questions.filter(q => { const ty = poll ? (q.type || 'single') : 'single'; return (q.q.fr || q.q.en) && (!(ty === 'single' || ty === 'multi') || q.o.filter(o => o.fr || o.en).length >= 2); });
+      g.questions.forEach(q => { q.q.fr ||= q.q.en; q.q.en ||= q.q.fr; const ty = poll ? (q.type || 'single') : 'single'; if (ty === 'single' || ty === 'multi') { q.o = q.o.filter(o => o.fr || o.en); q.o.forEach(o => { o.fr ||= o.en; o.en ||= o.fr; }); } else q.o = []; });
+      if (!g.questions.length) { g.questions.push(blankQ(kind)); draw(); return toast(t('minQ'), false); }
+      g.title.fr ||= g.title.en || (poll ? 'Sondage' : 'Quiz'); g.title.en ||= g.title.fr;
+      const list = myGames().filter(x => x.id !== g.id); list.push(g); saveMyGames(list); toast('✔ ' + t('save')); go('');
     };
-    const dl = $('#dl'); if (dl) dl.onclick = () => confirmBox(t('delQ'), L(g.title), t('del'), () => { saveMyGames(myGames().filter(x => x.id !== g.id)); go('admin'); }, true);
+    if ($('#dl')) $('#dl').onclick = () => confirmBox(t('delQ'), L(g.title), t('del'), () => { saveMyGames(myGames().filter(x => x.id !== g.id)); go(''); }, true);
   };
   draw();
 }
 
-/* ---------------- settings / export ---------------- */
+/* ================= SETTINGS ================= */
 function download(name, text, type) { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }
 function hostSettings() {
   setAcc();
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h2>⚙️ ${esc(t('settings'))}</h2>
    <div class="card"><label class="f">${esc(t('newPin'))}</label><div class="row"><input class="in" id="np" inputmode="numeric" maxlength="8"><button class="btn small" id="sp" style="flex:none">${esc(t('save'))}</button></div></div>
-   <div class="card"><label class="f">${esc(t('baseL'))}</label><p class="muted" style="font-size:13px;margin:0 0 8px">${esc(ONLINE ? t('baseOn') + ' ' + location.origin : t('baseT'))}</p>${ONLINE ? '' : `<div class="row"><input class="in" id="bu2" placeholder="https://labull-quiz.netlify.app" value="${esc(LS.get('lb_base', ''))}"><button class="btn small" id="sb" style="flex:none">${esc(t('save'))}</button></div>`}</div>
+   <div class="card"><label class="f">${esc(t('baseL'))}</label><p class="muted" style="font-size:13px;margin:0 0 8px">${esc(ONLINE ? t('baseOn') + ' ' + location.origin + location.pathname : t('baseT'))}</p>${ONLINE ? '' : `<div class="row"><input class="in" id="bu2" placeholder="https://…" value="${esc(LS.get('lb_base', ''))}"><button class="btn small" id="sb" style="flex:none">${esc(t('save'))}</button></div>`}</div>
    <div class="card stack"><p class="muted" style="font-size:14px;margin:0">${esc(t('exportT'))}</p><button class="btn" id="ex">⬇️ ${esc(t('export'))}</button>
    <button class="btn ghost small" id="bu" style="width:100%">${esc(t('backup'))}</button><label class="btn ghost small" style="width:100%">${esc(t('import'))}<input type="file" id="im" accept=".json,application/json" hidden></label></div>`;
-  const sb = $('#sb'); if (sb) sb.onclick = () => { LS.set('lb_base', $('#bu2').value.trim()); toast(t('pinSaved').replace(/code/i, 'adresse')); };
   $('#sp').onclick = () => { const v = $('#np').value.trim(); if (v.length >= 4) { LS.set('lb_pin', v); toast(t('pinSaved')); $('#np').value = ''; } };
-  $('#ex').onclick = () => {
-    const json = JSON.stringify(allGames()).replace(/</g, '\\u003c');
-    const out = SRC.replace(/(<script id="games-data" type="application\/json">)[\s\S]*?(<\/script>)/, (_, a, b) => a + json + b);
-    download('index.html', out, 'text/html');
-  };
-  $('#bu').onclick = () => download('jeux-labull.json', JSON.stringify(myGames(), null, 1), 'application/json');
+  if ($('#sb')) $('#sb').onclick = () => { LS.set('lb_base', $('#bu2').value.trim()); toast(t('pinSaved')); };
+  $('#ex').onclick = () => { const json = JSON.stringify(allGames()).replace(/</g, '\\u003c'); download('index.html', SRC.replace(/(<script id="games-data" type="application\/json">)[\s\S]*?(<\/script>)/, (_, a, b) => a + json + b), 'text/html'); };
+  $('#bu').onclick = () => download('labull-creations.json', JSON.stringify(myGames(), null, 1), 'application/json');
   $('#im').onchange = async e => { try { const arr = JSON.parse(await e.target.files[0].text()); const m = myGames(); for (const g of arr) { if (g && g.id && g.questions) { const i = m.findIndex(x => x.id === g.id); i >= 0 ? m[i] = g : m.push(g); } } saveMyGames(m); toast('✔ ' + arr.length); } catch (er) { toast('JSON ?', false); } };
 }
 
