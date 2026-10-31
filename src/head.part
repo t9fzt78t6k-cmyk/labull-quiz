@@ -271,6 +271,36 @@ img,i{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-t
 .copy .cr{margin:10px 0 0;font-size:12.5px;color:#fff;text-shadow:0 1px 2px #000}
 .copy .cr2{margin:4px 0 0;font-size:10.5px;color:#e8d8bd}
 .homehead{margin-top:6px}
+
+/* Podium animé */
+.podium{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;padding:calc(18px + env(safe-area-inset-top)) 16px 24px;text-align:center;color:#fff;overflow:hidden;background:radial-gradient(70% 50% at 50% 35%,rgba(255,200,90,.22),transparent 70%),linear-gradient(180deg,rgba(14,8,4,.75),rgba(14,8,4,.96)),url("data:image/jpeg;base64,__A_hbg2__") center/cover}
+.pod-spot{position:absolute;left:50%;top:-10%;width:140%;height:90%;transform:translateX(-50%);background:conic-gradient(from 160deg at 50% 0,transparent 0 12deg,rgba(255,230,160,.13) 18deg 24deg,transparent 30deg 330deg,rgba(255,230,160,.13) 336deg 342deg,transparent 348deg);animation:spot 6s ease-in-out infinite alternate;pointer-events:none}
+@keyframes spot{from{transform:translateX(-50%) rotate(-8deg)}to{transform:translateX(-50%) rotate(8deg)}}
+.pod-x{position:absolute;right:14px;top:calc(12px + env(safe-area-inset-top));z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:20px;box-shadow:0 0 0 2px rgba(232,170,70,.6)}
+.pod-logo{width:84px;height:84px;border-radius:50%;border:3px solid #e8c47a;box-shadow:0 6px 16px rgba(0,0,0,.7);position:relative}
+.pod-ti{position:relative;font-family:var(--brush);font-size:26px;color:var(--gold);margin:8px 0 0;padding-bottom:6px;background:var(--u) center bottom/80% 7px no-repeat}
+.pod-stage{position:relative;flex:1;width:100%;max-width:560px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.pod-tap{font-size:16px;color:#e8d8bd;animation:blink 1.4s ease-in-out infinite;margin:10px 0 0}
+@keyframes blink{50%{opacity:.35}}
+.pod-pl{font-family:var(--brush);font-size:clamp(30px,9vw,46px);margin:0;text-shadow:0 3px 10px #000;animation:podIn .5s ease-out}
+.pod-cd{font-family:var(--title);font-size:120px;line-height:1;color:var(--gold);text-shadow:0 0 30px rgba(247,194,52,.7);animation:cd .8s ease-out}
+@keyframes cd{from{transform:scale(2.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes podIn{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+.pod-card{display:flex;flex-direction:column;align-items:center;gap:4px;padding:18px 26px 20px;border-radius:20px;min-width:70%;background:linear-gradient(160deg,#1d1f22,#0d0e10);border:3px solid var(--pc);box-shadow:0 0 22px var(--pc),inset 0 0 20px color-mix(in srgb,var(--pc) 35%,transparent);animation:pop .7s cubic-bezier(.2,1.6,.4,1)}
+.pc1{--pc:#f7c234}.pc2{--pc:#cfd6de}.pc3{--pc:#d88a4a}
+.pod-med{font-size:64px;line-height:1}
+.pod-card b{font-family:var(--brush);font-weight:400;font-size:clamp(32px,10vw,54px);line-height:1.1}
+.pod-card small{font-size:20px;color:var(--gold);font-weight:700}
+@keyframes pop{from{transform:scale(.2) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+.pod-final{display:flex;align-items:flex-end;justify-content:center;gap:8px;width:100%}
+.pf{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;animation:podIn .6s ease-out both}
+.pf b{font-family:var(--brush);font-weight:400;font-size:clamp(18px,5.5vw,28px);line-height:1.1;word-break:break-word}
+.pf small{color:var(--gold);font-weight:700}
+.pf-blk{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:8px;border-radius:12px 12px 0 0;font-size:34px;background:repeating-linear-gradient(0deg,rgba(0,0,0,.15) 0 1px,transparent 1px 10px),linear-gradient(180deg,#8b5a2b,#4a2a10);box-shadow:inset 0 2px 0 rgba(255,255,255,.2),0 0 0 2px rgba(232,170,70,.6)}
+.pf-blk span{font-family:var(--title);font-size:42px;color:#f6ead2;text-shadow:0 3px 0 #2a1608}
+.pf1 .pf-blk{height:190px}.pf2 .pf-blk{height:140px}.pf3 .pf-blk{height:105px}
+.pf1{animation-delay:.5s}.pf2{animation-delay:.25s}
+.pod-bravo{font-family:var(--brush);font-size:30px;color:var(--gold);margin:6px 0 0}
 #print{display:none}
 @media print{
   body{background:#fff}

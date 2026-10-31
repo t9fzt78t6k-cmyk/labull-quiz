@@ -31,7 +31,7 @@ fr: {
   manual: 'Saisie manuelle', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)', add: 'Ajouter', close: 'Fermer',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   pollSaved: 'Réponse enregistrée', seeStats: 'Voir les résultats', seeAns: 'Voir ses réponses en détail',
-  noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous', drawGo: 'Lancer le tirage !', again: 'Relancer',
+  noRes: 'Aucune fiche reçue pour l’instant.', draw: 'Tirage au sort', drawTop: 'Parmi le meilleur score', drawAll: 'Parmi tous', drawGo: 'Lancer le tirage !', again: 'Relancer', podB: 'Révéler le podium', podTap: 'Touchez l’écran pour révéler', podPl: n => n === 1 ? 'Et le grand gagnant est…' : `À la ${n}e place…`, podWin: 'Bravo à tous !', pts: 'pts',
   details: 'Détail', errOnly: 'Erreurs seulement', allQ: 'Toutes les questions', given: 'Réponse donnée', good: 'Bonne réponse', noAns: 'Sans réponse', errors: n => `${n} erreur(s)`, receivedAt: 'Reçue à',
   zeroT: 'Remise à zéro', zeroGame: 'Effacer les résultats de ce jeu', zeroAll: 'Tout remettre à zéro (tous les jeux et sondages)',
   zeroPin: 'Entrez le code animateur pour confirmer. Les résultats effacés ne pourront pas être récupérés.', zeroGo: 'Effacer', zeroDone: 'Résultats remis à zéro',
@@ -85,7 +85,7 @@ en: {
   manual: 'Manual entry', manualT: 'Team name, then the answers in order (e.g. ACBBA…)', add: 'Add', close: 'Close',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   pollSaved: 'Answer saved', seeStats: 'See the results', seeAns: 'See their answers in detail',
-  noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone', drawGo: 'Start the draw!', again: 'Draw again',
+  noRes: 'No sheets received yet.', draw: 'Prize draw', drawTop: 'Among top score', drawAll: 'Among everyone', drawGo: 'Start the draw!', again: 'Draw again', podB: 'Reveal the podium', podTap: 'Tap the screen to reveal', podPl: n => n === 1 ? 'And the big winner is…' : `In ${n === 2 ? '2nd' : n === 3 ? '3rd' : n + 'th'} place…`, podWin: 'Well done everyone!', pts: 'pts',
   details: 'Details', errOnly: 'Mistakes only', allQ: 'All questions', given: 'Answer given', good: 'Correct answer', noAns: 'No answer', errors: n => `${n} mistake(s)`, receivedAt: 'Received at',
   zeroT: 'Reset', zeroGame: 'Clear this game’s results', zeroAll: 'Reset everything (all games and polls)',
   zeroPin: 'Enter the quiz master code to confirm. Cleared results can’t be recovered.', zeroGo: 'Clear', zeroDone: 'Results reset',
@@ -534,9 +534,10 @@ function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
    <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button></div>
-   ${rk.length ? `<button class="btn acc" id="dr" style="margin:12px 0">🎁 ${esc(t('draw'))}</button><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
+   ${rk.length ? `<div class="row" style="margin:12px 0"><button class="btn" id="pod">🏆 ${esc(t('podB'))}</button><button class="btn acc" id="dr">🎁 ${esc(t('draw'))}</button></div><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
   app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.s === rk[0].s).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
+  if ($('#pod')) $('#pod').onclick = () => podiumShow(L(g.title), rk.map(r => ({ t: r.t, s: r.s })), '/ ' + N);
   $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
   bindReset(g, () => hostRank(g));
 }
@@ -561,6 +562,35 @@ function hostStats(g) {
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawAll'), names: rs.filter(r => r.t).map(r => r.t) }]);
   $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g);
   bindReset(g, () => hostStats(g));
+}
+
+// Podium animé : révélation 3e → 2e → 1er, puis podium final (à montrer à la salle)
+function podiumShow(title, rows, unit) {
+  let pos = 0, prev = null; const ps = rows.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } return { ...r, p: pos }; });
+  const groups = [...new Set(ps.map(r => r.p))].slice(0, 3).map((p, gi) => ps.filter(r => r.p === p).map(r => ({ ...r, m: gi + 1 })));
+  const steps = [...groups].reverse(); let k = -1, busy = false;
+  const o = document.createElement('div'); o.className = 'podium';
+  o.innerHTML = `<button class="pod-x" aria-label="✕">✕</button><i class="pod-spot"></i><img class="pod-logo" src="${LOGO}" alt=""><p class="pod-ti">${esc(title)}</p><div class="pod-stage"><p class="pod-tap">${esc(t('podTap'))}</p></div>`;
+  document.body.appendChild(o);
+  const stage = o.querySelector('.pod-stage');
+  const names = g => g.map(r => esc(r.t)).join('<br>');
+  const finale = () => {
+    const order = [2, 1, 3].map(i => groups[i - 1]).filter(Boolean);
+    stage.innerHTML = `<div class="pod-final">${order.map(g => `<div class="pf pf${g[0].m}"><b>${names(g)}</b><small>${g[0].s} ${esc(unit)}</small><div class="pf-blk">${['🥇', '🥈', '🥉'][g[0].m - 1]}<span>${g[0].m}</span></div></div>`).join('')}</div><p class="pod-bravo">${esc(t('podWin'))}</p>`;
+    confetti(); setTimeout(confetti, 900);
+  };
+  const next = () => {
+    if (busy) return; k++;
+    if (k > steps.length) return; if (k === steps.length) return finale();
+    busy = true; const g = steps[k], p = g[0].p, md = g[0].m;
+    stage.innerHTML = `<p class="pod-pl">${esc(t('podPl')(md))}</p><div class="pod-cd">3</div>`;
+    const cd = stage.querySelector('.pod-cd'); let n = 3;
+    const iv = setInterval(() => { n--; if (n > 0) { cd.textContent = n; cd.style.animation = 'none'; cd.offsetWidth; cd.style.animation = ''; return; }
+      clearInterval(iv); cd.remove();
+      stage.insertAdjacentHTML('beforeend', `<div class="pod-card pc${md}"><span class="pod-med">${['🥇', '🥈', '🥉'][md - 1]}</span><b>${names(g)}</b><small>${g[0].s} ${esc(unit)}</small></div><p class="pod-tap">${esc(t('podTap'))}</p>`);
+      if (p === 1) confetti(); busy = false; }, 800);
+  };
+  o.addEventListener('click', e => { if (e.target.closest('.pod-x')) return o.remove(); next(); });
 }
 function drawModal(pools) {
   let pi = 0;
