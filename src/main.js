@@ -251,7 +251,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '3 nov. 2026 · 12';
+const APP_V = '3 nov. 2026 · 13';
 function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
@@ -353,9 +353,11 @@ function playerQ(g, st) {
   if (tmd) startQTimer(g, st, pos, save);
   window.scrollTo(0, 0);
 }
+const okVal = (ty, v) => ty === 'single' ? Number.isInteger(v) : ty === 'multi' ? Array.isArray(v) && v.every(Number.isInteger) : ty === 'stars' || ty === 'number' ? typeof v === 'number' : ty === 'score' ? Array.isArray(v) : ty === 'text' ? typeof v === 'string' : true;
 function ansLabel(g, q, v, short) {
   const ty = qType(g, q);
-  if (!answered(v)) return '–';
+  if (!answered(v) || !okVal(ty, v)) return '–';
+  if ((ty === 'single' && !q.o[v]) || (ty === 'multi' && v.some(j => !q.o[j]))) return '–';
   if (ty === 'single') return short ? LETTERS[v] : `${LETTERS[v]} — ${L(q.o[v])}`;
   if (ty === 'multi') return short ? v.map(j => LETTERS[j]).join('') : v.map(j => L(q.o[j])).join(', ');
   if (ty === 'stars') return '★'.repeat(v);
@@ -675,12 +677,12 @@ function hostStats(g) {
   setAcc(g.color);
   const rs = Object.values(getRes(g.id)).sort((a, b) => a.ts - b.ts), N = rs.length;
   const blocks = g.questions.map((q, i) => {
-    const ty = qType(g, q), vals = rs.map(r => r.a[i]).filter(answered);
+    const ty = qType(g, q), vals = rs.map(r => (r.a || [])[i]).filter(v => answered(v) && okVal(ty, v));
     let body = '';
     if (ty === 'single') body = q.o.map((o, j) => bar(L(o), vals.filter(v => v === j).length, vals.length)).join('');
     if (ty === 'multi') body = q.o.map((o, j) => bar(L(o), vals.filter(v => v.includes(j)).length, vals.length)).join('');
     if (ty === 'stars') { const avg = vals.length ? (vals.reduce((a, b) => a + b, 0) / vals.length) : 0; body = `<p style="font-size:30px;margin:4px 0;font-weight:700;color:var(--gold)">${avg.toFixed(1)} / 5 <span style="font-size:22px">${'★'.repeat(Math.round(avg))}${'☆'.repeat(5 - Math.round(avg))}</span></p>` + [5, 4, 3, 2, 1].map(k => bar('★'.repeat(k), vals.filter(v => v === k).length, vals.length)).join(''); }
-    if (ty === 'text') body = rs.filter(r => answered(r.a[i])).map(r => `<div class="txtans">${esc(r.a[i])}${g.anon || !r.t ? '' : `<small>— ${esc(r.t)}</small>`}</div>`).join('') || `<p class="muted">–</p>`;
+    if (ty === 'text') body = rs.filter(r => answered((r.a || [])[i]) && okVal('text', r.a[i])).map(r => `<div class="txtans">${esc(r.a[i])}${g.anon || !r.t ? '' : `<small>— ${esc(r.t)}</small>`}</div>`).join('') || `<p class="muted">–</p>`;
     const off = !seqOf(g).includes(i);
     return `<div class="card qe"${off ? ' style="opacity:.75"' : ''}><p class="muted" style="margin:0;font-size:13px">${off ? '🗄 ' + esc(t('retired')) + ' · ' : ''}${i + 1}. ${esc(t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : 'tText'))} · ${esc(t('answers')(vals.length))}</p><p style="font-weight:700;margin:4px 0 8px">${esc(L(q.q))}</p>${body}</div>`;
   }).join('');
