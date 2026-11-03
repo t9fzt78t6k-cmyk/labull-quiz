@@ -250,7 +250,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '3 nov. 2026 · 5';
+const APP_V = '3 nov. 2026 · 6';
 function cleanPhone() {
   setAcc(); const host = isHost();
   try { Object.keys(localStorage).filter(k => /^lb_(me|skipid|play_|jc_)/.test(k) || (!host && k === 'lb_players')).forEach(k => localStorage.removeItem(k)); } catch (e) {}
@@ -388,7 +388,7 @@ function playerDone(g, st) {
   const lastMe = here ? getMe() : null; if (here) LS.del('lb_me');
   const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
   app.innerHTML = topBar(st.team || t('anonymous')) + backBar() + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   ${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="font-size:40px;margin:0">✅</p><p class="chalk" style="font-size:28px;margin:4px 0">${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : `<h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>`}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
+   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
