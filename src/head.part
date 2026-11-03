@@ -409,6 +409,7 @@ body.tvmode .copy{display:none}body.tvmode{overflow:hidden}
   #print small{font-size:9pt;color:#555}
   @page{size:A4;margin:14mm}
 }
+.qrbtns{display:flex;gap:10px;width:min(88vw,420px)}.qrbtns .btn{flex:1;margin:0}.qrbtns.sm .btn{color:#1a1008;border-color:#ccc}
 .tpick{display:flex;flex-direction:column;gap:8px;margin-top:6px}.tpick[hidden],[hidden]{display:none!important}.tpick .opt{margin:0}
 .scanbox{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:1/1;max-width:100%}.scanbox video{width:100%;height:100%;object-fit:cover;display:block}.scanbox i{position:absolute;inset:14%;border:4px solid var(--acc,#f2b632);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
 </style>
