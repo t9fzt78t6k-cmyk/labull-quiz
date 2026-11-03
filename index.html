@@ -12551,7 +12551,7 @@ const isProno = g => kindOf(g) === 'prono';
 const teamA = g => L(g.teams?.a) || 'A', teamB = g => L(g.teams?.b) || 'B';
 const qA = (g, q) => q && q.teams ? L(q.teams.a) : teamA(g), qB = (g, q) => q && q.teams ? L(q.teams.b) : teamB(g);
 const scoreQs = g => g.questions.map((q, i) => [q, i]).filter(([q]) => q.type === 'score');
-const gTitle = g => g.teams ? `${teamA(g)} – ${teamB(g)}` : L(g.title);
+const gTitle = g => isProno(g) && g.teams && (teamA(g) || teamB(g)) ? `${teamA(g)} – ${teamB(g)}` : (L(g.title) || '—');
 const outKey = id => 'lb_out_' + id;
 const getOut = id => {
   const loc = LS.get(outKey(id), null), g = BUILTIN.find(x => x.id === id), b = g && g.out;
