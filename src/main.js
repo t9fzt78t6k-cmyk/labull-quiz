@@ -137,6 +137,8 @@ const LETTERS = 'ABCDEFGH';
 const resKey = id => 'lb_res_' + id;
 const getRes = id => LS.get(resKey(id), {});
 const isHost = () => LS.get('lb_host', false) === true;
+/* remise à zéro à distance : champ rz d'un jeu, appliquée une seule fois par téléphone */
+BUILTIN.forEach(g => { if (g.rz && LS.get('lb_rz_' + g.id, '') !== g.rz) { LS.del(resKey(g.id)); LS.del('lb_play_' + g.id); LS.set('lb_rz_' + g.id, g.rz); } });
 
 /* ================= ENCODING ================= */
 const b64u = bytes => { let s = ''; bytes.forEach(b => s += String.fromCharCode(b)); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); };
