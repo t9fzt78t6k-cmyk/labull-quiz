@@ -27,7 +27,7 @@ fr: {
   playQR: 'QR pour participer', recvS: 'Recevoir une fiche', ranking: 'Classement', stats: 'Résultats', keyS: 'Questions & corrigé', qsS: 'Questions',
   playHereS: 'Participer ici', edit: 'Modifier', dup: 'Dupliquer', settings: 'Réglages', lock: 'Verrouiller', printS: 'Imprimer',
   joinTitle: 'Scannez pour participer', printLine: 'Scannez avec l’appareil photo de votre téléphone · Scan with your phone camera',
-  tmT: 'Équipes de la soirée', pIndiv: 'Jouer en individuel', pTeam: 'Rejoindre une équipe', pIndivOnly: 'Vous jouez en individuel', pHow: 'Comment voulez-vous jouer ?', tmOpt: 'Facultatif. Chaque joueur choisira : jouer en individuel ou rejoindre une de ces équipes. Sans équipe, tout le monde joue en individuel.', tmInd: 'Individuel', tmSolo: 'Individuel', tmTeam: 'Par équipes', tmSoloT: 'Chacun joue pour soi, sous son prénom.', tmTeamT: 'Vous créez les équipes ; chaque joueur choisit la sienne au début du quiz.', tmList: 'Équipes de la soirée', tmAdd: 'Ajouter', tmAddPh: 'Nom d\u2019une équipe', tmNone: 'Aucune équipe pour l\u2019instant. Ajoutez-en au moins deux.', tmNeed: 'Créez d\u2019abord les équipes', tmEdit: 'Équipes', tmBtn: 'Individuel ou équipes', tmPick: 'Choisissez votre équipe', tmBest: 'Le score d\u2019une équipe = le meilleur score de ses joueurs.', tmMembers: n => `${n} joueur(s)`, tmDone: 'Valider', cleanT: 'Téléphone nettoyé', cleanS: 'Les comptes et les parties en cours sur ce téléphone sont effacés. Vous repartez de zéro.', cleanHost: 'Espace animateur : vos jeux, résultats et joueurs inscrits sont conservés.', recvT: 'Recevoir une fiche', scanList: 'Fiches reçues pendant ce scan', scanNone: 'Aucune fiche pour l\u2019instant. Visez le QR du joueur : chaque fiche s\u2019enregistre toute seule.', scanAgain: 'Déjà reçue, mise à jour', scanRank: 'Voir le classement', scanWrong: 'Ce QR n\u2019est pas une fiche de jeu LA BULL', recvHow: 'La caméra ne s\u2019ouvre pas ici. Autorisez l\u2019accès à la caméra pour LA BULL dans les réglages du téléphone, puis réessayez. Sinon, utilisez la saisie manuelle.',
+  tmT: 'Équipes de la soirée', pIndiv: 'Jouer en individuel', pTeam: 'Jouer en équipe', pTeamT: 'Choisissez votre équipe', pTeamS: 'Touchez le nom de votre équipe pour commencer.', pNoTeam: 'L\u2019animateur n\u2019a pas encore créé les équipes. Demandez-lui au bar, ou jouez en individuel.', pBack: 'Revenir au choix', pIndivOnly: 'Vous jouez en individuel', pHow: 'Comment voulez-vous jouer ?', tmOpt: 'Facultatif. Chaque joueur choisira : jouer en individuel ou rejoindre une de ces équipes. Sans équipe, tout le monde joue en individuel.', tmInd: 'Individuel', tmSolo: 'Individuel', tmTeam: 'Par équipes', tmSoloT: 'Chacun joue pour soi, sous son prénom.', tmTeamT: 'Vous créez les équipes ; chaque joueur choisit la sienne au début du quiz.', tmList: 'Équipes de la soirée', tmAdd: 'Ajouter', tmAddPh: 'Nom d\u2019une équipe', tmNone: 'Aucune équipe pour l\u2019instant. Ajoutez-en au moins deux.', tmNeed: 'Créez d\u2019abord les équipes', tmEdit: 'Équipes', tmBtn: 'Individuel ou équipes', tmPick: 'Choisissez votre équipe', tmBest: 'Le score d\u2019une équipe = le meilleur score de ses joueurs.', tmMembers: n => `${n} joueur(s)`, tmDone: 'Valider', cleanT: 'Téléphone nettoyé', cleanS: 'Les comptes et les parties en cours sur ce téléphone sont effacés. Vous repartez de zéro.', cleanHost: 'Espace animateur : vos jeux, résultats et joueurs inscrits sont conservés.', recvT: 'Recevoir une fiche', scanList: 'Fiches reçues pendant ce scan', scanNone: 'Aucune fiche pour l\u2019instant. Visez le QR du joueur : chaque fiche s\u2019enregistre toute seule.', scanAgain: 'Déjà reçue, mise à jour', scanRank: 'Voir le classement', scanWrong: 'Ce QR n\u2019est pas une fiche de jeu LA BULL', recvHow: 'La caméra ne s\u2019ouvre pas ici. Autorisez l\u2019accès à la caméra pour LA BULL dans les réglages du téléphone, puis réessayez. Sinon, utilisez la saisie manuelle.',
   manual: 'Saisie manuelle', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)', add: 'Ajouter', close: 'Fermer',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   pollSaved: 'Réponse enregistrée', seeStats: 'Voir les résultats', seeAns: 'Voir ses réponses en détail',
@@ -81,7 +81,7 @@ en: {
   playQR: 'QR to take part', recvS: 'Receive a sheet', ranking: 'Ranking', stats: 'Results', keyS: 'Questions & key', qsS: 'Questions',
   playHereS: 'Take part here', edit: 'Edit', dup: 'Duplicate', settings: 'Settings', lock: 'Lock', printS: 'Print',
   joinTitle: 'Scan to take part', printLine: 'Scan with your phone camera · Scannez avec l’appareil photo de votre téléphone',
-  tmT: 'Tonight\u2019s teams', pIndiv: 'Play on my own', pTeam: 'Join a team', pIndivOnly: 'You are playing on your own', pHow: 'How do you want to play?', tmOpt: 'Optional. Each player will choose: play on their own or join one of these teams. With no team, everyone plays on their own.', tmInd: 'Individual', tmSolo: 'Individual', tmTeam: 'In teams', tmSoloT: 'Everyone plays for themselves, under their first name.', tmTeamT: 'You create the teams; each player picks theirs at the start of the quiz.', tmList: 'Tonight\u2019s teams', tmAdd: 'Add', tmAddPh: 'Team name', tmNone: 'No team yet. Add at least two.', tmNeed: 'Create the teams first', tmEdit: 'Teams', tmBtn: 'Individual or teams', tmPick: 'Pick your team', tmBest: 'A team\u2019s score = its best player\u2019s score.', tmMembers: n => `${n} player(s)`, tmDone: 'Done', cleanT: 'Phone cleaned', cleanS: 'Accounts and games in progress on this phone are erased. You start from scratch.', cleanHost: 'Quiz master area: your games, results and signed-up players are kept.', recvT: 'Receive a sheet', scanList: 'Sheets received during this scan', scanNone: 'No sheet yet. Point at the player\u2019s QR: each sheet saves itself.', scanAgain: 'Already received, updated', scanRank: 'See the ranking', scanWrong: 'This QR is not a LA BULL game sheet', recvHow: 'The camera won\u2019t open here. Allow camera access for LA BULL in the phone settings, then try again. Otherwise, use manual entry.',
+  tmT: 'Tonight\u2019s teams', pIndiv: 'Play on my own', pTeam: 'Play in a team', pTeamT: 'Pick your team', pTeamS: 'Tap your team\u2019s name to start.', pNoTeam: 'The quiz master hasn\u2019t created the teams yet. Ask at the bar, or play on your own.', pBack: 'Back to the choice', pIndivOnly: 'You are playing on your own', pHow: 'How do you want to play?', tmOpt: 'Optional. Each player will choose: play on their own or join one of these teams. With no team, everyone plays on their own.', tmInd: 'Individual', tmSolo: 'Individual', tmTeam: 'In teams', tmSoloT: 'Everyone plays for themselves, under their first name.', tmTeamT: 'You create the teams; each player picks theirs at the start of the quiz.', tmList: 'Tonight\u2019s teams', tmAdd: 'Add', tmAddPh: 'Team name', tmNone: 'No team yet. Add at least two.', tmNeed: 'Create the teams first', tmEdit: 'Teams', tmBtn: 'Individual or teams', tmPick: 'Pick your team', tmBest: 'A team\u2019s score = its best player\u2019s score.', tmMembers: n => `${n} player(s)`, tmDone: 'Done', cleanT: 'Phone cleaned', cleanS: 'Accounts and games in progress on this phone are erased. You start from scratch.', cleanHost: 'Quiz master area: your games, results and signed-up players are kept.', recvT: 'Receive a sheet', scanList: 'Sheets received during this scan', scanNone: 'No sheet yet. Point at the player\u2019s QR: each sheet saves itself.', scanAgain: 'Already received, updated', scanRank: 'See the ranking', scanWrong: 'This QR is not a LA BULL game sheet', recvHow: 'The camera won\u2019t open here. Allow camera access for LA BULL in the phone settings, then try again. Otherwise, use manual entry.',
   manual: 'Manual entry', manualT: 'Team name, then the answers in order (e.g. ACBBA…)', add: 'Add', close: 'Close',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   pollSaved: 'Answer saved', seeStats: 'See the results', seeAns: 'See their answers in detail',
@@ -250,7 +250,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '3 nov. 2026 · 3';
+const APP_V = '3 nov. 2026 · 4';
 function cleanPhone() {
   setAcc(); const host = isHost();
   try { Object.keys(localStorage).filter(k => /^lb_(me|skipid|play_|jc_)/.test(k) || (!host && k === 'lb_players')).forEach(k => localStorage.removeItem(k)); } catch (e) {}
@@ -267,12 +267,20 @@ function cleanPhone() {
 const pkey = g => 'lb_play_' + g.id;
 const $team = g => false;
 function teamPickHTML(g) {
-  const tl = teamList(g);
-  if (!tl.length) return `<input type="hidden" id="team" value=""><p class="center" style="margin:12px 0 0;font-weight:700">👤 ${esc(t('pIndivOnly'))}</p>`;
   return `<p class="f" style="margin-top:14px">${esc(t('pHow'))}</p><input type="hidden" id="team" value=""><div class="tpick">
     <button type="button" class="opt" data-pm="ind"><span class="L">👤</span><span>${esc(t('pIndiv'))}</span></button>
-    <button type="button" class="opt" data-pm="team"><span class="L">👥</span><span>${esc(t('pTeam'))}</span></button>
-    <div class="tpick" id="tpl" hidden style="padding-left:14px">${tl.map((n, i) => `<button type="button" class="opt" data-tp="${i}"><span class="L">${i + 1}</span><span>${esc(n)}</span></button>`).join('')}</div></div>`;
+    <button type="button" class="opt" data-pm="team"><span class="L">👥</span><span>${esc(t('pTeam'))}</span></button></div>`;
+}
+function teamChooseScreen(g, me, begin) {
+  const tl = teamList(g);
+  app.innerHTML = topBar(me ? me.name : '') + `<button class="btn ghost small" id="tbk" style="width:100%;margin-top:6px">← ${esc(t('pBack'))}</button>
+   <div class="hero" style="padding-bottom:4px"><p style="margin:0;font-size:44px">👥</p><h1 style="margin-top:4px">${esc(t('pTeamT'))}</h1><p class="muted">${esc(L(g.title))}</p></div>
+   <div class="card">${tl.length ? `<p class="muted center" style="margin:0 0 10px">${esc(t('pTeamS'))}</p><div class="tpick">${tl.map((n, i) => `<button type="button" class="opt" data-tp="${i}"><span class="L">${i + 1}</span><span>${esc(n)}</span></button>`).join('')}</div>`
+     : `<p class="center" style="margin:0 0 12px;font-weight:700">⚠️ ${esc(t('pNoTeam'))}</p><button class="btn acc" id="tind">👤 ${esc(t('pIndiv'))}</button>`}</div>`;
+  $('#tbk').onclick = () => playerStart(g);
+  if ($('#tind')) $('#tind').onclick = () => begin('');
+  app.querySelectorAll('[data-tp]').forEach(x => x.onclick = () => begin(tl[+x.dataset.tp]));
+  window.scrollTo(0, 0);
 }
 
 function playerStart(g) {
@@ -299,10 +307,10 @@ function playerStart(g) {
   const inp = $('#team'), b = $('#go');
   if ($('#idf')) $('#idf').onclick = () => identifyScreen(() => playerStart(g));
   if (inp) inp.oninput = () => b.disabled = !inp.value.trim();
-  if (kindOf(g) === 'quiz' && teamList(g).length) b.disabled = true;
-  app.querySelectorAll('[data-pm]').forEach(x => x.onclick = () => { const team = x.dataset.pm === 'team'; app.querySelectorAll('[data-pm]').forEach(y => y.classList.toggle('sel', y === x)); $('#tpl').hidden = !team; inp.value = ''; app.querySelectorAll('[data-tp]').forEach(y => y.classList.remove('sel')); b.disabled = team; if (team) $('#tpl').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); });
-  app.querySelectorAll('[data-tp]').forEach(x => x.onclick = () => { inp.value = teamList(g)[+x.dataset.tp]; app.querySelectorAll('[data-tp]').forEach(y => y.classList.toggle('sel', y === x)); b.disabled = false; });
-  b.onclick = () => { const s = { started: true, c: me ? { m: me.m, v: me.v, mk: me.mk, l: lang, at: me.at, n: me.name, p: me.pin } : undefined, team: inp && inp.value.trim() ? inp.value.trim() : me ? me.name : '', pid: 'p' + Math.random().toString(36).slice(2, 9), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
+  let pm = ''; if (kindOf(g) === 'quiz') b.disabled = true;
+  app.querySelectorAll('[data-pm]').forEach(x => x.onclick = () => { pm = x.dataset.pm; app.querySelectorAll('[data-pm]').forEach(y => y.classList.toggle('sel', y === x)); b.disabled = false; });
+  const begin = tm => { const s = { started: true, c: me ? { m: me.m, v: me.v, mk: me.mk, l: lang, at: me.at, n: me.name, p: me.pin } : undefined, team: tm || (me ? me.name : ''), pid: 'p' + Math.random().toString(36).slice(2, 9), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
+  b.onclick = () => { if (kindOf(g) === 'quiz' && pm === 'team') return teamChooseScreen(g, me, begin); begin(inp && kindOf(g) !== 'quiz' && inp.value.trim() ? inp.value.trim() : ''); };
   if ($('#chg2')) $('#chg2').onclick = () => { LS.del('lb_me'); identifyScreen(() => playerStart(g), !isProno(g)); };
 }
 function answered(v) { return v != null && !(Array.isArray(v) && (!v.length || v.some(x => x == null))) && v !== ''; }
