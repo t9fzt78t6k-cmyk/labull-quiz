@@ -409,6 +409,7 @@ body.tvmode .copy{display:none}body.tvmode{overflow:hidden}
   #print small{font-size:9pt;color:#555}
   @page{size:A4;margin:14mm}
 }
+.tpick{display:flex;flex-direction:column;gap:8px;margin-top:6px}.tpick .opt{margin:0}
 .scanbox{position:relative;border-radius:16px;overflow:hidden;background:#000;aspect-ratio:1/1;max-width:100%}.scanbox video{width:100%;height:100%;object-fit:cover;display:block}.scanbox i{position:absolute;inset:14%;border:4px solid var(--acc,#f2b632);border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.35)}
 </style>
 
@@ -11808,7 +11809,7 @@ fr: {
   playQR: 'QR pour participer', recvS: 'Recevoir une fiche', ranking: 'Classement', stats: 'Résultats', keyS: 'Questions & corrigé', qsS: 'Questions',
   playHereS: 'Participer ici', edit: 'Modifier', dup: 'Dupliquer', settings: 'Réglages', lock: 'Verrouiller', printS: 'Imprimer',
   joinTitle: 'Scannez pour participer', printLine: 'Scannez avec l’appareil photo de votre téléphone · Scan with your phone camera',
-  recvT: 'Recevoir une fiche', scanList: 'Fiches reçues pendant ce scan', scanNone: 'Aucune fiche pour l\u2019instant. Visez le QR du joueur : chaque fiche s\u2019enregistre toute seule.', scanAgain: 'Déjà reçue, mise à jour', scanRank: 'Voir le classement', scanWrong: 'Ce QR n\u2019est pas une fiche de jeu LA BULL', recvHow: 'La caméra ne s\u2019ouvre pas ici. Autorisez l\u2019accès à la caméra pour LA BULL dans les réglages du téléphone, puis réessayez. Sinon, utilisez la saisie manuelle.',
+  tmT: 'Comment joue-t-on ?', tmSolo: 'Individuel', tmTeam: 'Par équipes', tmSoloT: 'Chacun joue pour soi, sous son prénom.', tmTeamT: 'Vous créez les équipes ; chaque joueur choisit la sienne au début du quiz.', tmList: 'Équipes de la soirée', tmAdd: 'Ajouter', tmAddPh: 'Nom d\u2019une équipe', tmNone: 'Aucune équipe pour l\u2019instant. Ajoutez-en au moins deux.', tmNeed: 'Créez d\u2019abord les équipes', tmEdit: 'Équipes', tmBtn: 'Individuel ou équipes', tmPick: 'Choisissez votre équipe', tmBest: 'Le score d\u2019une équipe = le meilleur score de ses joueurs.', tmMembers: n => `${n} joueur(s)`, tmDone: 'Valider', recvT: 'Recevoir une fiche', scanList: 'Fiches reçues pendant ce scan', scanNone: 'Aucune fiche pour l\u2019instant. Visez le QR du joueur : chaque fiche s\u2019enregistre toute seule.', scanAgain: 'Déjà reçue, mise à jour', scanRank: 'Voir le classement', scanWrong: 'Ce QR n\u2019est pas une fiche de jeu LA BULL', recvHow: 'La caméra ne s\u2019ouvre pas ici. Autorisez l\u2019accès à la caméra pour LA BULL dans les réglages du téléphone, puis réessayez. Sinon, utilisez la saisie manuelle.',
   manual: 'Saisie manuelle', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)', add: 'Ajouter', close: 'Fermer',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   pollSaved: 'Réponse enregistrée', seeStats: 'Voir les résultats', seeAns: 'Voir ses réponses en détail',
@@ -11862,7 +11863,7 @@ en: {
   playQR: 'QR to take part', recvS: 'Receive a sheet', ranking: 'Ranking', stats: 'Results', keyS: 'Questions & key', qsS: 'Questions',
   playHereS: 'Take part here', edit: 'Edit', dup: 'Duplicate', settings: 'Settings', lock: 'Lock', printS: 'Print',
   joinTitle: 'Scan to take part', printLine: 'Scan with your phone camera · Scannez avec l’appareil photo de votre téléphone',
-  recvT: 'Receive a sheet', scanList: 'Sheets received during this scan', scanNone: 'No sheet yet. Point at the player\u2019s QR: each sheet saves itself.', scanAgain: 'Already received, updated', scanRank: 'See the ranking', scanWrong: 'This QR is not a LA BULL game sheet', recvHow: 'The camera won\u2019t open here. Allow camera access for LA BULL in the phone settings, then try again. Otherwise, use manual entry.',
+  tmT: 'How do we play?', tmSolo: 'Individual', tmTeam: 'In teams', tmSoloT: 'Everyone plays for themselves, under their first name.', tmTeamT: 'You create the teams; each player picks theirs at the start of the quiz.', tmList: 'Tonight\u2019s teams', tmAdd: 'Add', tmAddPh: 'Team name', tmNone: 'No team yet. Add at least two.', tmNeed: 'Create the teams first', tmEdit: 'Teams', tmBtn: 'Individual or teams', tmPick: 'Pick your team', tmBest: 'A team\u2019s score = its best player\u2019s score.', tmMembers: n => `${n} player(s)`, tmDone: 'Done', recvT: 'Receive a sheet', scanList: 'Sheets received during this scan', scanNone: 'No sheet yet. Point at the player\u2019s QR: each sheet saves itself.', scanAgain: 'Already received, updated', scanRank: 'See the ranking', scanWrong: 'This QR is not a LA BULL game sheet', recvHow: 'The camera won\u2019t open here. Allow camera access for LA BULL in the phone settings, then try again. Otherwise, use manual entry.',
   manual: 'Manual entry', manualT: 'Team name, then the answers in order (e.g. ACBBA…)', add: 'Add', close: 'Close',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   pollSaved: 'Answer saved', seeStats: 'See the results', seeAns: 'See their answers in detail',
@@ -11909,10 +11910,14 @@ let BUILTIN = [];
 try { BUILTIN = JSON.parse($('#games-data').textContent || '[]'); } catch (e) {}
 const myGames = () => LS.get('lb_games', []);
 const saveMyGames = a => LS.set('lb_games', a);
-const allGames = () => { const m = myGames(); const ids = new Set(m.map(g => g.id)); return [...BUILTIN.filter(g => !ids.has(g.id)), ...m]; };
+const cfgOf = id => LS.get('lb_cfg_' + id, null);
+const withCfg = g => { const c = g && kindOf(g) === 'quiz' && cfgOf(g.id); return c ? { ...g, mode: c.mode, tl: c.tl || [] } : g; };
+const allGames = () => { const m = myGames(); const ids = new Set(m.map(g => g.id)); return [...BUILTIN.filter(g => !ids.has(g.id)), ...m].map(withCfg); };
 const findGame = id => allGames().find(g => g.id === id);
 const isBuiltin = id => BUILTIN.some(g => g.id === id) && !myGames().some(g => g.id === id);
 const kindOf = g => g.kind === 'poll' || g.kind === 'prono' ? g.kind : 'quiz';
+const teamMode = g => kindOf(g) === 'quiz' && g.mode !== 'solo';
+const teamList = g => (teamMode(g) && Array.isArray(g.tl) ? g.tl : []).filter(Boolean);
 const qType = (g, q) => kindOf(g) === 'quiz' ? 'single' : (q.type || 'single');
 const LETTERS = 'ABCDEFGH';
 const resKey = id => 'lb_res_' + id;
@@ -11942,17 +11947,20 @@ function parseResult(p) {
   return { g: parts[1], n: +parts[2], a: parts[3], t: parts.slice(4).join('|'), v: 1 };
 }
 async function joinURL(g) {
-  if (isBuiltin(g.id)) return { url: baseURL() + '#j=' + encodeURIComponent(g.id), embedded: false };
-  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, sp: g.sport, tm: g.teams, ti: g.time, d: g.date, m: g.mode, an: !!g.anon, c: g.color, tr: g.timer || undefined, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en]), q.img || 0]) };
+  if (isBuiltin(g.id)) { const c = kindOf(g) === 'quiz' && cfgOf(g.id); return { url: baseURL() + '#j=' + encodeURIComponent(g.id) + (c ? '*' + b64u(enc(JSON.stringify({ m: c.mode, tl: teamList(g) }))) : ''), embedded: false }; }
+  const slim = { id: g.id, k: kindOf(g), t: g.title, s: g.sub, e: g.end, sp: g.sport, tm: g.teams, ti: g.time, d: g.date, m: g.mode, an: !!g.anon, c: g.color, tr: g.timer || undefined, tl: teamList(g).length ? teamList(g) : undefined, q: g.questions.map(q => [q.q.fr, q.q.en, q.type || 'single', (q.o || []).map(o => [o.fr, o.en]), q.img || 0]) };
   const url = baseURL() + '#j=~' + b64u(await deflate(JSON.stringify(slim)));
   return { url, embedded: true, tooLong: url.length > 1800 };
 }
 async function gameFromHash(v) {
   if (v.startsWith('~')) {
     const s = JSON.parse(await inflate(unb64u(v.slice(1))));
-    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, sport: s.sp, teams: s.tm, time: s.ti, date: s.d, mode: s.m, anon: s.an, color: s.c, timer: s.tr || 0, questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })), ...(q[4] ? { img: q[4] } : {}) })) };
+    return { id: s.id, kind: s.k || 'quiz', title: s.t, sub: s.s, end: s.e, sport: s.sp, teams: s.tm, time: s.ti, date: s.d, mode: s.m, anon: s.an, color: s.c, timer: s.tr || 0, tl: s.tl || [], questions: s.q.map(q => ({ q: { fr: q[0], en: q[1] }, type: q[2], o: q[3].map(o => ({ fr: o[0], en: o[1] })), ...(q[4] ? { img: q[4] } : {}) })) };
   }
-  return findGame(decodeURIComponent(v));
+  const [id, x] = v.split('*'); const g = findGame(decodeURIComponent(id));
+  if (g && x) { try { const o = JSON.parse(dec(unb64u(x))); const c = { mode: o.m === 'solo' ? 'solo' : 'team', tl: Array.isArray(o.tl) ? o.tl.map(String).slice(0, 40) : [] }; if (!isHost()) LS.set('lb_jc_' + g.id, c); return { ...g, ...c }; } catch (e) {} }
+  const jc = g && !isHost() && kindOf(g) === 'quiz' && LS.get('lb_jc_' + g.id, null); if (jc) return { ...g, ...jc };
+  return g;
 }
 
 /* ================= QR ================= */
@@ -12026,6 +12034,11 @@ function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div cla
 /* ================= PARTICIPANT ================= */
 const pkey = g => 'lb_play_' + g.id;
 const $team = g => kindOf(g) === 'quiz' && g.mode !== 'solo';
+function teamPickHTML(g) {
+  const tl = teamList(g);
+  if (!tl.length) return `<label class="f" for="team">${esc(t('team'))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t('teamPh'))}">`;
+  return `<p class="f" style="margin-top:14px">👥 ${esc(t('tmPick'))}</p><input type="hidden" id="team" value=""><div class="tpick">${tl.map((n, i) => `<button type="button" class="opt" data-tp="${i}"><span class="L">${i + 1}</span><span>${esc(n)}</span></button>`).join('')}</div>`;
+}
 function playerStart(g) {
   setAcc(g.color);
   let st = LS.get(pkey(g), null);
@@ -12045,11 +12058,12 @@ function playerStart(g) {
      : `<div class="card" style="margin-top:14px"><p style="margin:0 0 6px;font-size:34px;text-align:center">${SPORT_ICON[g.sport] || '🏆'}</p>${sqs.map(([q]) => `<p style="margin:6px 0;font-weight:700;font-size:16px;display:flex;justify-content:space-between;gap:8px"><span>${esc(qA(g, q))} – ${esc(qB(g, q))}</span><span class="muted" style="font-weight:400;font-size:13px;white-space:nowrap">${esc(L(q.when) || '')}</span></p>`).join('')}</div><p class="muted center" style="font-size:13px">📏 ${esc(t('ptsRuleM'))}</p>`;
   app.innerHTML = topBar(g.date ? fmtDate(g.date) : '') + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:${prono ? 110 : 160}px"><p style="margin:12px 0 0"><span class="kind">${esc(prono ? t('kProno') : poll ? t('kPoll') : t('kQuiz'))}</span></p><h1 style="margin-top:6px">${esc(L(g.title))}</h1>
    <p class="muted" style="font-size:17px">${esc(L(g.sub))}</p>${prono ? '' : `<p><span class="pill">${esc(t('qCount')(g.questions.length))}</span>${g.date ? ` <span class="pill">${esc(fmtDate(g.date))}</span>` : ''}</p>`}</div>${head}
-   <div class="card">${me ? `<p class="center" style="margin:0 0 4px;font-weight:700">👤 ${esc(me.name)} · <span class="muted" style="font-weight:400">${esc(maskV(me))}</span></p><button class="btn ghost small" id="chg2" style="width:100%;margin:6px 0 0">👤 ${esc(t('notYou'))}</button>${kindOf(g) === 'quiz' && g.mode !== 'solo' ? `<label class="f" for="team">${esc(t('team'))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t('teamPh'))}">` : ''}` : askName ? `<label class="f" for="team">${esc(t(lab))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(ph))}">` : `<p class="center muted" style="margin:0 0 4px">🔒 ${esc(t('anonymous'))}</p>`}
-   <div style="margin-top:14px">${!me && askName ? `<button class="btn ghost small" id="idf" style="width:100%;margin-top:10px">👤 ${esc(t('alreadyReg'))}</button>` : ''}<button class="btn acc" id="go" style="margin-top:10px" ${askName && (!me || $team(g)) ? 'disabled' : ''}>${esc(t('start'))}</button></div></div>${me ? `<button class="btn ghost small" style="width:100%;margin-top:6px" onclick="location.hash='p'">← ${esc(t('allPronos'))}</button>` : ''}`;
+   <div class="card">${me ? `<p class="center" style="margin:0 0 4px;font-weight:700">👤 ${esc(me.name)} · <span class="muted" style="font-weight:400">${esc(maskV(me))}</span></p><button class="btn ghost small" id="chg2" style="width:100%;margin:6px 0 0">👤 ${esc(t('notYou'))}</button>${$team(g) ? teamPickHTML(g) : ''}` : askName ? `<label class="f" for="team">${esc(t(lab))}</label><input class="in big-in" id="team" maxlength="40" autocomplete="off" placeholder="${esc(t(ph))}">` : `<p class="center muted" style="margin:0 0 4px">🔒 ${esc(t('anonymous'))}</p>`}
+   <div style="margin-top:14px">${!me && askName ? `<button class="btn ghost small" id="idf" style="width:100%;margin-top:10px">👤 ${esc(t('alreadyReg'))}</button>` : ''}<button class="btn acc" id="go" style="margin-top:10px" ${askName && (!me || $team(g)) ? 'disabled' : ''}>${esc(t('start'))}</button></div></div>${me && isProno(g) ? `<button class="btn ghost small" style="width:100%;margin-top:6px" onclick="location.hash='p'">← ${esc(t('allPronos'))}</button>` : ''}`;
   const inp = $('#team'), b = $('#go');
   if ($('#idf')) $('#idf').onclick = () => identifyScreen(() => playerStart(g));
   if (inp) inp.oninput = () => b.disabled = !inp.value.trim();
+  app.querySelectorAll('[data-tp]').forEach(x => x.onclick = () => { inp.value = teamList(g)[+x.dataset.tp]; app.querySelectorAll('[data-tp]').forEach(y => y.classList.toggle('sel', y === x)); b.disabled = false; });
   b.onclick = () => { const s = { started: true, c: me ? { m: me.m, v: me.v, mk: me.mk, l: lang, at: me.at, n: me.name, p: me.pin } : undefined, team: inp && inp.value.trim() ? inp.value.trim() : me ? me.name : '', pid: 'p' + Math.random().toString(36).slice(2, 9), a: Array(g.questions.length).fill(null), i: 0 }; LS.set(pkey(g), s); playerQ(g, s); };
   if ($('#chg2')) $('#chg2').onclick = () => { LS.del('lb_me'); identifyScreen(() => playerStart(g), !isProno(g)); };
 }
@@ -12166,7 +12180,15 @@ function hostRoute(v) {
   hostHome();
 }
 function scoreOf(g, a) { let s = 0; for (let i = 0; i < g.questions.length; i++) if (a[i] && LETTERS.indexOf(a[i]) === g.questions[i].a) s++; return s; }
-function ranked(g) { return Object.values(getRes(g.id)).map(r => ({ ...r, s: scoreOf(g, r.a) })).sort((x, y) => y.s - x.s || x.ts - y.ts); }
+function ranked(g) {
+  const cmp = (x, y) => y.s - x.s || x.ts - y.ts;
+  const rows = Object.entries(getRes(g.id)).map(([k, r]) => ({ ...r, k: r.k || k, s: scoreOf(g, r.a), n: (r.c && r.c.n) || r.t }));
+  if (!teamMode(g)) return rows.sort(cmp);
+  const by = {};
+  rows.sort(cmp).forEach(r => { const tk = r.t.trim().toLowerCase(); if (!by[tk]) by[tk] = { ...r, members: [] }; by[tk].members.push(r); });
+  return Object.values(by).sort(cmp);
+}
+const rankPos = (g, key) => ranked(g).findIndex(x => x.k === key || (x.members || []).some(y => y.k === key)) + 1;
 
 const typeLabel = ty => t(ty === 'single' ? 'tSingle' : ty === 'multi' ? 'tMulti' : ty === 'stars' ? 'tStars' : ty === 'text' ? 'tText' : ty === 'score' ? 'tScore' : 'tNumber');
 const kindIcon = g => isProno(g) ? (SPORT_ICON[g.sport] || '🏆') : kindOf(g) === 'poll' ? '📊' : '🧠';
@@ -12256,11 +12278,34 @@ function hostCreate() {
   app.querySelectorAll('[data-k]').forEach(b => b.onclick = () => go('admin=edit::' + b.dataset.k));
 }
 
-async function showQR(g) {
+function teamSetup(g, done) {
+  const c0 = cfgOf(g.id); let mode = c0 ? c0.mode : (g.mode === 'solo' ? 'solo' : 'team'), tl = [...(c0 && c0.tl ? c0.tl : (g.tl || []))];
+  const save = () => LS.set('lb_cfg_' + g.id, { mode, tl });
+  const mm = modal('<div id="tsb"></div>');
+  const draw = () => {
+    mm.querySelector('#tsb').innerHTML = `<h3 class="center" style="margin-top:0">${esc(t('tmT'))}</h3><p class="muted center" style="margin:-6px 0 10px;font-size:14px">${esc(L(g.title))}</p>
+     <div class="tabs"><button data-md="solo" class="${mode === 'solo' ? 'on' : ''}">👤 ${esc(t('tmSolo'))}</button><button data-md="team" class="${mode === 'team' ? 'on' : ''}">👥 ${esc(t('tmTeam'))}</button></div>
+     <p class="muted" style="font-size:14px;margin:8px 0">${esc(mode === 'solo' ? t('tmSoloT') : t('tmTeamT'))}</p>
+     ${mode === 'team' ? `<p class="f" style="margin:10px 0 6px">${esc(t('tmList'))} · ${tl.length}</p>
+       ${tl.length ? `<div class="card list" style="padding:2px 8px;margin:0">${tl.map((n, i) => `<div class="it"><span class="rank" style="font-size:18px">${i + 1}</span><span class="nm">${esc(n)}</span><button class="btn ghost small" data-rm="${i}" style="flex:none;width:auto;padding:6px 12px" aria-label="✕">✕</button></div>`).join('')}</div>` : `<p class="muted center" style="font-size:14px">${esc(t('tmNone'))}</p>`}
+       <div class="row" style="margin-top:8px"><input class="in" id="tadd" maxlength="40" autocomplete="off" placeholder="${esc(t('tmAddPh'))}"><button class="btn small" id="tadb" style="flex:none;width:auto">➕ ${esc(t('tmAdd'))}</button></div>` : ''}
+     <button class="btn acc" id="tok" style="margin-top:14px">${esc(t('tmDone'))}</button>`;
+    mm.querySelectorAll('[data-md]').forEach(b => b.onclick = () => { mode = b.dataset.md; save(); draw(); });
+    mm.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { tl.splice(+b.dataset.rm, 1); save(); draw(); });
+    const inp = mm.querySelector('#tadd');
+    const add = () => { const v = inp.value.trim(); if (!v) return; if (!tl.some(x => x.toLowerCase() === v.toLowerCase())) tl.push(v); save(); draw(); const n = mm.querySelector('#tadd'); n && n.focus(); };
+    if (inp) { mm.querySelector('#tadb').onclick = add; inp.onkeydown = e => { if (e.key === 'Enter') add(); }; }
+    mm.querySelector('#tok').onclick = () => { if (mode === 'team' && !tl.length) return toast(t('tmNone'), false); save(); mm.remove(); done && done(); };
+  };
+  save(); draw();
+}
+async function showQR(g, skipSetup) {
+  if (kindOf(g) === 'quiz' && !skipSetup) return teamSetup(g, () => showQR(findGame(g.id), true));
+  g = findGame(g.id) || g;
   const j = await joinURL(g);
   const f = document.createElement('div'); f.className = 'full';
   f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}
-   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>
+   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>${kindOf(g) === 'quiz' ? `<p style="margin:0;font-weight:700;color:#1a1008">${teamMode(g) ? '👥 ' + esc(t('tmTeam')) + ' · ' + teamList(g).map(esc).join(' · ') : '👤 ' + esc(t('tmSolo'))}</p>` : ''}
    ${j.tooLong ? `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('tooLong'))}</p>` : ''}${qrUsable() ? '' : `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('offline'))}</p>`}
    <div style="display:flex;gap:10px;width:min(88vw,420px)"><button class="btn ghost small" data-here style="flex:1;color:#1a1008;border-color:#ccc">▶ ${esc(t('playHereS'))}</button><button class="btn ghost small" data-pr style="flex:1;color:#1a1008;border-color:#ccc">🖨 ${esc(t('printS'))}</button></div>`;
   f.querySelector('.x').onclick = () => f.remove();
@@ -12284,8 +12329,7 @@ function storeResult(g, r) {
   all[k] = { k, t: r.t.trim(), a: r.a, c: r.c, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all);
   if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t.trim(), m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p });
   if (isProno(g)) { const sq = scoreQs(g); return { had, count: Object.keys(all).length, sc: sq.length > 1 ? `${sq.filter(([, i]) => answered(r.a[i])).length}/${sq.length} ${t('matches')}` : sq.length && answered(r.a[sq[0][1]]) ? r.a[sq[0][1]].join(' – ') : '–' }; }
-  const pos = ranked(g).findIndex(x => x.t.trim().toLowerCase() === k) + 1;
-  return { had, s: scoreOf(g, r.a), pos };
+  return { had, s: scoreOf(g, r.a), pos: rankPos(g, k) };
 }
 function receive(p) {
   if (!isHost()) return pinScreen(() => receive(p));
@@ -12327,7 +12371,7 @@ async function scanner(g) {
     const s = poll ? t('participants')(res.count) : isProno(gg) ? res.sc : `${res.s}/${gg.questions.length}`;
     try { navigator.vibrate && navigator.vibrate(120); } catch (e) {}
     const k = (r.t || '') + '|' + gg.id, old = got.findIndex(x => x.k === k); if (old >= 0) got.splice(old, 1);
-    got.unshift({ k, n: r.t || t('anonymous'), s, had: res.had, g: L(gg.title) }); draw();
+    got.unshift({ k: k + '|' + ((r.c && r.c.v) || ''), n: (r.t || t('anonymous')) + (r.c && r.c.n && r.c.n !== r.t ? ' · ' + r.c.n : ''), s, had: res.had, g: L(gg.title) }); draw();
     toast(`${res.had ? '↻' : '✅'} ${r.t || t('anonymous')} · ${s}`);
   };
   const loop = async () => {
@@ -12362,13 +12406,14 @@ function bindReset(g, again) {
 }
 function hostRank(g) {
   setAcc(g.color); const rk = ranked(g), N = g.questions.length; let pos = 0, prev = null;
-  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(rk.length))}</p>
-   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button></div>
-   ${rk.length ? `<div class="row" style="margin:12px 0"><button class="btn" id="pod">🏆 ${esc(t('podB'))}</button><button class="btn acc" id="dr">🎁 ${esc(t('draw'))}</button></div><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${fmtTime(r.ts)} · ${esc(t('details'))} ›</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
-  app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].t.trim().toLowerCase())));
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:32px">🏆 ${esc(t('ranking'))}</h1><p class="muted">${esc(L(g.title))} · ${esc(t('received')(Object.keys(getRes(g.id)).length))}${teamMode(g) ? ' · ' + esc(t('tmBest')) : ''}</p>
+   <div class="row" style="margin:8px 0 0"><button class="btn ghost small" id="tms">${teamMode(g) ? '👥 ' + esc(t('tmEdit')) : '👤 ' + esc(t('tmSolo'))}</button><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button></div>
+   ${rk.length ? `<div class="row" style="margin:12px 0"><button class="btn" id="pod">🏆 ${esc(t('podB'))}</button><button class="btn acc" id="dr">🎁 ${esc(t('draw'))}</button></div><div class="card list" style="padding:4px 8px">` + rk.map((r, i) => { if (r.s !== prev) { pos = i + 1; prev = r.s; } const medal = ['🥇', '🥈', '🥉'][pos - 1] || pos; return `<div class="it" data-i="${i}"><span class="rank">${medal}</span><span class="nm">${esc(r.t)}<small>${r.members ? '👥 ' + r.members.map(x => esc(x.n) + ' ' + x.s).join(' · ') : fmtTime(r.ts) + ' · ' + esc(t('details')) + ' ›'}</small></span><span class="score">${r.s}<small style="font-size:16px;color:var(--muted)">/${N}</small></span></div>`; }).join('') + `</div>` : `<div class="card center"><p class="muted">${esc(t('noRes'))}</p></div>`}` + resetBox();
+  app.querySelectorAll('.it').forEach(el => el.onclick = () => go('admin=team:' + g.id + ':' + encodeURIComponent(rk[+el.dataset.i].k)));
   if ($('#dr')) $('#dr').onclick = () => drawModal([{ label: t('drawTop'), names: rk.filter(r => r.s === rk[0].s).map(r => r.t) }, { label: t('drawAll'), names: rk.map(r => r.t) }]);
   if ($('#pod')) $('#pod').onclick = () => podiumShow(L(g.title), rk.map(r => ({ t: r.t, s: r.s })), '/ ' + N);
   $('#rcv').onclick = () => receiveHelp(g); $('#qr2').onclick = () => showQR(g); if ($('#tvb')) $('#tvb').onclick = () => tvIntro(g);
+  $('#tms').onclick = () => teamSetup(g, () => hostRank(findGame(g.id)));
   bindReset(g, () => hostRank(g));
 }
 function bar(label, n, total) { const pc = total ? Math.round(n / total * 100) : 0; return `<div class="bar"><i style="width:${pc}%"></i><span><b>${esc(label)}</b><em style="font-style:normal">${n} · ${pc}%</em></span></div>`; }
@@ -12441,7 +12486,7 @@ function drawModal(pools) {
 function hostTeam(g, key) {
   setAcc(g.color);
   const r = getRes(g.id)[key]; if (!r) return go('admin=rank:' + g.id);
-  const N = g.questions.length, a = r.a.padEnd(N, '-'), sc = scoreOf(g, r.a), pos = ranked(g).findIndex(x => x.t.trim().toLowerCase() === key) + 1;
+  const N = g.questions.length, a = r.a.padEnd(N, '-'), sc = scoreOf(g, r.a), pos = rankPos(g, key);
   let only = false;
   const draw = () => {
     const items = g.questions.map((q, i) => {
@@ -12450,7 +12495,7 @@ function hostTeam(g, key) {
         <p style="margin:4px 0 8px;font-weight:700">${esc(L(q.q))}</p><p style="margin:0;color:${ok ? 'var(--ok)' : 'var(--bad)'};font-weight:700">${esc(t('given'))} : ${gi < 0 ? esc(t('noAns')) : `${c} — ${esc(L(q.o[gi]))}`}</p>
         ${ok ? '' : `<p style="margin:4px 0 0;color:var(--ok)">${esc(t('good'))} : ${LETTERS[q.a]} — ${esc(L(q.o[q.a]))}</p>`}${!ok && q.info && L(q.info) ? `<p style="margin:6px 0 0;font-size:13px">💡 ${esc(L(q.info))}</p>` : ''}</div>`;
     }).join('');
-    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p><p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
+    app.innerHTML = topBar(t('hostSpace')) + navBar() + `<div class="card center"><p style="font-size:24px;font-weight:700;margin:0">${esc(r.t)}</p>${r.c && r.c.n && r.c.n !== r.t ? `<p class="muted" style="margin:2px 0 0">👤 ${esc(r.c.n)}</p>` : ''}<p class="score" style="font-size:52px;margin:0">${sc} / ${N}</p>
       <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p><p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${fmtTime(r.ts)}</p></div>
       <div class="tabs"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
     app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { only = b.dataset.f === '1'; draw(); });
