@@ -188,7 +188,7 @@ function registerScreen(next) {
   setAcc('#1c5fd1');
   let how = 'sms';
   const draw = () => {
-    app.innerHTML = topBar(t('hubT')) + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:110px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted">${esc(t('regS'))}</p></div>
+    app.innerHTML = topBar(t('regT')) + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:110px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted">${esc(t('regS'))}</p></div>
      <div class="card"><label class="f">${esc(t('regName'))}</label><input class="in" id="rn" maxlength="30" autocomplete="given-name">
      <label class="f">${esc(t('regHow'))}</label><div class="tabs" style="justify-content:flex-start"><button data-h="sms" class="${how === 'sms' ? 'on' : ''}">📱 ${esc(t('sms'))}</button><button data-h="email" class="${how === 'email' ? 'on' : ''}">✉️ ${esc(t('email'))}</button></div>
      ${how === 'sms' ? `<label class="f">${esc(t('regPhone'))}</label><input class="in" id="rv" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">` : `<label class="f">${esc(t('regMail'))}</label><input class="in" id="rv" type="email" inputmode="email" autocomplete="email" placeholder="prenom@exemple.fr">`}

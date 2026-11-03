@@ -27,7 +27,7 @@ fr: {
   playQR: 'QR pour participer', recvS: 'Recevoir une fiche', ranking: 'Classement', stats: 'Résultats', keyS: 'Questions & corrigé', qsS: 'Questions',
   playHereS: 'Participer ici', edit: 'Modifier', dup: 'Dupliquer', settings: 'Réglages', lock: 'Verrouiller', printS: 'Imprimer',
   joinTitle: 'Scannez pour participer', printLine: 'Scannez avec l’appareil photo de votre téléphone · Scan with your phone camera',
-  recvT: 'Recevoir une fiche', recvHow: 'Ouvrez l’appareil photo de votre téléphone et visez le QR code affiché sur le téléphone du participant, puis touchez le lien qui apparaît : la fiche s’enregistre toute seule.',
+  recvT: 'Recevoir une fiche', scanList: 'Fiches reçues pendant ce scan', scanNone: 'Aucune fiche pour l\u2019instant. Visez le QR du joueur : chaque fiche s\u2019enregistre toute seule.', scanAgain: 'Déjà reçue, mise à jour', scanRank: 'Voir le classement', scanWrong: 'Ce QR n\u2019est pas une fiche de jeu LA BULL', recvHow: 'La caméra ne s\u2019ouvre pas ici. Autorisez l\u2019accès à la caméra pour LA BULL dans les réglages du téléphone, puis réessayez. Sinon, utilisez la saisie manuelle.',
   manual: 'Saisie manuelle', manualT: 'Nom de l’équipe puis les réponses dans l’ordre (ex. : ACBBA…)', add: 'Ajouter', close: 'Fermer',
   saved: 'Fiche enregistrée', already: 'Fiche mise à jour (déjà reçue)', score: 'Score', rankNow: r => `Classement provisoire : ${r === 1 ? '1er' : r + 'e'}`,
   pollSaved: 'Réponse enregistrée', seeStats: 'Voir les résultats', seeAns: 'Voir ses réponses en détail',
@@ -56,11 +56,11 @@ fr: {
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Autre', teamAL: 'Équipe 1 (à domicile)', teamBL: 'Équipe 2', time: 'Heure du coup d\u2019envoi',
   addFun: '✨ Ajouter les questions bonus rigolotes', allPronos: 'Tous les pronostics', alcohol: 'L\u2019abus d\u2019alcool est dangereux pour la santé, à consommer avec modération.', homeQa: 'Qu\u2019est-ce qu\u2019on propose', homeQb: 'ce soir', whoT: 'Qui joue ?', whoS: 'Déjà inscrit ? Touchez votre nom et entrez votre code. Sinon, inscrivez-vous.', newP: 'Nouveau joueur · Je m\u2019inscris', search: 'Rechercher un nom', skipId: 'Jouer sans s\u2019identifier', pinAsk: 'Entrez votre code à 4 chiffres', pinBad: 'Code incorrect', pinForgot: 'Code oublié ? Demandez-le à l\u2019animateur au bar.', yourPin: 'Votre code personnel :', pinKeep: 'Notez-le ! Il vous permettra de vous identifier la prochaine fois, pour les quiz, sondages et pronostics. En cas d\u2019oubli, l\u2019animateur peut vous en redonner un.', pinOk: 'C\u2019est noté, on continue !', alreadyReg: 'Déjà inscrit ? M\u2019identifier', playersT: 'Joueurs', playersS: 'Les joueurs inscrits et leur code. Touchez •••• pour voir un code, ou donnez-en un nouveau en cas d\u2019oubli.', resetPin: 'Nouveau code', newPinIs: 'Nouveau code à donner au joueur :', savedHere: 'Enregistré directement dans les résultats !', notYou: 'Ce n\u2019est pas vous ? Nouveau joueur', nextPlayer: 'Joueur suivant sur ce téléphone', imported: n => `${n} participation(s) faite(s) sur ce téléphone récupérée(s)`, changePl: 'Changer de joueur', doneB: 'Pronostics déjà faits', sumT: 'Tous les pronostics', bestT: 'Meilleurs pronostiqueurs', byMatch: 'Qui a pronostiqué quoi', playerL: 'Joueur', exactL: 'score(s) exact(s)', legend: 'Vert : score exact · Doré : bon vainqueur · Rouge : raté. Touchez une ligne pour le détail.', fetchBtn: 'Récupérer les résultats', fetching: 'Recherche des résultats…', fetchedOk: 'Nouveaux résultats trouvés : mise à jour !', fetchedNone: 'Pas encore de nouveaux résultats en ligne. Ils arrivent automatiquement chaque soir ; sinon, saisissez le score.', fetchErr: 'Impossible de vérifier (pas de connexion ?)', autoRes: 'Résultats mis à jour automatiquement', homeQ: 'Qu\u2019est-ce qu\u2019on propose ce soir ?', nowL: 'En ce moment', nowNone: 'Rien de prévu cette semaine… on crée quelque chose ?', createQ: 'Que voulez-vous créer ?', crQuiz: 'Questions avec bonnes réponses, classement et tirage au sort', crPoll: 'Avis, votes, notes en étoiles, réponses libres', crProno: 'Un match ou une journée : scores, questions bonus, classement', cancelS: 'Annuler', cancelQ: 'Annuler votre participation ?', cancelT: 'Vos réponses en cours seront effacées.', cancelYes: 'Oui, annuler', fixAns: 'Corriger mes réponses', fixT: 'Si vous corrigez après avoir montré votre QR, montrez le nouveau QR à l\u2019animateur : il remplacera l\u2019ancien.', fixYes: 'Corriger', cancelEd: 'Annuler les modifications ?', cancelEdT: 'Rien ne sera enregistré.', hubHost: 'Un seul QR pour tous les matchs : inscription puis choix des matchs', openHere: 'Ouvrir ici', otherPronos: 'Pronostiquer d\u2019autres matchs', hubT: 'Pronostics LA BULL', hubS: 'Choisissez vos matchs, donnez vos scores, montrez votre QR au bar !', hubNone: 'Aucun pronostic ouvert pour le moment.', hubDone: '✅ Prono envoyé · revoir mon QR', hubGo: '▶ Pronostiquer', hello: n => `Bonjour ${n} !`, editMe: 'Modifier / supprimer mes infos',
   regT: 'Inscription', regS: 'Pour participer et recevoir vos résultats. Gratuit, sans obligation d\u2019achat.', regName: 'Prénom ou pseudo', regHow: 'Recevoir mes résultats par', sms: 'SMS', email: 'E-mail', regPhone: 'Numéro de portable', regMail: 'Adresse e-mail',
-  c1: 'J\u2019accepte que LA BULL utilise mon prénom et mon numéro / e-mail uniquement pour m\u2019envoyer les résultats de mes pronostics. (obligatoire)',
+  c1: 'J\u2019accepte que LA BULL utilise mon prénom et mon numéro / e-mail uniquement pour m\u2019envoyer les résultats de mes quiz et pronostics. (obligatoire)',
   c2: 'J\u2019accepte aussi de recevoir les infos et les soirées de LA BULL. Je peux me désinscrire à tout moment (réponse « STOP » ou lien de désinscription). (facultatif)',
   c3: 'J\u2019ai 15 ans ou plus. (obligatoire)', regGo: 'Je m\u2019inscris', regBad: 'Vérifiez votre prénom, votre numéro ou e-mail et les cases obligatoires.',
   privT: '🔒 Protection de vos données', delMe: 'Supprimer mes infos de ce téléphone', delDone: 'Infos supprimées',
-  priv: 'Responsable : LA BULL, 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard (SIRET 990 143 810 00010). Finalité : vous envoyer les résultats de vos pronostics et, seulement si vous cochez la case, les infos et soirées de LA BULL. Base légale : votre consentement, que vous pouvez retirer à tout moment. Vos données ne sont ni vendues ni transmises : elles restent sur le téléphone de l\u2019animateur de LA BULL. Conservation : effacées au plus tard 3 mois après la fin de la compétition ; pour les infos de LA BULL, 3 ans après votre dernier contact. Vous pouvez demander l\u2019accès, la rectification ou la suppression de vos données au bar ou au 07 68 11 79 87, et saisir la CNIL (cnil.fr). Jeu gratuit, sans obligation d\u2019achat.',
+  priv: 'Responsable : LA BULL, 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard (SIRET 990 143 810 00010). Finalité : vous envoyer les résultats de vos quiz et pronostics et, seulement si vous cochez la case, les infos et soirées de LA BULL. Base légale : votre consentement, que vous pouvez retirer à tout moment. Vos données ne sont ni vendues ni transmises : elles restent sur le téléphone de l\u2019animateur de LA BULL. Conservation : effacées au plus tard 3 mois après la fin de la compétition ; pour les infos de LA BULL, 3 ans après votre dernier contact. Vous pouvez demander l\u2019accès, la rectification ou la suppression de vos données au bar ou au 07 68 11 79 87, et saisir la CNIL (cnil.fr). Jeu gratuit, sans obligation d\u2019achat.',
   contactL: 'Contact', sendRes: 'Envoyer son résultat', mkYes: 'accepte les infos LA BULL', mkNo: 'résultats seulement', csv: 'Contacts (CSV)',
   msgRes: (n, ti, p, pos, N) => `LA BULL · ${ti} : bravo ${n}, vous avez ${p} pts et vous êtes ${pos === 1 ? '1er' : pos + 'e'} sur ${N} ! Merci et à bientôt à LA BULL.`, msgStop: 'Répondez STOP pour ne plus recevoir de messages.', matches: 'matchs', ptsRuleM: 'Pour chaque match : bon vainqueur (ou nul) 3 pts · bon écart +2 pts · score exact +5 pts. Question bonus juste : +1 pt. Égalité : le plus proche des scores exacts gagne. Pas obligé de pronostiquer tous les matchs.', funAdded: 'Questions bonus ajoutées', tNumber: 'Nombre', tYesNo: 'Oui / Non', tScore: 'Score du match', vs: 'contre',
   scoreHint: 'Touchez + / − ou tapez le score', numHint: 'Votre estimation', bonusTitle: 'Questions bonus pour départager', endL: 'Message de fin (après validation)', fbT: 'Et si vous souhaitez nous suivre sur Facebook, c\u2019est ici : toutes nos soirées, nos jeux et nos surprises en avant-première !', fbBtn: 'Suivre LA BULL sur Facebook', builtIn: 'intégré'
@@ -81,7 +81,7 @@ en: {
   playQR: 'QR to take part', recvS: 'Receive a sheet', ranking: 'Ranking', stats: 'Results', keyS: 'Questions & key', qsS: 'Questions',
   playHereS: 'Take part here', edit: 'Edit', dup: 'Duplicate', settings: 'Settings', lock: 'Lock', printS: 'Print',
   joinTitle: 'Scan to take part', printLine: 'Scan with your phone camera · Scannez avec l’appareil photo de votre téléphone',
-  recvT: 'Receive a sheet', recvHow: 'Open your phone’s camera and point it at the QR code on the participant’s phone, then tap the link that appears: the sheet is saved automatically.',
+  recvT: 'Receive a sheet', scanList: 'Sheets received during this scan', scanNone: 'No sheet yet. Point at the player\u2019s QR: each sheet saves itself.', scanAgain: 'Already received, updated', scanRank: 'See the ranking', scanWrong: 'This QR is not a LA BULL game sheet', recvHow: 'The camera won\u2019t open here. Allow camera access for LA BULL in the phone settings, then try again. Otherwise, use manual entry.',
   manual: 'Manual entry', manualT: 'Team name, then the answers in order (e.g. ACBBA…)', add: 'Add', close: 'Close',
   saved: 'Sheet saved', already: 'Sheet updated (already received)', score: 'Score', rankNow: r => `Current rank: #${r}`,
   pollSaved: 'Answer saved', seeStats: 'See the results', seeAns: 'See their answers in detail',
@@ -110,11 +110,11 @@ en: {
   sport: 'Sport', rugby: 'Rugby', foot: 'Football', other: 'Other', teamAL: 'Team 1 (home)', teamBL: 'Team 2', time: 'Kick-off time',
   addFun: '✨ Add the fun bonus questions', allPronos: 'All predictions', alcohol: 'Alcohol abuse is dangerous for your health, drink responsibly.', homeQa: 'What are we running', homeQb: 'tonight', whoT: 'Who\u2019s playing?', whoS: 'Already signed up? Tap your name and enter your code. Otherwise, sign up.', newP: 'New player · Sign up', search: 'Search a name', skipId: 'Play without signing in', pinAsk: 'Enter your 4-digit code', pinBad: 'Wrong code', pinForgot: 'Forgot your code? Ask the quiz master at the bar.', yourPin: 'Your personal code:', pinKeep: 'Write it down! It lets you sign in next time for quizzes, polls and predictions. If you forget it, the quiz master can give you a new one.', pinOk: 'Got it, let\u2019s go!', alreadyReg: 'Already signed up? Sign in', playersT: 'Players', playersS: 'Signed-up players and their code. Tap •••• to see a code, or give a new one if forgotten.', resetPin: 'New code', newPinIs: 'New code to give the player:', savedHere: 'Saved straight into the results!', notYou: 'Not you? New player', nextPlayer: 'Next player on this phone', imported: n => `${n} entry(ies) played on this phone recovered`, changePl: 'Change player', doneB: 'Predictions made', sumT: 'All predictions', bestT: 'Best predictors', byMatch: 'Who predicted what', playerL: 'Player', exactL: 'exact score(s)', legend: 'Green: exact score · Gold: right winner · Red: wrong. Tap a row for details.', fetchBtn: 'Fetch results', fetching: 'Looking for results…', fetchedOk: 'New results found: updating!', fetchedNone: 'No new results online yet. They arrive automatically every evening; otherwise, enter the score.', fetchErr: 'Could not check (no connection?)', autoRes: 'Results updated automatically', homeQ: 'What are we running tonight?', nowL: 'Right now', nowNone: 'Nothing planned this week… shall we create something?', createQ: 'What do you want to create?', crQuiz: 'Questions with right answers, ranking and prize draw', crPoll: 'Opinions, votes, star ratings, free answers', crProno: 'One match or a whole round: scores, bonus questions, ranking', cancelS: 'Cancel', cancelQ: 'Cancel your entry?', cancelT: 'Your answers so far will be deleted.', cancelYes: 'Yes, cancel', fixAns: 'Correct my answers', fixT: 'If you correct after showing your QR, show the new QR to the quiz master: it will replace the old one.', fixYes: 'Correct', cancelEd: 'Discard changes?', cancelEdT: 'Nothing will be saved.', hubHost: 'One QR for every match: sign up, then pick matches', openHere: 'Open here', otherPronos: 'Predict other matches', hubT: 'LA BULL predictions', hubS: 'Pick your matches, give your scores, show your QR at the bar!', hubNone: 'No predictions open right now.', hubDone: '✅ Prediction sent · see my QR', hubGo: '▶ Predict', hello: n => `Hello ${n}!`, editMe: 'Edit / delete my details',
   regT: 'Sign up', regS: 'To take part and get your results. Free, no purchase necessary.', regName: 'First name or nickname', regHow: 'Get my results by', sms: 'Text', email: 'Email', regPhone: 'Mobile number', regMail: 'Email address',
-  c1: 'I agree that LA BULL uses my first name and number / email only to send me the results of my predictions. (required)',
+  c1: 'I agree that LA BULL uses my first name and number / email only to send me the results of my quizzes and predictions. (required)',
   c2: 'I also agree to receive LA BULL news and events. I can unsubscribe at any time (reply “STOP” or unsubscribe link). (optional)',
   c3: 'I am 15 or older. (required)', regGo: 'Sign me up', regBad: 'Please check your name, your number or email and the required boxes.',
   privT: '🔒 Your data', delMe: 'Delete my details from this phone', delDone: 'Details deleted',
-  priv: 'Controller: LA BULL, 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard, France (SIRET 990 143 810 00010). Purpose: sending you the results of your predictions and, only if you tick the box, LA BULL news and events. Legal basis: your consent, which you can withdraw at any time. Your data is never sold or shared: it stays on LA BULL\u2019s quiz master phone. Retention: deleted at the latest 3 months after the end of the competition; for LA BULL news, 3 years after your last contact. You can ask for access, correction or deletion at the bar or on +33 7 68 11 79 87, and complain to the CNIL (cnil.fr). Free to play, no purchase necessary.',
+  priv: 'Controller: LA BULL, 121 Rue des 2 Cèdres, 24500 Serres-et-Montguyard, France (SIRET 990 143 810 00010). Purpose: sending you the results of your quizzes and predictions and, only if you tick the box, LA BULL news and events. Legal basis: your consent, which you can withdraw at any time. Your data is never sold or shared: it stays on LA BULL\u2019s quiz master phone. Retention: deleted at the latest 3 months after the end of the competition; for LA BULL news, 3 years after your last contact. You can ask for access, correction or deletion at the bar or on +33 7 68 11 79 87, and complain to the CNIL (cnil.fr). Free to play, no purchase necessary.',
   contactL: 'Contact', sendRes: 'Send their result', mkYes: 'accepts LA BULL news', mkNo: 'results only', csv: 'Contacts (CSV)',
   msgRes: (n, ti, p, pos, N) => `LA BULL · ${ti}: well done ${n}, you scored ${p} pts and finished #${pos} of ${N}! Thanks and see you soon at LA BULL.`, msgStop: 'Reply STOP to stop receiving messages.', matches: 'matches', ptsRuleM: 'For each match: right winner (or draw) 3 pts · right margin +2 pts · exact score +5 pts. Right bonus answer: +1 pt. Tie: closest to the exact scores wins. You don\u2019t have to predict every match.', funAdded: 'Bonus questions added', tNumber: 'Number', tYesNo: 'Yes / No', tScore: 'Match score', vs: 'vs',
   scoreHint: 'Tap + / − or type the score', numHint: 'Your guess', bonusTitle: 'Bonus questions to split ties', endL: 'End message (after submitting)', fbT: 'And if you\u2019d like to follow us on Facebook, it\u2019s right here: all our nights, games and surprises first!', fbBtn: 'Follow LA BULL on Facebook', builtIn: 'built in'
@@ -250,7 +250,7 @@ function playerStart(g) {
   if (st && st.done) return playerDone(g, st);
   if (st && st.started) return playerQ(g, st);
   const named = isProno(g) || !(kindOf(g) === 'poll' && g.anon);
-  if (isProno(g) && !getMe()) return identifyScreen(() => playerStart(g));
+  if ((isProno(g) || kindOf(g) === 'quiz') && !getMe()) return identifyScreen(() => playerStart(g));
   if (named && !isProno(g) && !getMe() && Object.keys(getPlayers()).length && !LS.get('lb_skipid', false)) return identifyScreen(() => playerStart(g), true);
   LS.del('lb_skipid');
   const me = named ? getMe() : null;
@@ -486,9 +486,12 @@ async function showQR(g) {
   document.body.appendChild(f);
 }
 function receiveHelp(g) {
-  if ('BarcodeDetector' in window) return scanner(g);
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) return scanner(g);
+  recvFallback(g);
+}
+function recvFallback(g) {
   modal(`<p style="font-size:44px;margin:0;text-align:center">📷</p><h3 class="center">${esc(t('recvT'))}</h3><p>${esc(t('recvHow'))}</p>
-   ${kindOf(g) === 'quiz' ? `<button class="btn small" data-m style="width:100%;margin-top:10px">⌨️ ${esc(t('manual'))}</button>` : ''}<button class="btn ghost small" data-c style="width:100%;margin-top:10px">${esc(t('close'))}</button>`,
+   ${g && kindOf(g) === 'quiz' ? `<button class="btn small" data-m style="width:100%;margin-top:10px">⌨️ ${esc(t('manual'))}</button>` : ''}<button class="btn ghost small" data-c style="width:100%;margin-top:10px">${esc(t('close'))}</button>`,
    m => { m.querySelector('[data-c]').onclick = () => m.remove(); const mm = m.querySelector('[data-m]'); if (mm) mm.onclick = () => { m.remove(); manualEntry(g); }; });
 }
 function storeResult(g, r) {
@@ -517,12 +520,47 @@ function receive(p) {
   history.replaceState(null, '', '#admin');
 }
 async function scanner(g) {
-  let stream; try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); } catch (e) { return toast(t('camErr'), false); }
-  const det = new BarcodeDetector({ formats: ['qr_code'] }); let live = true, last = '';
-  const m = modal(`<p class="muted center">${esc(t('scanning'))}</p><video playsinline muted style="width:100%;border-radius:14px;background:#000"></video><button class="btn small" data-c style="margin-top:10px;width:100%">${esc(t('close'))}</button>`);
+  let stream; try { stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false }); } catch (e) { return recvFallback(g); }
+  const det = 'BarcodeDetector' in window ? new BarcodeDetector({ formats: ['qr_code'] }) : null;
+  const cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
+  let live = true, last = '', lastT = 0; const got = [];
+  const m = modal(`<h3 class="center" style="margin:0 0 6px">📷 ${esc(t('recvT'))}</h3><p class="muted center" style="margin:0 0 8px">${esc(t('scanning'))}</p>
+    <div class="scanbox"><video playsinline muted autoplay></video><i></i></div>
+    <p class="f" style="margin:12px 0 4px">${esc(t('scanList'))}</p><div class="card list" id="sl" style="padding:4px 8px;margin:0;max-height:32vh;overflow:auto"><p class="muted center" style="font-size:14px">${esc(t('scanNone'))}</p></div>
+    <div class="row" style="margin-top:10px">${g && kindOf(g) === 'quiz' ? `<button class="btn ghost small" data-m>⌨️ ${esc(t('manual'))}</button>` : ''}<button class="btn small" data-c>${esc(g && kindOf(g) !== 'poll' ? '🏆 ' + t('scanRank') : t('close'))}</button></div>`);
   const v = m.querySelector('video'); v.srcObject = stream; await v.play().catch(() => {});
-  m.querySelector('[data-c]').onclick = () => { live = false; stream.getTracks().forEach(x => x.stop()); m.remove(); route(); };
-  const loop = async () => { if (!live) return; try { for (const c of await det.detect(v)) { const raw = c.rawValue || ''; const i = raw.indexOf('#r='); if (i >= 0 && raw !== last) { last = raw; const r = parseResult(raw.slice(i + 3)); const gg = findGame(r.g); if (!gg) { toast(t('unknownGame'), false); continue; } const res = storeResult(gg, r); toast(kindOf(gg) === 'poll' ? `✅ ${t('participants')(res.count)}` : isProno(gg) ? `✅ ${r.t} · ${res.sc}` : `${res.had ? '↻' : '✅'} ${r.t} · ${res.s}/${gg.questions.length}`); } } } catch (e) {} setTimeout(loop, 250); };
+  const halt = () => { if (live) { live = false; stream.getTracks().forEach(x => x.stop()); } };
+  const stop = () => { halt(); m.remove(); };
+  m.addEventListener('click', e => { if (e.target === m) halt(); });
+  m.querySelector('[data-c]').onclick = () => { stop(); if (g && kindOf(g) !== 'poll') go('admin=rank:' + g.id); else route(); };
+  const mb = m.querySelector('[data-m]'); if (mb) mb.onclick = () => { stop(); manualEntry(g); };
+  const draw = () => { m.querySelector('#sl').innerHTML = got.map(x => `<div class="it"><span class="rank" style="font-size:22px">${x.had ? '↻' : '✅'}</span><span class="nm">${esc(x.n)}<small>${esc(x.had ? t('scanAgain') : x.g)}</small></span><span class="score" style="font-size:22px">${esc(x.s)}</span></div>`).join(''); };
+  const handle = raw => {
+    const now = Date.now(); if (raw === last && now - lastT < 4000) return; last = raw; lastT = now;
+    const i = raw.indexOf('#r='); if (i < 0) return toast(t('scanWrong'), false);
+    let r; try { r = parseResult(raw.slice(i + 3)); } catch (e) { return toast(t('scanWrong'), false); }
+    const gg = findGame(r.g); if (!gg) return toast(t('unknownGame'), false);
+    const res = storeResult(gg, r), poll = kindOf(gg) === 'poll';
+    const s = poll ? t('participants')(res.count) : isProno(gg) ? res.sc : `${res.s}/${gg.questions.length}`;
+    try { navigator.vibrate && navigator.vibrate(120); } catch (e) {}
+    const k = (r.t || '') + '|' + gg.id, old = got.findIndex(x => x.k === k); if (old >= 0) got.splice(old, 1);
+    got.unshift({ k, n: r.t || t('anonymous'), s, had: res.had, g: L(gg.title) }); draw();
+    toast(`${res.had ? '↻' : '✅'} ${r.t || t('anonymous')} · ${s}`);
+  };
+  const loop = async () => {
+    if (!live) return;
+    try {
+      if (v.readyState >= 2 && v.videoWidth) {
+        if (det) { for (const c of await det.detect(v)) if (c.rawValue) handle(c.rawValue); }
+        else if (window.jsQR) {
+          const sc = Math.min(1, 720 / Math.max(v.videoWidth, v.videoHeight)); cv.width = Math.round(v.videoWidth * sc); cv.height = Math.round(v.videoHeight * sc);
+          cx.drawImage(v, 0, 0, cv.width, cv.height); const im = cx.getImageData(0, 0, cv.width, cv.height);
+          const c = jsQR(im.data, im.width, im.height, { inversionAttempts: 'dontInvert' }); if (c && c.data) handle(c.data);
+        }
+      }
+    } catch (e) {}
+    setTimeout(loop, det ? 250 : 180);
+  };
   loop();
 }
 function manualEntry(g) {
