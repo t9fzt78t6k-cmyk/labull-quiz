@@ -223,7 +223,7 @@ textarea.in{min-height:64px;resize:vertical;font-size:15px}
 /* ===== v2 mockup style ===== */
 body{background:#140b06}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,rgba(14,8,4,.55),rgba(14,8,4,.9) 40%),url("data:image/jpeg;base64,__A_hbg2__") center top/cover no-repeat}
-html,body{overflow-x:hidden;max-width:100%;overscroll-behavior:none;touch-action:pan-y;-webkit-text-size-adjust:100%}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}@supports (overflow:clip){html{overflow-x:clip}}
 #app,.copy,.navb{overflow-x:clip}
 *{-webkit-tap-highlight-color:transparent}
 button,a,.btn,input,select,label{touch-action:manipulation}
