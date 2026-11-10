@@ -170,3 +170,46 @@ function startQTimer(g, st, i, save) {
   };
   clearInterval(window._qT); tick(); window._qT = setInterval(tick, 200);
 }
+
+/* ================= QUIZ LIST (plus récent → plus ancien) ================= */
+const QX = {
+  fr: { sub: 'Du plus récent au plus ancien', week: '⭐ Le quiz de la semaine', weekNone: 'Pas encore de quiz prévu cette semaine.', next: '🔮 La semaine prochaine', nextQ: 'Quiz du jeudi', nextSoon: 'Le thème sera dévoilé bientôt !', nextT: 'Thème de la soirée', prep: '💡 Le quiz arrive bientôt sur ce thème', closedQ: '🔒 Pas de quiz : LA BULL est fermée ce jeudi-là', later: '📆 Aussi au programme', prev: '📚 Quiz précédents', free: '🎁 Quiz à thème · sans date', sheets: n => `${n} fiche${n > 1 ? 's' : ''}`, open: 'Ouvrir' },
+  en: { sub: 'Newest to oldest', week: '⭐ This week’s quiz', weekNone: 'No quiz planned this week yet.', next: '🔮 Next week', nextQ: 'Thursday Quiz', nextSoon: 'Theme revealed soon!', nextT: 'Theme of the night', prep: '💡 Quiz on this theme coming soon', closedQ: '🔒 No quiz: LA BULL is closed that Thursday', later: '📆 Also coming up', prev: '📚 Previous quizzes', free: '🎁 Themed quizzes · any time', sheets: n => `${n} sheet${n > 1 ? 's' : ''}`, open: 'Open' }
+};
+const qx = k => QX[lang][k] || QX.fr[k];
+const isoAdd = (iso, n) => { const d = new Date(iso + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const nextThursdayAfter = iso => { let d = isoAdd(iso, 1); while (new Date(d + 'T12:00:00Z').getUTCDay() !== 4) d = isoAdd(d, 1); return d; };
+function quizRow(g) {
+  const n = Object.keys(getRes(g.id)).length, id = esc(g.id);
+  return `<div class="qrow" style="--c:${esc(g.color || '#f6b81e')}"><button class="qrow-h" data-qx="${id}">${g.date ? dateTag(g.date) : '<span class="dtag"><b>🎁</b></span>'}<span class="qrow-t"><b>${esc(gTitle(g))}</b><small>${esc(t('qCount')(g.questions.length))}${n ? ' · ' + esc(qx('sheets')(n)) : ''}</small></span><i>›</i></button><div class="qrow-b" hidden>${hostCard(g)}</div></div>`;
+}
+function quizList() {
+  setAcc();
+  const today = todayISO(), asc = (a, b) => a.date.localeCompare(b.date);
+  const gs = allGames().filter(g => kindOf(g) === 'quiz');
+  const dated = gs.filter(g => g.date), free = gs.filter(g => !g.date);
+  const up = dated.filter(g => (g.until || g.date) >= today).sort(asc);
+  const past = dated.filter(g => (g.until || g.date) < today).sort((a, b) => b.date.localeCompare(a.date));
+  const feat = up[0] || null;
+  const nThu = nextThursdayAfter(feat ? feat.date : today);
+  let later = up.slice(1);
+  const nextGame = later.find(g => g.date <= nThu);
+  later = later.filter(g => g !== nextGame);
+  let teaser;
+  if (nextGame) teaser = hostCard(nextGame);
+  else {
+    const ev = EVENTS.find(e => e.d === nThu);
+    const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz']] };
+    teaser = evCard(e, true) + `<p class="qnote">${esc(ev && ev.closed ? qx('closedQ') : ev ? qx('prep') : qx('nextSoon'))}</p>`;
+  }
+  app.innerHTML = topBar(t('hostSpace')) + navBar() + band('quiz', t('quizzes'), qx('sub')) + `
+   <p class="sec">${esc(qx('week'))}</p>${feat ? hostCard(feat) : `<div class="card center"><p class="chalk" style="font-size:22px;margin:0">${esc(qx('weekNone'))}</p></div>`}
+   <p class="sec">${esc(qx('next'))}</p><div class="qnext">${teaser}</div>
+   ${later.length ? `<p class="sec">${esc(qx('later'))}</p>` + later.map(quizRow).join('') : ''}
+   ${past.length ? `<p class="sec">${esc(qx('prev'))}</p>` + past.map(quizRow).join('') : ''}
+   ${free.length ? `<p class="sec">${esc(qx('free'))}</p>` + free.map(quizRow).join('') : ''}
+   <button class="btn ghost small" id="cr2" style="width:100%;margin-top:16px">➕ ${esc(t('create'))} · ${esc(t('quizzes'))}</button>`;
+  app.querySelectorAll('[data-qx]').forEach(b => b.onclick = () => { const body = b.nextElementSibling; body.hidden = !body.hidden; b.classList.toggle('on', !body.hidden); });
+  bindCards();
+  $('#cr2').onclick = () => go('admin=edit::quiz');
+}
