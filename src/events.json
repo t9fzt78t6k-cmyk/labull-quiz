@@ -105,6 +105,31 @@
   ]
  },
  {
+  "d": "2026-11-12",
+  "c": "#8e24aa",
+  "img": "",
+  "t": {
+   "fr": "Quiz du jeudi",
+   "en": "Thursday Quiz"
+  },
+  "h": {
+   "fr": "Spécial veille de vendredi 13 : superstitions & porte-bonheur",
+   "en": "Friday the 13th Eve: superstitions & lucky charms"
+  },
+  "ch": [
+   [
+    "💡",
+    "Quiz du jeudi",
+    "Thursday quiz"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ },
+ {
   "d": "2026-11-13",
   "c": "#e17819",
   "img": "cd",
