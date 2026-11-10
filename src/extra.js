@@ -1,6 +1,9 @@
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
+  dupPhone: 'Ce numéro est déjà inscrit : entrez votre code.', dupName: 'Un joueur est déjà inscrit sous ce prénom. C’est vous ?', dupMe: 'Oui, c’est moi : j’entre mon code', dupOther: 'Non, je suis un autre joueur', dupHint: 'Ajoutez l’initiale de votre nom (ex. « Julie M. ») pour vous distinguer.',
+  resSaved: 'Résultat enregistré', resSavedT: 'À toucher par l’animateur, une fois le QR code flashé.', resSavedQ: 'L’animateur a bien flashé ce QR code ?', resSavedQt: 'Le jeu sera alors terminé sur ce téléphone : plus de retour en arrière.', resSavedY: 'Oui, c’est enregistré',
+  thxT: 'Merci d’avoir joué !', thxS: 'Vos réponses sont bien entre les mains de l’animateur. Les résultats seront annoncés au bar… suspense !', thxNext: '🔮 Prochain rendez-vous', thxTease: 'Les questions restent top secrètes… 🤫 Révisez vos classiques, échauffez vos neurones et ramenez vos amis !', thxHelp: 'Un souci ? Venez voir l’animateur et flashez de nouveau le QR code du jeu : vous reprendrez là où vous en étiez.', thxHost: '🔒 Animateur', thxHostQ: 'Code animateur pour réafficher le QR des réponses',
   regS: 'C’est rapide : votre prénom, et c’est parti !', regName: 'Prénom', regPhone2: 'Téléphone (facultatif)', cOk: 'J’accepte que LA BULL garde mon prénom (et mon numéro si je le donne) pour les jeux et me communique mes résultats. J’ai 15 ans ou plus.', regBad: 'Indiquez votre prénom, cochez la case (et vérifiez le numéro s’il y en a un).',
   pinNote: 'Notez bien ce code (ou faites une capture d’écran) !', pinKeep: 'Il vous sera demandé à chaque partie. En cas d’oubli, l’animateur peut le retrouver ou vous en donner un nouveau.', pinLost: 'Code oublié ? (animateur)', rescueAsk: 'Animateur : entrez votre code animateur pour donner un nouveau code à ce joueur.', noPhone: 'sans téléphone',
   progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', closedL: 'Fermé toute la journée', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
@@ -12,6 +15,9 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
+  dupPhone: 'This number is already signed up: enter your code.', dupName: 'A player is already signed up with this first name. Is it you?', dupMe: 'Yes, it’s me: enter my code', dupOther: 'No, I’m another player', dupHint: 'Add your surname initial (e.g. “Julie M.”) to stand out.',
+  resSaved: 'Result saved', resSavedT: 'For the quiz master to tap once the QR code has been scanned.', resSavedQ: 'Has the quiz master scanned this QR code?', resSavedQt: 'The game will then be over on this phone: no going back.', resSavedY: 'Yes, it’s saved',
+  thxT: 'Thanks for playing!', thxS: 'Your answers are safely with the quiz master. Results will be announced at the bar… stay tuned!', thxNext: '🔮 Next get-together', thxTease: 'The questions are top secret… 🤫 Brush up on your trivia, warm up your brain cells and bring your friends!', thxHelp: 'A problem? Come and see the quiz master and scan the game QR code again: you’ll pick up where you left off.', thxHost: '🔒 Quiz master', thxHostQ: 'Host code to show the answers QR again',
   regS: 'Quick: your first name and off you go!', regName: 'First name', regPhone2: 'Phone (optional)', cOk: 'I agree that LA BULL keeps my first name (and my number if I give it) for the games and lets me know my results. I am 15 or older.', regBad: 'Enter your first name, tick the box (and check the number if you gave one).',
   pinNote: 'Write this code down (or take a screenshot)!', pinKeep: 'You’ll need it for every game. If you forget it, the quiz master can look it up or give you a new one.', pinLost: 'Forgot your code? (quiz master)', rescueAsk: 'Quiz master: enter your host code to give this player a new code.', noPhone: 'no phone',
   progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', closedL: 'Closed all day', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
@@ -254,4 +260,20 @@ async function quizHubQR() {
 function quizHubCard() {
   return `<div class="ncard" style="--c:#8e24aa"><div class="hc-h"><span class="hc-ic"><i class="ic-quiz"></i></span><div class="hc-t"><small>${esc(qx('qrCard'))}</small><b>${esc(qx('hubT'))}</b><span>${esc(qx('qrCardS'))}</span></div></div>
      <div class="row nbtns"><button class="btn" id="qhqr">▦ QR</button><button class="btn cbtn" id="qhgo">▶ ${esc(t('openHere'))}</button></div></div>`;
+}
+
+/* ---------- Fin de partie : jeu fermé après « Résultat enregistré » ---------- */
+function playerThanks(g, st) {
+  setAcc(g.color);
+  const nThu = nextThursdayAfter(g.date && g.date >= todayISO() ? g.date : todayISO()), tz = nextTeaser(g, nThu);
+  app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<div class="thx"><i class="thx-c">🎉</i><h1>${esc(t('thxT'))}</h1>${st.team ? `<p class="thx-team">${esc(st.team)}</p>` : ''}<p class="thx-s">${esc(t('thxS'))}</p><p class="thx-g">${esc(L(g.title))}</p></div>
+   <p class="sec">${esc(t('thxNext'))}</p><div class="qnext">${tz.html}</div><p class="qnote center" style="font-size:16px">${esc(t('thxTease'))}</p>
+   <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:14px">👍 ${esc(t('fbFollow'))}</a>
+   <p class="muted center" style="font-size:13px;margin-top:16px">${esc(t('thxHelp'))}</p><button class="btn ghost small" id="thh" style="width:100%;margin-top:6px;opacity:.6">${esc(t('thxHost'))}</button>`;
+  confetti();
+  $('#thh').onclick = () => modal(`<h3 class="center">${esc(t('thxHost'))}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('thxHostQ'))}</p><input class="in big-in" id="tp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+     <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
+    mm.querySelector('[data-x]').onclick = () => mm.remove();
+    mm.querySelector('[data-y]').onclick = () => { if (mm.querySelector('#tp').value !== LS.get('lb_pin', '0901')) return toast(t('badPin'), false); mm.remove(); st.closed = false; LS.set(pkey(g), st); playerDone(g, st); };
+  });
 }

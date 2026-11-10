@@ -398,6 +398,11 @@ body.tvmode .copy{display:none}body.tvmode{overflow:hidden}
 .qimg.sm{max-height:140px;margin-top:6px}
 .opt:disabled{opacity:.45}
 .okbox{display:flex;gap:12px;align-items:flex-start;margin-top:16px;padding:12px;border-radius:14px;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px rgba(247,194,52,.5);font-size:14px;line-height:1.4;cursor:pointer}.okbox input{width:28px;height:28px;flex:none;margin:0;accent-color:#f6b81e}
+.btn.ok-big{margin-top:14px;font-size:21px;min-height:60px;background:linear-gradient(180deg,#3fd47e,#1f9a52)!important;color:#fff!important;box-shadow:0 4px 0 #136b37,0 8px 18px rgba(0,0,0,.45)!important;text-shadow:0 2px 2px rgba(0,0,0,.4)}
+.thx{position:relative;margin:18px 0 6px;padding:22px 16px 20px;border-radius:22px;text-align:center;background:radial-gradient(90% 70% at 50% 0,color-mix(in srgb,var(--acc) 35%,transparent),transparent 70%),linear-gradient(160deg,#1d1f22,#0d0e10);border:3px solid var(--acc);box-shadow:0 0 22px color-mix(in srgb,var(--acc) 60%,transparent)}
+.thx-c{display:block;font-style:normal;font-size:64px;line-height:1;animation:bob 2.4s ease-in-out infinite}
+.thx h1{font-family:var(--brush);font-weight:400;font-size:clamp(34px,10vw,48px);line-height:1.1;margin:8px 0 6px;color:#fff;text-shadow:0 3px 10px #000}
+.thx-team{margin:0 0 6px;font-weight:800;font-size:20px;color:var(--gold)}.thx-s{margin:6px 0;font-size:16px;line-height:1.4;color:#f3ead8}.thx-g{margin:8px 0 0;font-size:14px;color:var(--muted)}
 #print{display:none}
 @media print{
   body{background:#fff}
@@ -12082,6 +12087,7 @@ function playerStart(g) {
   setAcc(g.color);
   let st = LS.get(pkey(g), null);
   if (st && st.done && isHost()) { saveLocalPlay(g, st); LS.del(pkey(g)); st = null; }
+  if (st && st.closed && !isHost()) return playerThanks(g, st);
   if (st && st.done) return playerDone(g, st);
   if (st && st.started) return playerQ(g, st);
   const named = isProno(g) || !(kindOf(g) === 'poll' && g.anon);
@@ -12184,12 +12190,13 @@ function playerDone(g, st) {
   const here = isHost(); if (here) saveLocalPlay(g, st);
   const lastMe = here ? getMe() : null; if (here) LS.del('lb_me');
   const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
-  app.innerHTML = topBar(st.team || t('anonymous')) + backBar() + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
+  app.innerHTML = topBar(st.team || t('anonymous')) + (here ? backBar() : '') + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
+   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? '' : `<button class="btn ok-big" id="saved">✅ ${esc(t('resSaved'))}</button><p class="muted" style="font-size:13px;margin:6px 0 0">${esc(t('resSavedT'))}</p>`}${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
   if ($('#fix')) $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
+  if ($('#saved')) $('#saved').onclick = () => confirmBox(t('resSavedQ'), t('resSavedQt'), t('resSavedY'), () => { st.closed = true; st.closedAt = Date.now(); LS.set(pkey(g), st); playerThanks(g, st); });
   if ($('#np')) $('#np').onclick = () => { newPlayer(); if (isProno(g)) go('p'); else { location.hash = 'j=' + encodeURIComponent(g.id); route(); } };
   if ($('#bkh')) $('#bkh').onclick = () => go('');
   if ($('#oth')) $('#oth').onclick = () => { if (lastMe) setMe(lastMe); go('p'); };
@@ -12707,6 +12714,7 @@ function getMe() {
 function setMe(p) { const me = { ...p, ts: Date.now() }; LS.set('lb_me', me); return me; }
 function identifyScreen(next, optional) {
   setAcc('#1c5fd1');
+  if (isHost()) { try { syncPlayers(); } catch (e) {} }
   const ps = Object.values(getPlayers()).sort((a, b) => (b.seen || 0) - (a.seen || 0));
   if (!ps.length && !optional) return registerScreen(next);
   let q = '';
@@ -12767,6 +12775,14 @@ function registerScreen(next) {
     const okV = !v || (/^\+?[0-9 .\-]{9,18}$/.test(v) && v.replace(/\D/g, '').length >= 9);
     if (!name || !okV || !$('#c1').checked) return toast(t('regBad'), false);
     const id = v ? { m: 'sms', v } : { m: 'id', v: 'n' + Date.now().toString(36) + genPin() };
+    const same = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+    const all = getPlayers(), byPhone = v && all[normV(id)], byName = !v && Object.values(all).find(x => same(x.name) === same(name));
+    if (byPhone) { toast(t('dupPhone'), true); return askPin(byPhone, next); }
+    if (byName && same(window._dupOk) !== same(name)) return modal(`<h3 class="center">👤 ${esc(byName.name)}</h3><p class="center">${esc(t('dupName'))}</p><button class="btn" data-me>🔑 ${esc(t('dupMe'))}</button><button class="btn ghost small" data-other style="width:100%;margin-top:10px">${esc(t('dupOther'))}</button>`, mm => {
+      mm.querySelector('[data-me]').onclick = () => { mm.remove(); askPin(byName, next); };
+      mm.querySelector('[data-other]').onclick = () => { mm.remove(); toast(t('dupHint'), true); $('#rn').focus(); window._dupOk = name; };
+    });
+    if (byName) return toast(t('dupHint'), false);
     const old = v ? getPlayers()[normV(id)] : null;
     const pl = upsertPlayer({ name, ...id, mk: false, at: new Date().toISOString().slice(0, 10), pin: old ? old.pin : genPin() });
     setMe(pl); showPinCard(pl, next);
@@ -12837,10 +12853,13 @@ function hostPronoSummary(sel) {
   app.querySelectorAll('[data-fr]').forEach(b => b.onclick = () => fetchResults(findGame(b.dataset.fr)));
 }
 
+function syncPlayers() {
+  allGames().flatMap(g => Object.values(getRes(g.id))).filter(r => r.c && r.c.v).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: r.ts, force: true }));
+}
 function hostPlayers() {
   setAcc();
   // fill directory from all received sheets
-  allGames().flatMap(g => Object.values(getRes(g.id))).filter(r => r.c && r.c.v).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: r.ts, force: true }));
+  syncPlayers();
   const ps = Object.values(getPlayers()).sort((a, b) => a.name.localeCompare(b.name));
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">👥 ${esc(t('playersT'))}</h1><p class="muted" style="margin-top:0">${esc(t('playersS'))}</p>` +
     (ps.length ? `<div class="card list" style="padding:4px 8px">` + ps.map(p => `<div class="it" style="flex-wrap:wrap"><span class="nm">${esc(p.name)}<small>${p.m === 'id' ? esc(t('noPhone')) : (p.m === 'sms' ? '📱 ' : '✉️ ') + esc(p.v)}</small></span>
@@ -12856,6 +12875,9 @@ function hostPlayers() {
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
+  dupPhone: 'Ce numéro est déjà inscrit : entrez votre code.', dupName: 'Un joueur est déjà inscrit sous ce prénom. C’est vous ?', dupMe: 'Oui, c’est moi : j’entre mon code', dupOther: 'Non, je suis un autre joueur', dupHint: 'Ajoutez l’initiale de votre nom (ex. « Julie M. ») pour vous distinguer.',
+  resSaved: 'Résultat enregistré', resSavedT: 'À toucher par l’animateur, une fois le QR code flashé.', resSavedQ: 'L’animateur a bien flashé ce QR code ?', resSavedQt: 'Le jeu sera alors terminé sur ce téléphone : plus de retour en arrière.', resSavedY: 'Oui, c’est enregistré',
+  thxT: 'Merci d’avoir joué !', thxS: 'Vos réponses sont bien entre les mains de l’animateur. Les résultats seront annoncés au bar… suspense !', thxNext: '🔮 Prochain rendez-vous', thxTease: 'Les questions restent top secrètes… 🤫 Révisez vos classiques, échauffez vos neurones et ramenez vos amis !', thxHelp: 'Un souci ? Venez voir l’animateur et flashez de nouveau le QR code du jeu : vous reprendrez là où vous en étiez.', thxHost: '🔒 Animateur', thxHostQ: 'Code animateur pour réafficher le QR des réponses',
   regS: 'C’est rapide : votre prénom, et c’est parti !', regName: 'Prénom', regPhone2: 'Téléphone (facultatif)', cOk: 'J’accepte que LA BULL garde mon prénom (et mon numéro si je le donne) pour les jeux et me communique mes résultats. J’ai 15 ans ou plus.', regBad: 'Indiquez votre prénom, cochez la case (et vérifiez le numéro s’il y en a un).',
   pinNote: 'Notez bien ce code (ou faites une capture d’écran) !', pinKeep: 'Il vous sera demandé à chaque partie. En cas d’oubli, l’animateur peut le retrouver ou vous en donner un nouveau.', pinLost: 'Code oublié ? (animateur)', rescueAsk: 'Animateur : entrez votre code animateur pour donner un nouveau code à ce joueur.', noPhone: 'sans téléphone',
   progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', closedL: 'Fermé toute la journée', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
@@ -12867,6 +12889,9 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
+  dupPhone: 'This number is already signed up: enter your code.', dupName: 'A player is already signed up with this first name. Is it you?', dupMe: 'Yes, it’s me: enter my code', dupOther: 'No, I’m another player', dupHint: 'Add your surname initial (e.g. “Julie M.”) to stand out.',
+  resSaved: 'Result saved', resSavedT: 'For the quiz master to tap once the QR code has been scanned.', resSavedQ: 'Has the quiz master scanned this QR code?', resSavedQt: 'The game will then be over on this phone: no going back.', resSavedY: 'Yes, it’s saved',
+  thxT: 'Thanks for playing!', thxS: 'Your answers are safely with the quiz master. Results will be announced at the bar… stay tuned!', thxNext: '🔮 Next get-together', thxTease: 'The questions are top secret… 🤫 Brush up on your trivia, warm up your brain cells and bring your friends!', thxHelp: 'A problem? Come and see the quiz master and scan the game QR code again: you’ll pick up where you left off.', thxHost: '🔒 Quiz master', thxHostQ: 'Host code to show the answers QR again',
   regS: 'Quick: your first name and off you go!', regName: 'First name', regPhone2: 'Phone (optional)', cOk: 'I agree that LA BULL keeps my first name (and my number if I give it) for the games and lets me know my results. I am 15 or older.', regBad: 'Enter your first name, tick the box (and check the number if you gave one).',
   pinNote: 'Write this code down (or take a screenshot)!', pinKeep: 'You’ll need it for every game. If you forget it, the quiz master can look it up or give you a new one.', pinLost: 'Forgot your code? (quiz master)', rescueAsk: 'Quiz master: enter your host code to give this player a new code.', noPhone: 'no phone',
   progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', closedL: 'Closed all day', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
@@ -13109,6 +13134,22 @@ async function quizHubQR() {
 function quizHubCard() {
   return `<div class="ncard" style="--c:#8e24aa"><div class="hc-h"><span class="hc-ic"><i class="ic-quiz"></i></span><div class="hc-t"><small>${esc(qx('qrCard'))}</small><b>${esc(qx('hubT'))}</b><span>${esc(qx('qrCardS'))}</span></div></div>
      <div class="row nbtns"><button class="btn" id="qhqr">▦ QR</button><button class="btn cbtn" id="qhgo">▶ ${esc(t('openHere'))}</button></div></div>`;
+}
+
+/* ---------- Fin de partie : jeu fermé après « Résultat enregistré » ---------- */
+function playerThanks(g, st) {
+  setAcc(g.color);
+  const nThu = nextThursdayAfter(g.date && g.date >= todayISO() ? g.date : todayISO()), tz = nextTeaser(g, nThu);
+  app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<div class="thx"><i class="thx-c">🎉</i><h1>${esc(t('thxT'))}</h1>${st.team ? `<p class="thx-team">${esc(st.team)}</p>` : ''}<p class="thx-s">${esc(t('thxS'))}</p><p class="thx-g">${esc(L(g.title))}</p></div>
+   <p class="sec">${esc(t('thxNext'))}</p><div class="qnext">${tz.html}</div><p class="qnote center" style="font-size:16px">${esc(t('thxTease'))}</p>
+   <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:14px">👍 ${esc(t('fbFollow'))}</a>
+   <p class="muted center" style="font-size:13px;margin-top:16px">${esc(t('thxHelp'))}</p><button class="btn ghost small" id="thh" style="width:100%;margin-top:6px;opacity:.6">${esc(t('thxHost'))}</button>`;
+  confetti();
+  $('#thh').onclick = () => modal(`<h3 class="center">${esc(t('thxHost'))}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('thxHostQ'))}</p><input class="in big-in" id="tp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+     <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
+    mm.querySelector('[data-x]').onclick = () => mm.remove();
+    mm.querySelector('[data-y]').onclick = () => { if (mm.querySelector('#tp').value !== LS.get('lb_pin', '0901')) return toast(t('badPin'), false); mm.remove(); st.closed = false; LS.set(pkey(g), st); playerDone(g, st); };
+  });
 }
 
 /* ================= EDITOR ================= */

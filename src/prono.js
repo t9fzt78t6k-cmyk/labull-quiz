@@ -151,6 +151,7 @@ function getMe() {
 function setMe(p) { const me = { ...p, ts: Date.now() }; LS.set('lb_me', me); return me; }
 function identifyScreen(next, optional) {
   setAcc('#1c5fd1');
+  if (isHost()) { try { syncPlayers(); } catch (e) {} }
   const ps = Object.values(getPlayers()).sort((a, b) => (b.seen || 0) - (a.seen || 0));
   if (!ps.length && !optional) return registerScreen(next);
   let q = '';
@@ -211,6 +212,14 @@ function registerScreen(next) {
     const okV = !v || (/^\+?[0-9 .\-]{9,18}$/.test(v) && v.replace(/\D/g, '').length >= 9);
     if (!name || !okV || !$('#c1').checked) return toast(t('regBad'), false);
     const id = v ? { m: 'sms', v } : { m: 'id', v: 'n' + Date.now().toString(36) + genPin() };
+    const same = s => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+    const all = getPlayers(), byPhone = v && all[normV(id)], byName = !v && Object.values(all).find(x => same(x.name) === same(name));
+    if (byPhone) { toast(t('dupPhone'), true); return askPin(byPhone, next); }
+    if (byName && same(window._dupOk) !== same(name)) return modal(`<h3 class="center">👤 ${esc(byName.name)}</h3><p class="center">${esc(t('dupName'))}</p><button class="btn" data-me>🔑 ${esc(t('dupMe'))}</button><button class="btn ghost small" data-other style="width:100%;margin-top:10px">${esc(t('dupOther'))}</button>`, mm => {
+      mm.querySelector('[data-me]').onclick = () => { mm.remove(); askPin(byName, next); };
+      mm.querySelector('[data-other]').onclick = () => { mm.remove(); toast(t('dupHint'), true); $('#rn').focus(); window._dupOk = name; };
+    });
+    if (byName) return toast(t('dupHint'), false);
     const old = v ? getPlayers()[normV(id)] : null;
     const pl = upsertPlayer({ name, ...id, mk: false, at: new Date().toISOString().slice(0, 10), pin: old ? old.pin : genPin() });
     setMe(pl); showPinCard(pl, next);
@@ -281,10 +290,13 @@ function hostPronoSummary(sel) {
   app.querySelectorAll('[data-fr]').forEach(b => b.onclick = () => fetchResults(findGame(b.dataset.fr)));
 }
 
+function syncPlayers() {
+  allGames().flatMap(g => Object.values(getRes(g.id))).filter(r => r.c && r.c.v).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: r.ts, force: true }));
+}
 function hostPlayers() {
   setAcc();
   // fill directory from all received sheets
-  allGames().flatMap(g => Object.values(getRes(g.id))).filter(r => r.c && r.c.v).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: r.ts, force: true }));
+  syncPlayers();
   const ps = Object.values(getPlayers()).sort((a, b) => a.name.localeCompare(b.name));
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">👥 ${esc(t('playersT'))}</h1><p class="muted" style="margin-top:0">${esc(t('playersS'))}</p>` +
     (ps.length ? `<div class="card list" style="padding:4px 8px">` + ps.map(p => `<div class="it" style="flex-wrap:wrap"><span class="nm">${esc(p.name)}<small>${p.m === 'id' ? esc(t('noPhone')) : (p.m === 'sms' ? '📱 ' : '✉️ ') + esc(p.v)}</small></span>

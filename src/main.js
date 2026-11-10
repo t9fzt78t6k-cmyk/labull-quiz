@@ -297,6 +297,7 @@ function playerStart(g) {
   setAcc(g.color);
   let st = LS.get(pkey(g), null);
   if (st && st.done && isHost()) { saveLocalPlay(g, st); LS.del(pkey(g)); st = null; }
+  if (st && st.closed && !isHost()) return playerThanks(g, st);
   if (st && st.done) return playerDone(g, st);
   if (st && st.started) return playerQ(g, st);
   const named = isProno(g) || !(kindOf(g) === 'poll' && g.anon);
@@ -399,12 +400,13 @@ function playerDone(g, st) {
   const here = isHost(); if (here) saveLocalPlay(g, st);
   const lastMe = here ? getMe() : null; if (here) LS.del('lb_me');
   const url = baseURL() + '#r=' + resultPayload(g, st), poll = kindOf(g) === 'poll';
-  app.innerHTML = topBar(st.team || t('anonymous')) + backBar() + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
-   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
+  app.innerHTML = topBar(st.team || t('anonymous')) + (here ? backBar() : '') + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
+   <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? '' : `<button class="btn ok-big" id="saved">✅ ${esc(t('resSaved'))}</button><p class="muted" style="font-size:13px;margin:6px 0 0">${esc(t('resSavedT'))}</p>`}${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
   if ($('#fix')) $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
+  if ($('#saved')) $('#saved').onclick = () => confirmBox(t('resSavedQ'), t('resSavedQt'), t('resSavedY'), () => { st.closed = true; st.closedAt = Date.now(); LS.set(pkey(g), st); playerThanks(g, st); });
   if ($('#np')) $('#np').onclick = () => { newPlayer(); if (isProno(g)) go('p'); else { location.hash = 'j=' + encodeURIComponent(g.id); route(); } };
   if ($('#bkh')) $('#bkh').onclick = () => go('');
   if ($('#oth')) $('#oth').onclick = () => { if (lastMe) setMe(lastMe); go('p'); };
