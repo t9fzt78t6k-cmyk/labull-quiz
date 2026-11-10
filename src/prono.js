@@ -135,12 +135,12 @@ function hostPronoTeam(g, key) {
 
 /* ---- participant registration & hub ---- */
 const genPin = () => String(1000 + crypto.getRandomValues(new Uint32Array(1))[0] % 9000);
-const normV = p => p.m === 'sms' ? String(p.v).replace(/\D/g, '') : String(p.v).trim().toLowerCase();
+const normV = p => p.m === 'id' ? String(p.v) : p.m === 'sms' ? String(p.v).replace(/\D/g, '') : String(p.v).trim().toLowerCase();
 const getPlayers = () => LS.get('lb_players', {});
 function upsertPlayer(p) {
   if (!p || !p.v || !p.name) return null;
   const all = getPlayers(), k = normV(p), old = all[k] || {};
-  all[k] = { name: p.name, m: p.m, v: p.v, mk: p.mk ?? old.mk, at: p.at || old.at, pin: old.pin || p.pin || genPin(), seen: Date.now() };
+  all[k] = { name: p.name, m: p.m, v: p.v, mk: p.mk ?? old.mk, at: p.at || old.at, pin: (p.force && p.pin && (p.ts || 0) > (old.rs || 0)) ? p.pin : (old.pin || p.pin || genPin()), rs: old.rs, seen: Date.now() };
   LS.set('lb_players', all); return all[k];
 }
 function getMe() {
@@ -168,44 +168,53 @@ function identifyScreen(next, optional) {
   };
   draw();
 }
-const maskV = p => p.m === 'sms' ? String(p.v).replace(/\D/g, '').replace(/^(\d{2})\d+(\d{2})$/, '$1 •• •• •• $2') : String(p.v).replace(/^(.).*(@.*)$/, '$1•••$2');
+const maskV = p => p.m === 'id' ? '' : p.m === 'sms' ? String(p.v).replace(/\D/g, '').replace(/^(\d{2})\d+(\d{2})$/, '$1 •• •• •• $2') : String(p.v).replace(/^(.).*(@.*)$/, '$1•••$2');
 function askPin(p, next) {
   modal(`<h3 class="center">👤 ${esc(p.name)}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('pinAsk'))}</p><input class="in big-in" id="pp" type="password" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
    <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>
-   <p class="muted center" style="font-size:13px;margin:12px 0 0">${esc(t('pinForgot'))}</p>`, mm => {
+   <p class="muted center" style="font-size:13px;margin:12px 0 4px">${esc(t('pinForgot'))}</p><button class="btn ghost small" data-f style="width:100%">🔑 ${esc(t('pinLost'))}</button>`, mm => {
+    mm.querySelector('[data-f]').onclick = () => { mm.remove(); pinRescue(p, next); };
     const inp = mm.querySelector('#pp'); inp.focus();
     const ok = () => { const cur = getPlayers()[normV(p)]; if (cur && inp.value === cur.pin) { mm.remove(); setMe(cur); upsertPlayer(cur); next(); } else { inp.value = ''; toast(t('pinBad'), false); } };
     mm.querySelector('[data-x]').onclick = () => mm.remove(); mm.querySelector('[data-y]').onclick = ok; inp.oninput = () => { if (inp.value.length === 4) ok(); };
   });
 }
+function pinRescue(p, next) {
+  modal(`<h3 class="center">🔑 ${esc(p.name)}</h3><p class="center" style="margin:0 0 10px">${esc(t('rescueAsk'))}</p><input class="in big-in" id="hp" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off">
+   <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
+    const inp = mm.querySelector('#hp'); inp.focus();
+    mm.querySelector('[data-x]').onclick = () => mm.remove();
+    mm.querySelector('[data-y]').onclick = () => {
+      if (inp.value !== LS.get('lb_pin', '0901')) { inp.value = ''; return toast(t('badPin'), false); }
+      const all = getPlayers(), k = normV(p); all[k].pin = genPin(); all[k].rs = Date.now(); LS.set('lb_players', all);
+      mm.remove(); setMe(all[k]); showPinCard(all[k], next);
+    };
+  });
+}
 function showPinCard(me, next) {
   app.innerHTML = topBar(t('regT')) + `<div class="card center" style="margin-top:20px"><p style="font-size:44px;margin:0">🔑</p><p class="chalk" style="font-size:30px;margin:6px 0">${esc(t('hello')(me.name))}</p>
    <p style="margin:0">${esc(t('yourPin'))}</p><p style="font-family:var(--title);font-size:64px;letter-spacing:12px;color:var(--gold2);margin:6px 0;text-shadow:var(--tshadow)">${esc(me.pin)}</p>
-   <p class="muted" style="font-size:14px">${esc(t('pinKeep'))}</p><button class="btn" id="okp" style="margin-top:10px">${esc(t('pinOk'))}</button></div>`;
+   <p style="font-size:16px;font-weight:700;color:var(--gold);margin:4px 0">📸 ${esc(t('pinNote'))}</p><p class="muted" style="font-size:14px;margin-top:4px">${esc(t('pinKeep'))}</p><button class="btn" id="okp" style="margin-top:10px">${esc(t('pinOk'))}</button></div>`;
   $('#okp').onclick = next;
 }
 function registerScreen(next) {
   setAcc('#1c5fd1');
-  let how = 'sms';
-  const draw = () => {
-    app.innerHTML = topBar(t('regT')) + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:110px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted">${esc(t('regS'))}</p></div>
-     <div class="card"><label class="f">${esc(t('regName'))}</label><input class="in" id="rn" maxlength="30" autocomplete="given-name">
-     <label class="f">${esc(t('regHow'))}</label><div class="tabs" style="justify-content:flex-start"><button data-h="sms" class="${how === 'sms' ? 'on' : ''}">📱 ${esc(t('sms'))}</button><button data-h="email" class="${how === 'email' ? 'on' : ''}">✉️ ${esc(t('email'))}</button></div>
-     ${how === 'sms' ? `<label class="f">${esc(t('regPhone'))}</label><input class="in" id="rv" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">` : `<label class="f">${esc(t('regMail'))}</label><input class="in" id="rv" type="email" inputmode="email" autocomplete="email" placeholder="prenom@exemple.fr">`}
-     ${['c1', 'c2', 'c3'].map(c => `<label style="display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:14px;line-height:1.35"><input type="checkbox" id="${c}" style="width:24px;height:24px;flex:none;margin:0;accent-color:#f6b81e"><span>${esc(t(c))}</span></label>`).join('')}
-     <button class="btn" id="rg" style="margin-top:16px">${esc(t('regGo'))}</button></div>
-     <details class="card"><summary style="font-weight:700;cursor:pointer">${esc(t('privT'))}</summary><p style="font-size:13px;line-height:1.45;margin-top:10px">${esc(t('priv'))}</p></details>`;
-    app.querySelectorAll('[data-h]').forEach(b => b.onclick = () => { const n = $('#rn').value; how = b.dataset.h; draw(); $('#rn').value = n; });
-    $('#rg').onclick = () => {
-      const name = $('#rn').value.trim(), v = $('#rv').value.trim();
-      const okV = how === 'sms' ? /^\+?[0-9 .\-]{9,18}$/.test(v) && v.replace(/\D/g, '').length >= 9 : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
-      if (!name || !okV || !$('#c1').checked || !$('#c3').checked) return toast(t('regBad'), false);
-      const old = getPlayers()[normV({ m: how, v })];
-      const p = upsertPlayer({ name, m: how, v, mk: $('#c2').checked, at: new Date().toISOString().slice(0, 10), pin: old ? old.pin : genPin() });
-      setMe(p); showPinCard(p, next);
-    };
+  app.innerHTML = topBar(t('regT')) + backBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:96px"><h1 style="font-size:32px">${esc(t('regT'))}</h1><p class="muted" style="margin:0">${esc(t('regS'))}</p></div>
+   <div class="card"><label class="f" for="rn">${esc(t('regName'))}</label><input class="in" id="rn" maxlength="30" autocomplete="given-name" enterkeyhint="next">
+   <label class="f" for="rv">${esc(t('regPhone2'))}</label><input class="in" id="rv" type="tel" inputmode="tel" autocomplete="tel" placeholder="06 12 34 56 78">
+   <label class="okbox"><input type="checkbox" id="c1"><span>${esc(t('cOk'))}</span></label>
+   <button class="btn" id="rg" style="margin-top:14px">${esc(t('regGo'))}</button></div>
+   <details class="card"><summary style="font-weight:700;cursor:pointer">${esc(t('privT'))}</summary><p style="font-size:13px;line-height:1.45;margin-top:10px">${esc(t('priv'))}</p></details>`;
+  $('#rn').focus();
+  $('#rg').onclick = () => {
+    const name = $('#rn').value.trim(), v = $('#rv').value.trim();
+    const okV = !v || (/^\+?[0-9 .\-]{9,18}$/.test(v) && v.replace(/\D/g, '').length >= 9);
+    if (!name || !okV || !$('#c1').checked) return toast(t('regBad'), false);
+    const id = v ? { m: 'sms', v } : { m: 'id', v: 'n' + Date.now().toString(36) + genPin() };
+    const old = v ? getPlayers()[normV(id)] : null;
+    const pl = upsertPlayer({ name, ...id, mk: false, at: new Date().toISOString().slice(0, 10), pin: old ? old.pin : genPin() });
+    setMe(pl); showPinCard(pl, next);
   };
-  draw();
 }
 function pronoHub() {
   setAcc('#1c5fd1');
@@ -225,6 +234,7 @@ function pronoHub() {
   if ($('#chg3')) $('#chg3').onclick = () => { newPlayer(); pronoHub(); };
 }
 function contactBlock(g, r, pos, N, pts) {
+  if (r.c && r.c.m === 'id') return '';
   if (!r.c) return '';
   const body = t('msgRes')(r.t, gTitle(g), pts, pos, N) + (r.c.m === 'sms' ? ' ' + t('msgStop') : '');
   const href = r.c.m === 'sms' ? `sms:${r.c.v.replace(/[^\d+]/g, '')}${/iPhone|iPad/.test(navigator.userAgent) ? '&' : '?'}body=${encodeURIComponent(body)}` : `mailto:${r.c.v}?subject=${encodeURIComponent('LA BULL · ' + gTitle(g))}&body=${encodeURIComponent(body)}`;
@@ -274,15 +284,15 @@ function hostPronoSummary(sel) {
 function hostPlayers() {
   setAcc();
   // fill directory from all received sheets
-  allGames().forEach(g => Object.values(getRes(g.id)).forEach(r => { if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p }); }));
+  allGames().flatMap(g => Object.values(getRes(g.id))).filter(r => r.c && r.c.v).sort((a, b) => (a.ts || 0) - (b.ts || 0)).forEach(r => upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: r.ts, force: true }));
   const ps = Object.values(getPlayers()).sort((a, b) => a.name.localeCompare(b.name));
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 class="chalkh">👥 ${esc(t('playersT'))}</h1><p class="muted" style="margin-top:0">${esc(t('playersS'))}</p>` +
-    (ps.length ? `<div class="card list" style="padding:4px 8px">` + ps.map(p => `<div class="it" style="flex-wrap:wrap"><span class="nm">${esc(p.name)}<small>${p.m === 'sms' ? '📱' : '✉️'} ${esc(p.v)} · ${esc(p.mk ? t('mkYes') : t('mkNo'))}</small></span>
+    (ps.length ? `<div class="card list" style="padding:4px 8px">` + ps.map(p => `<div class="it" style="flex-wrap:wrap"><span class="nm">${esc(p.name)}<small>${p.m === 'id' ? esc(t('noPhone')) : (p.m === 'sms' ? '📱 ' : '✉️ ') + esc(p.v)}</small></span>
       <span class="score" data-pin="${esc(normV(p))}" style="cursor:pointer;font-size:26px">••••</span>
       <div class="row" style="width:100%;margin-top:6px"><button class="btn ghost small" data-rs="${esc(normV(p))}">🔄 ${esc(t('resetPin'))}</button><button class="btn danger small" data-dp="${esc(normV(p))}">🗑</button></div></div>`).join('') + `</div>`
      : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('noRes'))}</p></div>`);
   app.querySelectorAll('[data-pin]').forEach(el => el.onclick = () => { const p = getPlayers()[el.dataset.pin]; el.textContent = el.textContent === '••••' ? p.pin : '••••'; });
-  app.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { const all = getPlayers(), p = all[b.dataset.rs]; p.pin = genPin(); LS.set('lb_players', all);
+  app.querySelectorAll('[data-rs]').forEach(b => b.onclick = () => { const all = getPlayers(), p = all[b.dataset.rs]; p.pin = genPin(); p.rs = Date.now(); LS.set('lb_players', all);
     modal(`<p style="font-size:40px;margin:0;text-align:center">🔑</p><h3 class="center">${esc(p.name)}</h3><p class="center" style="margin:0">${esc(t('newPinIs'))}</p><p class="center" style="font-family:var(--title);font-size:56px;letter-spacing:10px;color:var(--gold2);margin:6px 0">${esc(p.pin)}</p><button class="btn small" data-c style="width:100%">${esc(t('close'))}</button>`, mm => mm.querySelector('[data-c]').onclick = () => { mm.remove(); hostPlayers(); }); });
   app.querySelectorAll('[data-dp]').forEach(b => b.onclick = () => confirmBox(t('delQ'), getPlayers()[b.dataset.dp].name, t('del'), () => { const all = getPlayers(); delete all[b.dataset.dp]; LS.set('lb_players', all); hostPlayers(); }, true));
 }

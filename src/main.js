@@ -580,10 +580,10 @@ function recvFallback(g) {
 }
 function storeResult(g, r) {
   const all = getRes(g.id);
-  if (kindOf(g) === 'poll') { if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p }); const k = r.p || ('x' + Date.now()); const had = !!all[k]; all[k] = { t: r.t || '', a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all); return { had, count: Object.keys(all).length }; }
+  if (kindOf(g) === 'poll') { if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t, m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: Date.now(), force: true }); const k = r.p || ('x' + Date.now()); const had = !!all[k]; all[k] = { t: r.t || '', a: r.a, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all); return { had, count: Object.keys(all).length }; }
   const k = (r.t.trim() + (r.c ? '|' + r.c.v : '')).toLowerCase(); const had = !!all[k];
   all[k] = { k, t: r.t.trim(), a: r.a, c: r.c, ts: had ? all[k].ts : Date.now() }; LS.set(resKey(g.id), all);
-  if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t.trim(), m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p });
+  if (r.c && r.c.v) upsertPlayer({ name: r.c.n || r.t.trim(), m: r.c.m, v: r.c.v, mk: r.c.mk, at: r.c.at, pin: r.c.p, ts: Date.now(), force: true });
   if (isProno(g)) { const sq = scoreQs(g); return { had, count: Object.keys(all).length, sc: sq.length > 1 ? `${sq.filter(([, i]) => answered(r.a[i])).length}/${sq.length} ${t('matches')}` : sq.length && answered(r.a[sq[0][1]]) ? r.a[sq[0][1]].join(' – ') : '–' }; }
   return { had, s: scoreOf(g, r.a), pos: rankPos(g, k) };
 }

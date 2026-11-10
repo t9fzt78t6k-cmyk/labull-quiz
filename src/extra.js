@@ -1,6 +1,8 @@
 
 /* ================= EXTRA : programme · fidélité · grand écran · chrono ================= */
 Object.assign(T.fr, {
+  regS: 'C’est rapide : votre prénom, et c’est parti !', regName: 'Prénom', regPhone2: 'Téléphone (facultatif)', cOk: 'J’accepte que LA BULL garde mon prénom (et mon numéro si je le donne) pour les jeux et me communique mes résultats. J’ai 15 ans ou plus.', regBad: 'Indiquez votre prénom, cochez la case (et vérifiez le numéro s’il y en a un).',
+  pinNote: 'Notez bien ce code (ou faites une capture d’écran) !', pinKeep: 'Il vous sera demandé à chaque partie. En cas d’oubli, l’animateur peut le retrouver ou vous en donner un nouveau.', pinLost: 'Code oublié ? (animateur)', rescueAsk: 'Animateur : entrez votre code animateur pour donner un nouveau code à ce joueur.', noPhone: 'sans téléphone',
   progT: 'À venir à LA BULL', progScan: 'Scannez pour voir le programme', progLive: 'Montrer en direct', infoT: 'Infos pratiques', closedL: 'Fermé toute la journée', progS: 'Les prochaines soirées', progB: 'Programme', progAll: '📅 Tout le programme', progNext: 'Prochainement à LA BULL',
   progNone: 'Le programme arrive bientôt… suivez-nous sur Facebook !', resa: 'Sur réservation', fbFollow: 'Suivre LA BULL sur Facebook', callResa: 'Réserver : 07 68 11 79 87', open17: 'Ouvert dès 17h',
   fidT: 'Joueur du mois', fidS: 'Points fidélité', fidB: 'Joueur du mois', fidNone: 'Pas encore de points ce mois-ci. Jouez aux quiz, sondages et pronostics !',
@@ -10,6 +12,8 @@ Object.assign(T.fr, {
   tmrL: '⏱ Chrono par question', tmrOff: 'Sans chrono', tmrUp: '⏱ Temps écoulé !', tmrLock: '⏱ Partie chronométrée : les réponses sont définitives.', imgL: '🖼️ Image de la question (facultatif)', imgPh: 'Lien de l’image : https://…', imgTip: 'Appui long sur une image d’internet → « Copier l’adresse de l’image », puis collez-la ici.'
 });
 Object.assign(T.en, {
+  regS: 'Quick: your first name and off you go!', regName: 'First name', regPhone2: 'Phone (optional)', cOk: 'I agree that LA BULL keeps my first name (and my number if I give it) for the games and lets me know my results. I am 15 or older.', regBad: 'Enter your first name, tick the box (and check the number if you gave one).',
+  pinNote: 'Write this code down (or take a screenshot)!', pinKeep: 'You’ll need it for every game. If you forget it, the quiz master can look it up or give you a new one.', pinLost: 'Forgot your code? (quiz master)', rescueAsk: 'Quiz master: enter your host code to give this player a new code.', noPhone: 'no phone',
   progT: 'Coming up at LA BULL', progScan: 'Scan to see what’s on', progLive: 'Show live', infoT: 'Practical info', closedL: 'Closed all day', progS: 'Our next nights', progB: 'What’s on', progAll: '📅 Full programme', progNext: 'Coming up at LA BULL',
   progNone: 'The programme is coming soon… follow us on Facebook!', resa: 'Booking required', fbFollow: 'Follow LA BULL on Facebook', callResa: 'Book: +33 7 68 11 79 87', open17: 'Open from 5 pm',
   fidT: 'Player of the month', fidS: 'Loyalty points', fidB: 'Player of the month', fidNone: 'No points yet this month. Play quizzes, polls and predictions!',
