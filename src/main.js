@@ -238,6 +238,7 @@ async function route() {
   try {
     if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
     if (k === 'p') return pronoHub();
+    if (k === 'q') return quizHub(v);
     if (k === 'prog') return programPage();
     if (k === 'nettoyer' || k === 'clean') return cleanPhone();
     if (k === 'r' && v) return receive(v);
@@ -251,7 +252,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '10 nov. 2026 · 14';
+const APP_V = '10 nov. 2026 · 15';
 function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
