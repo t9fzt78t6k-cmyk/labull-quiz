@@ -61,11 +61,8 @@ function programPage() {
   const ev = upcomingEvents();
   app.innerHTML = topBar(t('progB')) + backBar() + band('prog', t('progT'), t('progS')) +
     (ev.length ? ev.map(e => evCard(e)).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('progNone'))}</p></div>`) +
-    `<div class="row" id="phrow" style="margin-top:14px;display:none"><button class="btn" id="pq">▦ QR</button><button class="btn acc" id="pt">📺 ${esc(t('progLive'))}</button></div>` + `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
+    `<div class="row" id="phrow" style="margin-top:14px${isHost() ? '' : ';display:none'}"><button class="btn" id="pq">▦ QR</button><button class="btn acc" id="pt">📺 ${esc(t('progLive'))}</button></div>` + `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
   $('#pq').onclick = progQR; $('#pt').onclick = () => go('admin=tv::prog');
-  const hb = document.createElement('button'); hb.className = 'btn ghost small'; hb.style.cssText = 'width:100%;margin-top:18px;opacity:.6'; hb.textContent = t('thxHost');
-  hb.onclick = () => hostAsk(() => { $("#phrow").style.display = ""; hb.remove(); });
-  app.appendChild(hb);
 }
 function progTeaser() {
   const ev = upcomingEvents().slice(0, 2); if (!ev.length) return '';
@@ -151,7 +148,7 @@ function hostTV(g, first) {
     seen = rs.length;
   };
   const sig = () => JSON.stringify(resOf().map(r => [r.t, r.ts, r.a]));
-  (async () => { url = g ? (await joinURL(g)).url : baseURL() + '#p'; last = sig(); render(); })();
+  (async () => { url = g ? (await joinURL(g)).url : stamp(baseURL() + '#p'); last = sig(); render(); })();
   window._tvT = setInterval(() => { if (!document.body.classList.contains('tvmode')) return clearInterval(window._tvT); const s = sig(); if (s !== last) { last = s; render(); } }, 2000);
   const rotate = () => { clearTimeout(window._tvA); if (!auto) return; window._tvA = setTimeout(() => { view = views[(views.indexOf(view) + 1) % views.length]; render(); rotate(); }, view === 'qr' ? 25000 : 15000); };
   app.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { view = b.dataset.v; render(); rotate(); });
@@ -240,7 +237,7 @@ function nextTeaser(g, nThu) {
   const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ, es: QX.es.nextQ, de: QX.de.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon, es: QX.es.nextSoon, de: QX.de.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves', 'Donnerstags-Quiz']] };
   return { game: null, html: evCard(e, true) + `<p class="qnote">${esc(ev && ev.closed ? qx('closedQ') : ev ? qx('prep') : qx('nextSoon'))}</p>` };
 }
-async function weekQuizURL() { const g = weekQuiz(); if (!g) return baseURL() + '#q'; const j = await joinURL(g); return j.embedded ? baseURL() + '#q' : baseURL() + '#q=' + j.url.split('#j=')[1]; }
+async function weekQuizURL() { const g = weekQuiz(); if (!g) return stamp(baseURL() + '#q'); const j = await joinURL(g); return j.embedded ? stamp(baseURL() + '#q') : baseURL() + '#q=' + j.url.split('#j=')[1]; }
 function quizHub(v) {
   setAcc('#8e24aa');
   const g = weekQuiz(), today = todayISO(), nThu = nextThursdayAfter(g ? g.date : today);
@@ -272,7 +269,7 @@ function hostAsk(cb) {
   modal(`<h3 class="center">${esc(t('thxHost'))}</h3><input class="in big-in" id="hk" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
    <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
     const inp = mm.querySelector('#hk'); inp.focus();
-    const ok = () => { if (!pinOK(inp.value)) { inp.value = ''; return toast(t('badPin'), false); } if (isLocked()) HOST_ONCE = Date.now(); mm.remove(); cb(); };
+    const ok = () => { if (!pinOK(inp.value)) { inp.value = ''; return toast(t('badPin'), false); } mm.remove(); cb(); };
     mm.querySelector('[data-x]').onclick = () => mm.remove(); mm.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
   });
 }
@@ -326,4 +323,30 @@ function playerThanks(g, st) {
     mm.querySelector('[data-x]').onclick = () => mm.remove();
     mm.querySelector('[data-y]').onclick = () => { if (!pinOK(mm.querySelector('#tp').value)) return toast(t('badPin'), false); mm.remove(); st.closed = false; LS.set(pkey(g), st); playerDone(g, st); };
   });
+}
+
+/* ================= APPLI JOUEUR : accueil et « ça se joue au bar » ================= */
+Object.assign(T.fr, { phT: 'Bienvenue à LA BULL !', phS: 'Quiz, pronostics et soirées : tout se joue au bar, dans la bonne humeur.', phScan: '📷 Pour jouer, scannez le QR code que l’animateur vous montre au bar.', phQuiz: '💡 Le quiz du jeudi', phProno: '⚽🏉 Pronostics', phProg: '📅 Le programme', phReg: '👤 M’inscrire', phMe: n => `👤 ${n} · mon inscription`, phCall: '📞 Appeler LA BULL', atBarT: 'Ça se joue à LA BULL !', atBarS: 'Pour commencer une partie, venez au bar et scannez le QR code que vous montre l’animateur. À très vite !' });
+Object.assign(T.en, { phT: 'Welcome to LA BULL!', phS: 'Quizzes, predictions and great nights out: it all happens at the bar.', phScan: '📷 To play, scan the QR code the quiz master shows you at the bar.', phQuiz: '💡 Thursday Quiz', phProno: '⚽🏉 Predictions', phProg: '📅 What’s on', phReg: '👤 Sign up', phMe: n => `👤 ${n} · my sign-up`, phCall: '📞 Call LA BULL', atBarT: 'You play at LA BULL!', atBarS: 'To start a game, come to the bar and scan the QR code the quiz master shows you. See you soon!' });
+Object.assign(T.es, { phT: '¡Bienvenido a LA BULL!', phS: 'Quiz, pronósticos y noches de fiesta: todo se juega en el bar, con buen humor.', phScan: '📷 Para jugar, escanee el código QR que le muestra el presentador en el bar.', phQuiz: '💡 El quiz del jueves', phProno: '⚽🏉 Pronósticos', phProg: '📅 El programa', phReg: '👤 Inscribirme', phMe: n => `👤 ${n} · mi inscripción`, phCall: '📞 Llamar a LA BULL', atBarT: '¡Se juega en LA BULL!', atBarS: 'Para empezar una partida, venga al bar y escanee el código QR que le muestra el presentador. ¡Hasta pronto!' });
+Object.assign(T.de, { phT: 'Willkommen im LA BULL!', phS: 'Quiz, Tipps und tolle Abende: Gespielt wird an der Bar, mit guter Laune.', phScan: '📷 Zum Spielen scannen Sie den QR-Code, den Ihnen der Quizmaster an der Bar zeigt.', phQuiz: '💡 Das Donnerstags-Quiz', phProno: '⚽🏉 Tippspiel', phProg: '📅 Programm', phReg: '👤 Anmelden', phMe: n => `👤 ${n} · meine Anmeldung`, phCall: '📞 LA BULL anrufen', atBarT: 'Gespielt wird im LA BULL!', atBarS: 'Um ein Spiel zu starten, kommen Sie an die Bar und scannen Sie den QR-Code, den Ihnen der Quizmaster zeigt. Bis bald!' });
+function playerHome() {
+  setAcc('#f2b632');
+  const me = getMe(), pass = hasPass();
+  app.innerHTML = topBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:150px"><h1 style="color:var(--gold);margin-top:10px">${esc(t('phT'))}</h1><p class="muted" style="margin:4px 0 0">${esc(t('phS'))}</p></div>
+   ${pass ? '' : `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--acc)"><p style="margin:0;font-weight:700;font-size:17px;line-height:1.4">${esc(t('phScan'))}</p></div>`}
+   <button class="btn acc" id="phq" style="margin-top:12px;font-size:20px">${esc(t('phQuiz'))}</button>
+   ${pass ? `<button class="btn" id="php" style="margin-top:10px">${esc(t('phProno'))}</button>` : ''}
+   <button class="btn" id="phg" style="margin-top:10px">${esc(t('phProg'))}</button>
+   <button class="btn ghost" id="phm" style="margin-top:10px">${esc(me ? t('phMe')(me.name) : t('phReg'))}</button>
+   <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:14px">👍 ${esc(t('fbFollow'))}</a>
+   <a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">${esc(t('phCall'))} · 07 68 11 79 87</a>`;
+  $('#phq').onclick = () => go('q'); $('#phg').onclick = () => go('prog'); $('#phm').onclick = () => go('moi');
+  if ($('#php')) $('#php').onclick = () => go('p');
+}
+function atBarScreen() {
+  setAcc('#f2b632');
+  app.innerHTML = topBar() + `<div class="thx"><i class="thx-c">🍻</i><h1>${esc(t('atBarT'))}</h1><p class="thx-s">${esc(t('atBarS'))}</p></div>
+   <button class="btn" id="abg" style="margin-top:12px">${esc(t('phProg'))}</button><button class="btn ghost" id="abh" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
+  $('#abg').onclick = () => go('prog'); $('#abh').onclick = () => go('');
 }

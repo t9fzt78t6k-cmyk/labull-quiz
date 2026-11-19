@@ -12,3 +12,6 @@ Chaque soirée, affiche ou information LA BULL préparée avec Claude doit être
 
 ## Langues
 L'appli est en français, anglais, espagnol et allemand : tout texte affiché aux joueurs (soirées, quiz, sondages, pronostics) se met en {fr, en, es, de}. Textes de l'interface : `src/main.js` / `src/extra.js` (fr, en) `src/es.js` (espagnol) et `src/de.js` (allemand). Une langue manquante s'affiche en anglais.
+
+## Deux applis
+`python3 build.py` génère `index.html` (appli joueurs : programme, inscription, Facebook, téléphone, et les jeux uniquement via un QR montré par l'animateur, valable 12 h) et `animateur.html` (appli animateur, code demandé à chaque ouverture). Commiter les deux fichiers.
