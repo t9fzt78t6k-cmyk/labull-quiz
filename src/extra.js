@@ -263,14 +263,50 @@ function quizHubCard() {
 }
 
 /* ---------- Fin de partie : jeu fermé après « Résultat enregistré » ---------- */
+Object.assign(T.fr, { cxScore: 'Votre score', cxScoreS: 'Le classement sera annoncé au bar… suspense !', cxOpen: '📖 Voir la correction', cxLock: d => `🔒 La correction complète (questions, bonnes réponses et vos erreurs) sera disponible ${d} à partir de 9 h, sur cette même page.`, cxBack: 'Rouvrez simplement le lien du quiz (ou flashez à nouveau son QR code).', cxT: 'La correction', cxYou: 'Votre réponse', cxGood: 'Bonne réponse', cxNone: 'Pas de réponse', cxRet: '← Retour', cxMore: '🎲 Envie d’un autre quiz ?', cxMoreS: 'Demandez à l’animateur : il a encore plein de questions dans sa besace !', cxTom: 'demain' });
+Object.assign(T.en, { cxScore: 'Your score', cxScoreS: 'The ranking will be announced at the bar… stay tuned!', cxOpen: '📖 See the answers', cxLock: d => `🔒 The full answer sheet (questions, right answers and your mistakes) will be available ${d} from 9 am, right here on this page.`, cxBack: 'Just reopen the quiz link (or scan its QR code again).', cxT: 'The answers', cxYou: 'Your answer', cxGood: 'Right answer', cxNone: 'No answer', cxRet: '← Back', cxMore: '🎲 Fancy another quiz?', cxMoreS: 'Ask the quiz master: there are plenty more questions up their sleeve!', cxTom: 'tomorrow' });
+const cxKey = g => kindOf(g) === 'quiz' && g.questions.length && g.questions.every(q => Number.isInteger(q.a));
+const cxScoreOf = (g, st) => g.questions.reduce((s, q, i) => s + (st.a && st.a[i] === q.a ? 1 : 0), 0);
+function cxUnlock(g, st) {
+  const base = g.date || new Date(st.closedAt || Date.now()).toLocaleDateString('sv');
+  const [y, m, d] = base.split('-').map(Number); return new Date(y, m - 1, d + 1, 9, 0, 0);
+}
+function cxWhen(u) {
+  const now = new Date(), tom = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  if (u.toDateString() === tom.toDateString()) return t('cxTom');
+  return (lang === 'en' ? 'on ' : 'le ') + u.toLocaleDateString(lang === 'en' ? 'en-GB' : 'fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+function cxBlock(g, st) {
+  if (!cxKey(g)) return '';
+  const sc = cxScoreOf(g, st), n = g.questions.length, u = cxUnlock(g, st), open = Date.now() >= u.getTime();
+  return `<div class="card center cx-sc"><p class="cx-l">${esc(t('cxScore'))}</p><p class="cx-n"><b>${sc}</b> / ${n}</p><p class="muted" style="margin:4px 0 0">${esc(t('cxScoreS'))}</p></div>`
+    + (open ? `<button class="btn acc" id="cxo" style="width:100%;margin-top:6px">${esc(t('cxOpen'))}</button>`
+            : `<div class="card"><p style="margin:0;font-weight:700;line-height:1.4">${esc(t('cxLock')(cxWhen(u)))}</p><p class="muted" style="margin:6px 0 0;font-size:14px">${esc(t('cxBack'))}</p></div>`);
+}
+function playerCorrection(g, st) {
+  if (!cxKey(g) || Date.now() < cxUnlock(g, st).getTime()) return playerThanks(g, st);
+  setAcc(g.color);
+  const sc = cxScoreOf(g, st), n = g.questions.length;
+  app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<button class="btn ghost small" id="cxr" style="margin-top:10px">${esc(t('cxRet'))}</button>
+   <h1 style="margin:12px 0 2px">${esc(t('cxT'))}</h1><p class="muted" style="margin:0">${esc(L(g.title))}</p><div class="card center cx-sc"><p class="cx-n"><b>${sc}</b> / ${n}</p></div>`
+   + g.questions.map((q, i) => { const a = st.a ? st.a[i] : null, ok = a === q.a, has = Number.isInteger(a) && q.o[a];
+       return `<div class="card cx-q ${ok ? 'cx-ok' : 'cx-ko'}"><p class="cx-h"><span>${ok ? '✅' : '❌'}</span> ${i + 1}. ${esc(L(q.q))}</p>
+        ${ok ? '' : `<p class="cx-a cx-y">${esc(t('cxYou'))}${lang === 'fr' ? ' : ' : ': '}<b>${has ? esc(LETTERS[a] + ' — ' + L(q.o[a])) : esc(t('cxNone'))}</b></p>`}
+        <p class="cx-a cx-g">${esc(ok ? t('cxYou') : t('cxGood'))}${lang === 'fr' ? ' : ' : ': '}<b>${esc(LETTERS[q.a] + ' — ' + L(q.o[q.a]))}</b></p>${q.info ? `<p class="cx-i">💡 ${esc(L(q.info))}</p>` : ''}</div>`; }).join('')
+   + `<button class="btn ghost small" id="cxr2" style="width:100%;margin-top:8px">${esc(t('cxRet'))}</button>`;
+  $('#cxr').onclick = $('#cxr2').onclick = () => playerThanks(g, st);
+  window.scrollTo(0, 0);
+}
 function playerThanks(g, st) {
   setAcc(g.color);
-  const nThu = nextThursdayAfter(g.date && g.date >= todayISO() ? g.date : todayISO()), tz = nextTeaser(g, nThu);
-  app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<div class="thx"><i class="thx-c">🎉</i><h1>${esc(t('thxT'))}</h1>${st.team ? `<p class="thx-team">${esc(st.team)}</p>` : ''}<p class="thx-s">${esc(t('thxS'))}</p><p class="thx-g">${esc(L(g.title))}</p></div>
+  const nThu = nextThursdayAfter(g.date && g.date >= todayISO() ? g.date : todayISO()), tz = nextTeaser(g, nThu), cx = cxBlock(g, st);
+  app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<div class="thx"><i class="thx-c">🎉</i><h1>${esc(t('thxT'))}</h1>${st.team ? `<p class="thx-team">${esc(st.team)}</p>` : ''}${cx ? '' : `<p class="thx-s">${esc(t('thxS'))}</p>`}<p class="thx-g">${esc(L(g.title))}</p></div>${cx}
+   ${kindOf(g) === 'quiz' ? `<div class="card center"><p style="margin:0;font-weight:800;font-size:18px">${esc(t('cxMore'))}</p><p class="muted" style="margin:4px 0 0">${esc(t('cxMoreS'))}</p></div>` : ''}
    <p class="sec">${esc(t('thxNext'))}</p><div class="qnext">${tz.html}</div><p class="qnote center" style="font-size:16px">${esc(t('thxTease'))}</p>
    <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:14px">👍 ${esc(t('fbFollow'))}</a>
    <p class="muted center" style="font-size:13px;margin-top:16px">${esc(t('thxHelp'))}</p><button class="btn ghost small" id="thh" style="width:100%;margin-top:6px;opacity:.6">${esc(t('thxHost'))}</button>`;
-  confetti();
+  if (!st.thxSeen) { confetti(); st.thxSeen = true; LS.set(pkey(g), st); }
+  if ($('#cxo')) $('#cxo').onclick = () => playerCorrection(g, st);
   $('#thh').onclick = () => modal(`<h3 class="center">${esc(t('thxHost'))}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('thxHostQ'))}</p><input class="in big-in" id="tp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
      <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
     mm.querySelector('[data-x]').onclick = () => mm.remove();
