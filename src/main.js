@@ -302,7 +302,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '19 nov. 2026 · 23';
+const APP_V = '19 nov. 2026 · 24';
 function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : lang === 'es' ? 'Pantalla de inicio' : lang === 'de' ? 'Startbildschirm' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : lang === 'es' ? ' ficha(s)' : lang === 'de' ? ' Bogen/Bögen'.replace('Bogen/', '') : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
@@ -437,6 +437,7 @@ function playerRecap(g, st) {
 }
 function saveLocalPlay(g, st) {
   try { const r = parseResult(resultPayload(g, st)); const all = getRes(g.id); const k = (r.t.trim() + (r.c ? '|' + r.c.v : '')).toLowerCase();
+    if (LS.get('lb_excl_' + g.id, []).includes(kindOf(g) === 'poll' ? r.p : k)) return false;
     if (kindOf(g) === 'poll') { if (all[r.p]) return false; } else if (all[k] && JSON.stringify(all[k].a) === JSON.stringify(r.a)) return false;
     storeResult(g, r); return true; } catch (e) { return false; }
 }
@@ -819,6 +820,7 @@ function hostTeam(g, key) {
       <p class="muted" style="margin:0">${esc(t('rankNow')(pos))} · ${esc(t('errors')(N - sc))}</p><p class="muted" style="margin:4px 0 0;font-size:13px">${esc(L(g.title))} · ${esc(t('receivedAt'))} ${fmtTime(r.ts)}</p></div>
       <div class="tabs"><button data-f="0" class="${only ? '' : 'on'}">${esc(t('allQ'))}</button><button data-f="1" class="${only ? 'on' : ''}">❌ ${esc(t('errOnly'))} (${N - sc})</button></div>` + items;
     app.querySelectorAll('[data-f]').forEach(b => b.onclick = () => { only = b.dataset.f === '1'; draw(); });
+    delEntryBtn(g, key, r.t);
   };
   draw();
 }

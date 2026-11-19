@@ -352,3 +352,19 @@ function atBarScreen() {
    <button class="btn" id="abg" style="margin-top:12px">${esc(t('phProg'))}</button><button class="btn ghost" id="abh" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
   $('#abg').onclick = () => go('prog'); $('#abh').onclick = () => go('');
 }
+
+/* ================= ANIMATEUR : retirer une fiche (ex. le testeur) ================= */
+Object.assign(T.fr, { delR: '🗑 Retirer cette fiche des résultats', delRQ: n => `Retirer « ${n} » des résultats ?`, delRT: 'Sa fiche est supprimée de ce jeu : classement, podium et tirage au sort. Les autres fiches ne bougent pas.', delRY: 'Oui, retirer', delRDone: n => `${n} retiré des résultats` });
+Object.assign(T.en, { delR: '🗑 Remove this entry from the results', delRQ: n => `Remove “${n}” from the results?`, delRT: 'This entry is deleted from this game: ranking, podium and prize draw. Other entries stay as they are.', delRY: 'Yes, remove', delRDone: n => `${n} removed from the results` });
+Object.assign(T.es, { delR: '🗑 Quitar esta ficha de los resultados', delRQ: n => `¿Quitar «${n}» de los resultados?`, delRT: 'Su ficha se elimina de este juego: clasificación, podio y sorteo. Las demás fichas no cambian.', delRY: 'Sí, quitar', delRDone: n => `${n} quitado de los resultados` });
+Object.assign(T.de, { delR: '🗑 Diesen Bogen aus den Ergebnissen entfernen', delRQ: n => `„${n}“ aus den Ergebnissen entfernen?`, delRT: 'Der Bogen wird aus diesem Spiel gelöscht: Rangliste, Podium und Verlosung. Alle anderen Bögen bleiben unverändert.', delRY: 'Ja, entfernen', delRDone: n => `${n} aus den Ergebnissen entfernt` });
+function delEntryBtn(g, key, name) {
+  if (!isHost()) return;
+  const b = document.createElement('button'); b.className = 'btn danger small'; b.style.cssText = 'width:100%;margin-top:18px'; b.textContent = t('delR');
+  b.onclick = () => confirmBox(t('delRQ')(name || t('anonymous')), t('delRT'), t('delRY'), () => {
+    const all = getRes(g.id); delete all[key]; LS.set(resKey(g.id), all);
+    const ex = LS.get('lb_excl_' + g.id, []); if (!ex.includes(key)) { ex.push(key); LS.set('lb_excl_' + g.id, ex); }
+    toast('✔ ' + t('delRDone')(name || t('anonymous'))); go('admin=rank:' + g.id);
+  }, true);
+  app.appendChild(b);
+}

@@ -131,6 +131,7 @@ function hostPronoTeam(g, key) {
     g.questions.map((q, i) => { const got = res.per[i], col = got == null ? 'var(--line)' : got > 0 ? 'var(--ok)' : 'var(--bad)';
       return `<div class="card" style="border-left:10px solid ${col};padding:12px 14px"><p style="margin:0 0 6px;font-weight:700">${i + 1}. ${esc(L(q.q))}</p>
       <p style="margin:0">${esc(t('given'))} : <b>${esc(ansLabel(g, q, r.a[i]))}</b></p>${out && answered(out[i]) ? `<p style="margin:4px 0 0;color:var(--gold2)">${esc(t('real'))} : <b>${esc(ansLabel(g, q, out[i]))}</b>${got != null ? ` · +${got} pt${got > 1 ? 's' : ''}` : ''}</p>` : ''}</div>`; }).join('');
+  delEntryBtn(g, key, r.t);
 }
 
 /* ---- participant registration & hub ---- */
