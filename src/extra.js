@@ -59,8 +59,11 @@ function programPage() {
   const ev = upcomingEvents();
   app.innerHTML = topBar(t('progB')) + backBar() + band('prog', t('progT'), t('progS')) +
     (ev.length ? ev.map(e => evCard(e)).join('') : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(t('progNone'))}</p></div>`) +
-    (isHost() ? `<div class="row" style="margin-top:14px"><button class="btn" id="pq">▦ QR</button><button class="btn acc" id="pt">📺 ${esc(t('progLive'))}</button></div>` : '') + `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
-  if ($('#pq')) { $('#pq').onclick = progQR; $('#pt').onclick = () => go('admin=tv::prog'); }
+    `<div class="row" id="phrow" style="margin-top:14px;display:none"><button class="btn" id="pq">▦ QR</button><button class="btn acc" id="pt">📺 ${esc(t('progLive'))}</button></div>` + `<div class="info"><b>${esc(t('infoT'))}</b><p>📍 <a href="https://maps.google.com/?q=121+rue+des+Deux+C%C3%A8dres+24500+Serres-et-Montguyard" target="_blank" rel="noopener">121 rue des Deux Cèdres, 24500 Serres-et-Montguyard</a></p><p>🕔 ${esc(t('open17'))}</p><p>📞 <a href="tel:+33768117987">07 68 11 79 87</a></p></div><a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:16px">👍 ${esc(t('fbFollow'))}</a><a class="btn ghost" href="tel:+33768117987" style="margin-top:10px">📞 ${esc(t('callResa'))}</a>`;
+  $('#pq').onclick = progQR; $('#pt').onclick = () => go('admin=tv::prog');
+  const hb = document.createElement('button'); hb.className = 'btn ghost small'; hb.style.cssText = 'width:100%;margin-top:18px;opacity:.6'; hb.textContent = t('thxHost');
+  hb.onclick = () => hostAsk(() => { $("#phrow").style.display = ""; hb.remove(); });
+  app.appendChild(hb);
 }
 function progTeaser() {
   const ev = upcomingEvents().slice(0, 2); if (!ev.length) return '';
@@ -262,6 +265,15 @@ function quizHubCard() {
      <div class="row nbtns"><button class="btn" id="qhqr">▦ QR</button><button class="btn cbtn" id="qhgo">▶ ${esc(t('openHere'))}</button></div></div>`;
 }
 
+/* Code animateur demandé à chaque fois (jamais mémorisé) */
+function hostAsk(cb) {
+  modal(`<h3 class="center">${esc(t('thxHost'))}</h3><input class="in big-in" id="hk" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
+   <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
+    const inp = mm.querySelector('#hk'); inp.focus();
+    const ok = () => { if (inp.value !== LS.get('lb_pin', '0901')) { inp.value = ''; return toast(t('badPin'), false); } if (isLocked()) HOST_ONCE = Date.now(); mm.remove(); cb(); };
+    mm.querySelector('[data-x]').onclick = () => mm.remove(); mm.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
+  });
+}
 /* ---------- Fin de partie : jeu fermé après « Résultat enregistré » ---------- */
 Object.assign(T.fr, { cxScore: 'Votre score', cxScoreS: 'Le classement sera annoncé au bar… suspense !', cxOpen: '📖 Voir la correction', cxLock: d => `🔒 La correction complète (questions, bonnes réponses et vos erreurs) sera disponible ${d} à partir de 9 h, sur cette même page.`, cxBack: 'Rouvrez simplement le lien du quiz (ou flashez à nouveau son QR code).', cxT: 'La correction', cxYou: 'Votre réponse', cxGood: 'Bonne réponse', cxNone: 'Pas de réponse', cxRet: '← Retour', cxMore: '🎲 Envie d’un autre quiz ?', cxMoreS: 'Demandez à l’animateur : il a encore plein de questions dans sa besace !', cxTom: 'demain' });
 Object.assign(T.en, { cxScore: 'Your score', cxScoreS: 'The ranking will be announced at the bar… stay tuned!', cxOpen: '📖 See the answers', cxLock: d => `🔒 The full answer sheet (questions, right answers and your mistakes) will be available ${d} from 9 am, right here on this page.`, cxBack: 'Just reopen the quiz link (or scan its QR code again).', cxT: 'The answers', cxYou: 'Your answer', cxGood: 'Right answer', cxNone: 'No answer', cxRet: '← Back', cxMore: '🎲 Fancy another quiz?', cxMoreS: 'Ask the quiz master: there are plenty more questions up their sleeve!', cxTom: 'tomorrow' });

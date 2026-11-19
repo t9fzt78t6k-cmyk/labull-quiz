@@ -141,7 +141,13 @@ const LETTERS = 'ABCDEFGH';
 const seqOf = g => Array.isArray(g.order) ? g.order.filter(i => i < g.questions.length) : g.questions.map((_, i) => i);
 const resKey = id => 'lb_res_' + id;
 const getRes = id => LS.get(resKey(id), {});
-const isHost = () => LS.get('lb_host', false) === true;
+/* Téléphone joueur verrouillé (après « Résultat enregistré ») : l'accès animateur n'y est jamais mémorisé,
+   le code animateur est redemandé à chaque fois et l'accès s'arrête dès qu'on revient côté joueur. */
+const isLocked = () => LS.get('lb_lock', false) === true;
+let HOST_ONCE = 0;
+const isHost = () => isLocked() ? HOST_ONCE > 0 && Date.now() - HOST_ONCE < 10 * 60e3 : LS.get('lb_host', false) === true;
+function lockPhone() { LS.set('lb_lock', true); LS.del('lb_host'); HOST_ONCE = 0; }
+try { if (!isLocked() && Object.keys(localStorage).some(k => k.startsWith('lb_play_') && (LS.get(k, {}) || {}).closed)) lockPhone(); } catch (e) {}
 /* remise à zéro à distance : champ rz d'un jeu, appliquée une seule fois par téléphone */
 BUILTIN.forEach(g => { if (g.rz && LS.get('lb_rz_' + g.id, '') !== g.rz) { LS.del(resKey(g.id)); LS.del('lb_play_' + g.id); LS.set('lb_rz_' + g.id, g.rz); } });
 
@@ -235,6 +241,11 @@ async function route() {
   if (isHost()) importLocalPlays();
   $('#copy').innerHTML = `<i class="stad"></i><i class="fb1"></i><i class="golf"></i><a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr">${esc(t('copy'))}</p><p class="cr2">SIRET : 990 143 810 00010 · ${esc(t('alcohol'))}</p><p class="cr2" style="opacity:.6">v. ${APP_V} · ${esc(whereAmI())}</p>`; document.documentElement.lang = lang;
   const h = location.hash.slice(1); const [k, ...rest] = h.split('='); const v = rest.join('=');
+  if (isLocked() && ['j', 'p', 'q', 'prog'].includes(k)) HOST_ONCE = 0;
+  if (isLocked() && !isHost()) {
+    if (k === 'nettoyer' || k === 'clean') return pinScreen(() => cleanPhone());
+    if (!['j', 'p', 'q', 'prog', 'r', 'admin', 'h'].includes(k) || (k === 'j' && !v)) return programPage();
+  }
   try {
     if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
     if (k === 'p') return pronoHub();
@@ -252,7 +263,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '19 nov. 2026 · 16';
+const APP_V = '19 nov. 2026 · 17';
 function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
@@ -265,6 +276,7 @@ function cleanPhone(confirmed) {
     return;
   }
   try { Object.keys(localStorage).filter(k => /^lb_(me|skipid|play_|jc_)/.test(k) || (!host && k === 'lb_players')).forEach(k => localStorage.removeItem(k)); } catch (e) {}
+  LS.del('lb_lock'); HOST_ONCE = 0;
   const q = allGames().filter(g => kindOf(g) === 'quiz' && isActive(g));
   app.innerHTML = topBar(t('cleanT')) + `<div class="card center" style="margin-top:16px;box-shadow:inset 0 0 0 3px var(--ok)"><p style="font-size:44px;margin:0">✅</p><p class="chalk" style="font-size:28px;margin:6px 0">${esc(t('cleanT'))}</p>
    <p style="margin:0">${esc(t('cleanS'))}</p>${host ? `<p class="muted" style="font-size:14px">${esc(t('cleanHost'))}</p>` : ''}<p class="muted" style="font-size:13px;margin:10px 0 0">v. ${APP_V}</p></div>
@@ -406,7 +418,7 @@ function playerDone(g, st) {
    <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
   if ($('#fix')) $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
-  if ($('#saved')) $('#saved').onclick = () => confirmBox(t('resSavedQ'), t('resSavedQt'), t('resSavedY'), () => { st.closed = true; st.closedAt = Date.now(); LS.set(pkey(g), st); playerThanks(g, st); });
+  if ($('#saved')) $('#saved').onclick = () => confirmBox(t('resSavedQ'), t('resSavedQt'), t('resSavedY'), () => { st.closed = true; st.closedAt = Date.now(); LS.set(pkey(g), st); lockPhone(); playerThanks(g, st); });
   if ($('#np')) $('#np').onclick = () => { newPlayer(); if (isProno(g)) go('p'); else { location.hash = 'j=' + encodeURIComponent(g.id); route(); } };
   if ($('#bkh')) $('#bkh').onclick = () => go('');
   if ($('#oth')) $('#oth').onclick = () => { if (lastMe) setMe(lastMe); go('p'); };
@@ -419,7 +431,7 @@ function pinScreen(next, entry) {
    `<div class="card"><h2 style="margin-top:0">${esc(t('hostSpace'))}</h2><label class="f" for="pin">${esc(t('pin'))}</label>
    <input class="in big-in" id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="••••"><button class="btn" id="ok" style="margin-top:10px">${esc(t('enter'))}</button></div>
    ${entry ? `<p class="center muted" style="margin-top:18px">${esc(t('scanToPlay'))}</p>` : ''}`;
-  const ok = () => { if ($('#pin').value === LS.get('lb_pin', '0901')) { LS.set('lb_host', true); next(); } else { toast(t('badPin'), false); $('#pin').value = ''; } };
+  const ok = () => { if ($('#pin').value === LS.get('lb_pin', '0901')) { if (isLocked()) HOST_ONCE = Date.now(); else LS.set('lb_host', true); next(); } else { toast(t('badPin'), false); $('#pin').value = ''; } };
   $('#ok').onclick = ok; $('#pin').onkeydown = e => { if (e.key === 'Enter') ok(); };
 }
 function hostRoute(v) {
@@ -509,7 +521,7 @@ function hostHome() {
   $('#fidh').onclick = () => go('admin=fid'); $('#progh').onclick = () => go('prog'); $('#tvh').onclick = () => tvIntro(null);
   bindCards();
   $('#set').onclick = () => go('admin=settings');
-  $('#out').onclick = () => { LS.set('lb_host', false); go(''); };
+  $('#out').onclick = () => { LS.set('lb_host', false); HOST_ONCE = 0; go(''); };
 }
 function hostList(cat) {
   if (cat === 'quiz') return quizList();
