@@ -186,7 +186,7 @@ function pinRescue(p, next) {
     const inp = mm.querySelector('#hp'); inp.focus();
     mm.querySelector('[data-x]').onclick = () => mm.remove();
     mm.querySelector('[data-y]').onclick = () => {
-      if (inp.value !== LS.get('lb_pin', '0901')) { inp.value = ''; return toast(t('badPin'), false); }
+      if (!pinOK(inp.value)) { inp.value = ''; return toast(t('badPin'), false); }
       const all = getPlayers(), k = normV(p); all[k].pin = genPin(); all[k].rs = Date.now(); LS.set('lb_players', all);
       mm.remove(); setMe(all[k]); showPinCard(all[k], next);
     };

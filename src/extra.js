@@ -270,7 +270,7 @@ function hostAsk(cb) {
   modal(`<h3 class="center">${esc(t('thxHost'))}</h3><input class="in big-in" id="hk" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
    <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
     const inp = mm.querySelector('#hk'); inp.focus();
-    const ok = () => { if (inp.value !== LS.get('lb_pin', '0901')) { inp.value = ''; return toast(t('badPin'), false); } if (isLocked()) HOST_ONCE = Date.now(); mm.remove(); cb(); };
+    const ok = () => { if (!pinOK(inp.value)) { inp.value = ''; return toast(t('badPin'), false); } if (isLocked()) HOST_ONCE = Date.now(); mm.remove(); cb(); };
     mm.querySelector('[data-x]').onclick = () => mm.remove(); mm.querySelector('[data-y]').onclick = ok; inp.onkeydown = e => { if (e.key === 'Enter') ok(); };
   });
 }
@@ -322,6 +322,6 @@ function playerThanks(g, st) {
   $('#thh').onclick = () => modal(`<h3 class="center">${esc(t('thxHost'))}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('thxHostQ'))}</p><input class="in big-in" id="tp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
      <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
     mm.querySelector('[data-x]').onclick = () => mm.remove();
-    mm.querySelector('[data-y]').onclick = () => { if (mm.querySelector('#tp').value !== LS.get('lb_pin', '0901')) return toast(t('badPin'), false); mm.remove(); st.closed = false; LS.set(pkey(g), st); playerDone(g, st); };
+    mm.querySelector('[data-y]').onclick = () => { if (!pinOK(mm.querySelector('#tp').value)) return toast(t('badPin'), false); mm.remove(); st.closed = false; LS.set(pkey(g), st); playerDone(g, st); };
   });
 }
