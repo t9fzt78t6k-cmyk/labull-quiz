@@ -3,7 +3,7 @@
 import json, os
 d = os.path.dirname(os.path.abspath(__file__)) + '/src/'
 games = json.load(open(d + 'games.json'))
-m = open(d + 'main.js').read(); pr = open(d + 'prono.js').read() + '\n' + open(d + 'extra.js').read()
+m = open(d + 'main.js').read(); pr = open(d + 'prono.js').read() + '\n' + open(d + 'extra.js').read() + '\n' + open(d + 'es.js').read()
 m = m.replace("/* ================= EDITOR ================= */", pr + "\n/* ================= EDITOR ================= */", 1)
 head = open(d + 'head.part').read().replace('__BG__', open(d + 'bg.b64').read())
 A = json.load(open(d + 'assets.json'))

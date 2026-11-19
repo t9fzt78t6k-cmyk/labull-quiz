@@ -119,9 +119,13 @@ en: {
   msgRes: (n, ti, p, pos, N) => `LA BULL · ${ti}: well done ${n}, you scored ${p} pts and finished #${pos} of ${N}! Thanks and see you soon at LA BULL.`, msgStop: 'Reply STOP to stop receiving messages.', matches: 'matches', ptsRuleM: 'For each match: right winner (or draw) 3 pts · right margin +2 pts · exact score +5 pts. Right bonus answer: +1 pt. Tie: closest to the exact scores wins. You don\u2019t have to predict every match.', funAdded: 'Bonus questions added', tNumber: 'Number', tYesNo: 'Yes / No', tScore: 'Match score', vs: 'vs',
   scoreHint: 'Tap + / − or type the score', numHint: 'Your guess', bonusTitle: 'Bonus questions to split ties', endL: 'End message (after submitting)', fbT: 'And if you\u2019d like to follow us on Facebook, it\u2019s right here: all our nights, games and surprises first!', fbBtn: 'Follow LA BULL on Facebook', builtIn: 'built in'
 }};
-let lang = LS.get('lb_lang', (navigator.language || 'fr').startsWith('fr') ? 'fr' : 'en');
-const t = k => T[lang][k];
-const L = o => (o && (o[lang] || o.fr || o.en)) || '';
+T.es = {};
+const LANGS = ['fr', 'en', 'es'], LOCS = { fr: 'fr-FR', en: 'en-GB', es: 'es-ES' };
+let lang = LS.get('lb_lang', ((navigator.language || 'fr').slice(0, 2) in LOCS) ? (navigator.language || 'fr').slice(0, 2) : 'en');
+if (!LANGS.includes(lang)) lang = 'fr';
+const LOC = () => LOCS[lang] || 'fr-FR';
+const t = k => { const d = T[lang]; return d && d[k] !== undefined ? d[k] : T.en[k] !== undefined ? T.en[k] : T.fr[k]; };
+const L = o => (o && (o[lang] || (lang === 'es' && o.en) || o.fr || o.en)) || '';
 
 /* ================= DATA ================= */
 let BUILTIN = [];
@@ -204,7 +208,7 @@ function setAcc(c) { document.documentElement.style.setProperty('--acc', c || '#
 function topBar(sub, big) {
   return `<header class="hdr2"><i class="lamp2"></i><i class="dart2"></i>
    <img class="rlogo" src="${LOGO}" alt="LA BULL"><div class="plank"><b>LA BULL</b><span>${esc(sub || t('appSub'))}</span></div>
-   <div class="lang"><button data-lang="fr" class="${lang === 'fr' ? 'on' : ''}">FR</button><button data-lang="en" class="${lang === 'en' ? 'on' : ''}">EN</button></div></header>`;
+   <div class="lang">${LANGS.map(l => `<button data-lang="${l}" class="${lang === l ? 'on' : ''}">${l.toUpperCase()}</button>`).join('')}</div></header>`;
 }
 const kindKey = g => isProno(g) ? 'prono' : kindOf(g) === 'poll' ? 'poll' : 'quiz';
 const decoOf = g => { const s = (L(g.title) + ' ' + (g.id || '')).toLowerCase(); return /jazz|sax/.test(s) ? 'sax' : /stout|guinness|irl|rugby|xv-/.test(s) ? 'stout' : g.sport === 'foot' ? 'fball' : ''; };
@@ -212,8 +216,8 @@ const band = (k, title, sub) => `<div class="band"><i class="bic ic-${k}"></i><b
 const navBar = () => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-nav="home">🏠 ${esc(t('home'))}</button></div>`;
 const pBar = g => `<div class="navb"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button><button class="btn ghost small" data-pcancel="${esc(g.id)}">✕ ${esc(t('cancelS'))}</button></div>`;
 const backBar = () => `<div class="navb" style="position:static;background:none"><button class="btn ghost small" data-nav="back">← ${esc(t('backS'))}</button></div>`;
-function fmtDate(s) { if (!s) return ''; try { return new Date(s + 'T12:00:00').toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return s; } }
-const fmtTime = ts => new Date(ts).toLocaleTimeString(lang === 'fr' ? 'fr-FR' : 'en-GB', { hour: '2-digit', minute: '2-digit' });
+function fmtDate(s) { if (!s) return ''; try { return new Date(s + 'T12:00:00').toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { return s; } }
+const fmtTime = ts => new Date(ts).toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' });
 function toast(msg, ok = true) { const d = document.createElement('div'); d.className = 'toast'; if (!ok) d.style.background = 'var(--bad)'; d.textContent = msg; document.body.appendChild(d); setTimeout(() => d.remove(), 2600); }
 function modal(html, onMount) { const m = document.createElement('div'); m.className = 'modal'; m.innerHTML = `<div class="card">${html}</div>`; document.body.appendChild(m); m.addEventListener('click', e => { if (e.target === m) m.remove(); }); onMount && onMount(m); return m; }
 function confirmBox(title, text, yes, cb, danger) {
@@ -230,7 +234,7 @@ function pinConfirm(title, cb) {
 }
 function confetti() { const cols = ['#f2b632', '#3ccf7a', '#ff6b5e', '#4ea8ff', '#fff']; for (let i = 0; i < 90; i++) { const c = document.createElement('i'); c.className = 'conf'; c.style.left = Math.random() * 100 + 'vw'; c.style.background = cols[i % cols.length]; c.style.animationDuration = 1.8 + Math.random() * 1.8 + 's'; c.style.animationDelay = Math.random() * .6 + 's'; document.body.appendChild(c); setTimeout(() => c.remove(), 4500); } }
 document.addEventListener('click', e => {
-  const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; LS.set('lb_lang', lang); route(); return; }
+  const b = e.target.closest('[data-lang]'); if (b) { lang = b.dataset.lang; LS.set('lb_lang', lang); LS.set('lb_lang_ok', true); route(); return; }
   const pc = e.target.closest('[data-pcancel]');
   if (pc) { const id = pc.dataset.pcancel; return confirmBox(t('cancelQ'), t('cancelT'), t('cancelYes'), () => { LS.del('lb_play_' + id); const g = findGame(id); if (g && kindOf(g) === 'prono' && LS.get('lb_me', null)) go('p'); else { location.hash = 'j=' + encodeURIComponent(id); route(); } }, true); }
   const n = e.target.closest('[data-nav]'); if (n) { if (n.dataset.nav === 'home') go(''); else if (history.length > 1) history.back(); else go(''); }
@@ -243,6 +247,7 @@ async function route() {
   if (isHost()) importLocalPlays();
   $('#copy').innerHTML = `<i class="stad"></i><i class="fb1"></i><i class="golf"></i><a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr">${esc(t('copy'))}</p><p class="cr2">SIRET : 990 143 810 00010 · ${esc(t('alcohol'))}</p><p class="cr2" style="opacity:.6">v. ${APP_V} · ${esc(whereAmI())}</p>`; document.documentElement.lang = lang;
   const h = location.hash.slice(1); const [k, ...rest] = h.split('='); const v = rest.join('=');
+  if (!LS.get('lb_lang_ok', false) && !isHost() && ['j', 'q', 'p', 'prog'].includes(k)) return langSplash();
   if (isLocked() && ['j', 'p', 'q', 'prog'].includes(k)) HOST_ONCE = 0;
   if (isLocked() && !isHost()) {
     if (k === 'nettoyer' || k === 'clean') return pinScreen(() => cleanPhone());
@@ -265,8 +270,8 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '19 nov. 2026 · 18';
-function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : ' sheet(s)'); }
+const APP_V = '19 nov. 2026 · 19';
+function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : lang === 'es' ? 'Pantalla de inicio' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : lang === 'es' ? ' ficha(s)' : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
   try { history.replaceState(null, '', location.pathname); } catch (e) {}
@@ -427,6 +432,12 @@ function playerDone(g, st) {
 }
 
 /* ================= HOST ================= */
+function langSplash() {
+  setAcc();
+  app.innerHTML = topBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:150px"><h1 style="color:var(--gold);margin-top:10px">Bienvenue · Welcome · Bienvenido</h1>
+   <p class="muted" style="margin:4px 0 0">Choisissez votre langue · Choose your language · Elija su idioma</p></div>
+   <div class="card lsp">${[['fr', '🇫🇷', 'Français'], ['en', '🇬🇧', 'English'], ['es', '🇪🇸', 'Español']].map(([l, f, n]) => `<button class="btn ${lang === l ? 'acc' : ''}" data-lang="${l}" style="margin:8px 0;font-size:22px">${f} ${n}</button>`).join('')}</div>`;
+}
 function pinScreen(next, entry) {
   setAcc();
   app.innerHTML = topBar() + (entry ? `<div class="hero"><img src="${LOGO}" alt="LA BULL"><h1 style="color:var(--gold)">LA BULL</h1><p class="muted" style="margin:0">${esc(t('appSub'))}</p></div>` : navBar()) +
@@ -503,7 +514,7 @@ function bindHub() {
   if (!$('#hubgo')) return;
   $('#hubgo').onclick = () => go('p');
   $('#hubqr').onclick = () => { const url = baseURL() + '#p'; const f = document.createElement('div'); f.className = 'full';
-    f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#1c5fd1">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
+    f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#1c5fd1">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
     f.querySelector('.x').onclick = () => f.remove(); f.querySelector('[data-here]').onclick = () => { f.remove(); go('p'); }; document.body.appendChild(f); };
 }
 function hostHome() {
@@ -576,7 +587,7 @@ async function showQR(g) {
   const j = await joinURL(g);
   const f = document.createElement('div'); f.className = 'full';
   f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}
-   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)}</p>${kindOf(g) === 'quiz' ? `<p style="margin:0;font-weight:700;color:#1a1008">${teamMode(g) ? '👤 ' + esc(t('tmInd')) + ' · 👥 ' + teamList(g).map(esc).join(' · ') : '👤 ' + esc(t('tmInd'))}</p>` : ''}
+   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)}</p>${kindOf(g) === 'quiz' ? `<p style="margin:0;font-weight:700;color:#1a1008">${teamMode(g) ? '👤 ' + esc(t('tmInd')) + ' · 👥 ' + teamList(g).map(esc).join(' · ') : '👤 ' + esc(t('tmInd'))}</p>` : ''}
    ${j.tooLong ? `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('tooLong'))}</p>` : ''}${qrUsable() ? '' : `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('offline'))}</p>`}
    <div class="qrbtns"><button class="btn" data-here>▶ ${esc(t('iPlay'))}</button><button class="btn acc" data-rk>🏆 ${esc(kindOf(g) === 'poll' ? t('stats') : t('ranking'))}</button></div>
    <div class="qrbtns sm"><button class="btn ghost small" data-sc>📷 ${esc(t('scanAns'))}</button>${kindOf(g) === 'quiz' ? `<button class="btn ghost small" data-tm>👥 ${esc(t('tmEdit'))}${teamMode(g) ? ' (' + teamList(g).length + ')' : ''}</button>` : ''}</div>`;
