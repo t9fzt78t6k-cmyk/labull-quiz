@@ -119,13 +119,13 @@ en: {
   msgRes: (n, ti, p, pos, N) => `LA BULL · ${ti}: well done ${n}, you scored ${p} pts and finished #${pos} of ${N}! Thanks and see you soon at LA BULL.`, msgStop: 'Reply STOP to stop receiving messages.', matches: 'matches', ptsRuleM: 'For each match: right winner (or draw) 3 pts · right margin +2 pts · exact score +5 pts. Right bonus answer: +1 pt. Tie: closest to the exact scores wins. You don\u2019t have to predict every match.', funAdded: 'Bonus questions added', tNumber: 'Number', tYesNo: 'Yes / No', tScore: 'Match score', vs: 'vs',
   scoreHint: 'Tap + / − or type the score', numHint: 'Your guess', bonusTitle: 'Bonus questions to split ties', endL: 'End message (after submitting)', fbT: 'And if you\u2019d like to follow us on Facebook, it\u2019s right here: all our nights, games and surprises first!', fbBtn: 'Follow LA BULL on Facebook', builtIn: 'built in'
 }};
-T.es = {};
-const LANGS = ['fr', 'en', 'es'], LOCS = { fr: 'fr-FR', en: 'en-GB', es: 'es-ES' };
+T.es = {}; T.de = {};
+const LANGS = ['fr', 'en', 'es', 'de'], LOCS = { fr: 'fr-FR', en: 'en-GB', es: 'es-ES', de: 'de-DE' };
 let lang = LS.get('lb_lang', ((navigator.language || 'fr').slice(0, 2) in LOCS) ? (navigator.language || 'fr').slice(0, 2) : 'en');
 if (!LANGS.includes(lang)) lang = 'fr';
 const LOC = () => LOCS[lang] || 'fr-FR';
 const t = k => { const d = T[lang]; return d && d[k] !== undefined ? d[k] : T.en[k] !== undefined ? T.en[k] : T.fr[k]; };
-const L = o => (o && (o[lang] || (lang === 'es' && o.en) || o.fr || o.en)) || '';
+const L = o => (o && (o[lang] || (lang !== 'fr' && o.en) || o.fr || o.en)) || '';
 
 /* ================= DATA ================= */
 let BUILTIN = [];
@@ -270,8 +270,8 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '19 nov. 2026 · 19';
-function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : lang === 'es' ? 'Pantalla de inicio' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : lang === 'es' ? ' ficha(s)' : ' sheet(s)'); }
+const APP_V = '19 nov. 2026 · 20';
+function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : lang === 'es' ? 'Pantalla de inicio' : lang === 'de' ? 'Startbildschirm' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : lang === 'es' ? ' ficha(s)' : lang === 'de' ? ' Bogen/Bögen'.replace('Bogen/', '') : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
   try { history.replaceState(null, '', location.pathname); } catch (e) {}
@@ -434,9 +434,9 @@ function playerDone(g, st) {
 /* ================= HOST ================= */
 function langSplash() {
   setAcc();
-  app.innerHTML = topBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:150px"><h1 style="color:var(--gold);margin-top:10px">Bienvenue · Welcome · Bienvenido</h1>
-   <p class="muted" style="margin:4px 0 0">Choisissez votre langue · Choose your language · Elija su idioma</p></div>
-   <div class="card lsp">${[['fr', '🇫🇷', 'Français'], ['en', '🇬🇧', 'English'], ['es', '🇪🇸', 'Español']].map(([l, f, n]) => `<button class="btn ${lang === l ? 'acc' : ''}" data-lang="${l}" style="margin:8px 0;font-size:22px">${f} ${n}</button>`).join('')}</div>`;
+  app.innerHTML = topBar() + `<div class="hero"><img src="${LOGO}" alt="LA BULL" style="width:150px"><h1 style="color:var(--gold);margin-top:10px">Bienvenue · Welcome · Bienvenido · Willkommen</h1>
+   <p class="muted" style="margin:4px 0 0">Choisissez votre langue · Choose your language · Elija su idioma · Sprache wählen</p></div>
+   <div class="card lsp">${[['fr', '🇫🇷', 'Français'], ['en', '🇬🇧', 'English'], ['es', '🇪🇸', 'Español'], ['de', '🇩🇪', 'Deutsch']].map(([l, f, n]) => `<button class="btn ${lang === l ? 'acc' : ''}" data-lang="${l}" style="margin:8px 0;font-size:22px">${f} ${n}</button>`).join('')}</div>`;
 }
 function pinScreen(next, entry) {
   setAcc();
@@ -514,7 +514,7 @@ function bindHub() {
   if (!$('#hubgo')) return;
   $('#hubgo').onclick = () => go('p');
   $('#hubqr').onclick = () => { const url = baseURL() + '#p'; const f = document.createElement('div'); f.className = 'full';
-    f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#1c5fd1">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
+    f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#1c5fd1">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('hubT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)} · ${esc(T.de.joinTitle)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
     f.querySelector('.x').onclick = () => f.remove(); f.querySelector('[data-here]').onclick = () => { f.remove(); go('p'); }; document.body.appendChild(f); };
 }
 function hostHome() {
@@ -587,7 +587,7 @@ async function showQR(g) {
   const j = await joinURL(g);
   const f = document.createElement('div'); f.className = 'full';
   f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:${esc(g.color || '#1a1008')}">${esc(L(g.title))}</h1>${qrSVG(j.url, j.embedded ? 'L' : 'M')}
-   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)}</p>${kindOf(g) === 'quiz' ? `<p style="margin:0;font-weight:700;color:#1a1008">${teamMode(g) ? '👤 ' + esc(t('tmInd')) + ' · 👥 ' + teamList(g).map(esc).join(' · ') : '👤 ' + esc(t('tmInd'))}</p>` : ''}
+   <p style="font-weight:700;font-size:22px;margin:0">${esc(T.fr.joinTitle)} · ${esc(T.en.joinTitle)} · ${esc(T.es.joinTitle)} · ${esc(T.de.joinTitle)}</p>${kindOf(g) === 'quiz' ? `<p style="margin:0;font-weight:700;color:#1a1008">${teamMode(g) ? '👤 ' + esc(t('tmInd')) + ' · 👥 ' + teamList(g).map(esc).join(' · ') : '👤 ' + esc(t('tmInd'))}</p>` : ''}
    ${j.tooLong ? `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('tooLong'))}</p>` : ''}${qrUsable() ? '' : `<p style="color:#c41c24;font-weight:700;margin:0">⚠️ ${esc(t('offline'))}</p>`}
    <div class="qrbtns"><button class="btn" data-here>▶ ${esc(t('iPlay'))}</button><button class="btn acc" data-rk>🏆 ${esc(kindOf(g) === 'poll' ? t('stats') : t('ranking'))}</button></div>
    <div class="qrbtns sm"><button class="btn ghost small" data-sc>📷 ${esc(t('scanAns'))}</button>${kindOf(g) === 'quiz' ? `<button class="btn ghost small" data-tm>👥 ${esc(t('tmEdit'))}${teamMode(g) ? ' (' + teamList(g).length + ')' : ''}</button>` : ''}</div>`;

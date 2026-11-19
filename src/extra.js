@@ -32,18 +32,18 @@ const FB_URL = 'https://www.facebook.com/labullmeetingpoint/';
 const EVENTS = (() => { try { return JSON.parse($('#events-data').textContent); } catch (e) { return []; } })();
 const upcomingEvents = () => EVENTS.filter(e => e.d >= todayISO()).sort((a, b) => a.d.localeCompare(b.d));
 const MONTHS = { fr: ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'], en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] };
-MONTHS.es = ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sept.', 'oct.', 'nov.', 'dic.'];
+MONTHS.es = ['ene.', 'feb.', 'mar.', 'abr.', 'may.', 'jun.', 'jul.', 'ago.', 'sept.', 'oct.', 'nov.', 'dic.']; MONTHS.de = ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sept.', 'Okt.', 'Nov.', 'Dez.'];
 const DAYS = { fr: ['DIM', 'LUN', 'MAR', 'MER', 'JEU', 'VEN', 'SAM'], en: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] };
-DAYS.es = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+DAYS.es = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB']; DAYS.de = ['SO', 'MO', 'DI', 'MI', 'DO', 'FR', 'SA'];
 function dateTag(iso) { const d = new Date(iso + 'T12:00:00'); return `<span class="dtag"><small>${DAYS[lang][d.getDay()]}</small><b>${d.getDate()}</b><small>${MONTHS[lang][d.getMonth()]}</small></span>`; }
 function evCard(e, mini) {
   return `<div class="evc${mini ? ' mini' : ''}" style="--c:${esc(e.c)}"><div class="evd">${dateTag(e.d)}</div><div class="evimg ${e.img ? 'evi-' + esc(e.img) : 'evi-none'}">${e.img ? '' : `<span>${(e.ch && e.ch[0] && e.ch[0][0]) || '🎉'}</span>`}</div>
-   <div class="evt"><b>${esc(L(e.t))}</b><span>${esc(L(e.h))}</span>${mini ? '' : `<div class="chips">${(e.ch || []).map(c => `<em>${c[0]} ${esc(lang === 'fr' ? c[1] : lang === 'es' ? c[3] || c[2] : c[2])}</em>`).join('')}</div>`}
+   <div class="evt"><b>${esc(L(e.t))}</b><span>${esc(L(e.h))}</span>${mini ? '' : `<div class="chips">${(e.ch || []).map(c => `<em>${c[0]} ${esc(c[{ fr: 1, en: 2, es: 3, de: 4 }[lang] || 2] || c[2])}</em>`).join('')}</div>`}
    <p class="evm">${e.closed ? '🔒 ' + esc(t('closedL')) : (e.tm ? '🕔 ' + esc(L(e.tm)) : '🕔 ' + esc(t('open17'))) + (e.resa ? ` · <u>${esc(t('resa'))}</u>` : '')}</p></div></div>`;
 }
 function progQR() {
   const url = baseURL() + '#prog', f = document.createElement('div'); f.className = 'full';
-  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:50%"><h1 style="color:#8a4a12">📅 ${esc(t('progT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.progScan)} · ${esc(T.en.progScan)} · ${esc(T.es.progScan)}</p>`;
+  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:90px;border-radius:50%"><h1 style="color:#8a4a12">📅 ${esc(t('progT'))}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(T.fr.progScan)} · ${esc(T.en.progScan)} · ${esc(T.es.progScan)} · ${esc(T.de.progScan)}</p>`;
   f.querySelector('.x').onclick = () => f.remove(); document.body.appendChild(f);
 }
 function progHome() {
@@ -210,7 +210,7 @@ function quizList() {
   if (nextGame) teaser = hostCard(nextGame);
   else {
     const ev = EVENTS.find(e => e.d === nThu);
-    const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ, es: QX.es.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon, es: QX.es.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves']] };
+    const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ, es: QX.es.nextQ, de: QX.de.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon, es: QX.es.nextSoon, de: QX.de.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves', 'Donnerstags-Quiz']] };
     teaser = evCard(e, true) + `<p class="qnote">${esc(ev && ev.closed ? qx('closedQ') : ev ? qx('prep') : qx('nextSoon'))}</p>`;
   }
   app.innerHTML = topBar(t('hostSpace')) + navBar() + band('quiz', t('quizzes'), qx('sub')) + `
@@ -236,8 +236,8 @@ function weekQuiz() {
 function nextTeaser(g, nThu) {
   const ng = allGames().find(x => x !== g && kindOf(x) === 'quiz' && x.date && x.date > (g ? g.date : todayISO()) && x.date <= nThu);
   const ev = EVENTS.find(e => e.d === nThu);
-  if (ng) return { game: ng, html: evCard({ d: ng.date, c: ng.color || '#8e24aa', img: ev && !ev.closed ? ev.img : '', t: ng.title, h: ng.sub, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves']] }, true) };
-  const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ, es: QX.es.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon, es: QX.es.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves']] };
+  if (ng) return { game: ng, html: evCard({ d: ng.date, c: ng.color || '#8e24aa', img: ev && !ev.closed ? ev.img : '', t: ng.title, h: ng.sub, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves', 'Donnerstags-Quiz']] }, true) };
+  const e = ev || { d: nThu, c: '#8e24aa', img: '', t: { fr: QX.fr.nextQ, en: QX.en.nextQ, es: QX.es.nextQ, de: QX.de.nextQ }, h: { fr: QX.fr.nextSoon, en: QX.en.nextSoon, es: QX.es.nextSoon, de: QX.de.nextSoon }, ch: [['💡', 'Quiz du jeudi', 'Thursday quiz', 'Quiz del jueves', 'Donnerstags-Quiz']] };
   return { game: null, html: evCard(e, true) + `<p class="qnote">${esc(ev && ev.closed ? qx('closedQ') : ev ? qx('prep') : qx('nextSoon'))}</p>` };
 }
 async function weekQuizURL() { const g = weekQuiz(); if (!g) return baseURL() + '#q'; const j = await joinURL(g); return j.embedded ? baseURL() + '#q' : baseURL() + '#q=' + j.url.split('#j=')[1]; }
@@ -258,7 +258,7 @@ function quizHub(v) {
 }
 async function quizHubQR() {
   const url = await weekQuizURL(), f = document.createElement('div'); f.className = 'full';
-  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#8e24aa">💡 ${esc(QX.fr.hubT)} · ${esc(QX.en.hubT)} · ${esc(QX.es.hubT)}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(QX.fr.scanQ)} · ${esc(QX.en.scanQ)} · ${esc(QX.es.scanQ)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
+  f.innerHTML = `<button class="btn small x">✕</button><img src="${LOGO}" style="width:80px;border-radius:14px"><h1 style="color:#8e24aa">💡 ${esc(QX.fr.hubT)} · ${esc(QX.en.hubT)} · ${esc(QX.es.hubT)} · ${esc(QX.de.hubT)}</h1>${qrSVG(url, 'M')}<p style="font-weight:700;font-size:20px;margin:0">${esc(QX.fr.scanQ)} · ${esc(QX.en.scanQ)} · ${esc(QX.es.scanQ)} · ${esc(QX.de.scanQ)}</p><button class="btn ghost small" data-here style="width:min(88vw,420px)">▶ ${esc(t('openHere'))}</button>`;
   f.querySelector('.x').onclick = () => f.remove(); f.querySelector('[data-here]').onclick = () => { f.remove(); location.hash = url.split('#')[1]; };
   document.body.appendChild(f);
 }
@@ -288,7 +288,7 @@ function cxUnlock(g, st) {
 function cxWhen(u) {
   const now = new Date(), tom = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
   if (u.toDateString() === tom.toDateString()) return t('cxTom');
-  return ({ en: 'on ', es: 'el ' }[lang] || 'le ') + u.toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long' });
+  return ({ en: 'on ', es: 'el ', de: 'am ' }[lang] || 'le ') + u.toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long' });
 }
 function cxBlock(g, st) {
   if (!cxKey(g)) return '';

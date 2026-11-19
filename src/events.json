@@ -6,27 +6,32 @@
   "t": {
    "fr": "Jazz & Asia Night · Mike de Sax",
    "en": "Jazz & Asia Night · Mike de Sax",
-   "es": "Jazz & Asia Night · Mike de Sax"
+   "es": "Jazz & Asia Night · Mike de Sax",
+   "de": "Jazz & Asia Night · Mike de Sax"
   },
   "h": {
    "fr": "Concert jazz & spécialités asiatiques",
    "en": "Jazz concert & Asian food specialities",
-   "es": "Concierto de jazz y especialidades asiáticas"
+   "es": "Concierto de jazz y especialidades asiáticas",
+   "de": "Jazzkonzert & asiatische Spezialitäten"
   },
   "tm": {
    "fr": "Dès 19h",
    "en": "From 7 pm",
-   "es": "Desde las 19:00"
+   "es": "Desde las 19:00",
+   "de": "Ab 19 Uhr"
   },
   "ch": [
    [
     "🎷",
     "Concert jazz",
     "Live jazz",
-    "Jazz en directo"
+    "Jazz en directo",
+    "Live-Jazz"
    ],
    [
     "🍜",
+    "Asia Food Truck",
     "Asia Food Truck",
     "Asia Food Truck",
     "Asia Food Truck"
@@ -42,19 +47,22 @@
   "t": {
    "fr": "Fermeture exceptionnelle",
    "en": "Exceptionally closed",
-   "es": "Cierre excepcional"
+   "es": "Cierre excepcional",
+   "de": "Ausnahmsweise geschlossen"
   },
   "h": {
    "fr": "LA BULL est fermée ce lundi. On se retrouve jeudi 5 novembre pour la Stout Night !",
    "en": "LA BULL is closed this Monday. See you on Thursday 5 November for Stout Night!",
-   "es": "LA BULL cierra este lunes. ¡Nos vemos el jueves 5 de noviembre en la Stout Night!"
+   "es": "LA BULL cierra este lunes. ¡Nos vemos el jueves 5 de noviembre en la Stout Night!",
+   "de": "LA BULL ist an diesem Montag geschlossen. Wir sehen uns am Donnerstag, 5. November, zur Stout Night!"
   },
   "ch": [
    [
     "🔒",
     "Fermé",
     "Closed",
-    "Cerrado"
+    "Cerrado",
+    "Geschlossen"
    ]
   ]
  },
@@ -65,22 +73,26 @@
   "t": {
    "fr": "Stout Night",
    "en": "Stout Night",
-   "es": "Stout Night"
+   "es": "Stout Night",
+   "de": "Stout Night"
   },
   "h": {
    "fr": "Spéciale Guinness & Pub Quiz",
    "en": "Guinness special & Pub Quiz",
-   "es": "Especial Guinness y Pub Quiz"
+   "es": "Especial Guinness y Pub Quiz",
+   "de": "Guinness-Special & Pub-Quiz"
   },
   "ch": [
    [
     "💡",
     "Pub Quiz",
     "Pub Quiz",
-    "Pub Quiz"
+    "Pub Quiz",
+    "Pub-Quiz"
    ],
    [
     "🍕",
+    "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas"
@@ -94,27 +106,32 @@
   "t": {
    "fr": "Flo's Bloke and the Machine",
    "en": "Flo's Bloke and the Machine",
-   "es": "Flo's Bloke and the Machine"
+   "es": "Flo's Bloke and the Machine",
+   "de": "Flo's Bloke and the Machine"
   },
   "h": {
    "fr": "Vos chansons préférées des années 60 & 70",
    "en": "Your favourite songs from the 60s & 70s",
-   "es": "Sus canciones favoritas de los años 60 y 70"
+   "es": "Sus canciones favoritas de los años 60 y 70",
+   "de": "Ihre Lieblingssongs aus den 60ern & 70ern"
   },
   "tm": {
    "fr": "Dès 17h",
    "en": "From 5 pm",
-   "es": "Desde las 17:00"
+   "es": "Desde las 17:00",
+   "de": "Ab 17 Uhr"
   },
   "ch": [
    [
     "🎸",
     "Soirée musicale",
     "Music night",
-    "Noche musical"
+    "Noche musical",
+    "Musikabend"
    ],
    [
     "🍕",
+    "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas"
@@ -128,22 +145,26 @@
   "t": {
    "fr": "Quiz du jeudi",
    "en": "Thursday Quiz",
-   "es": "Quiz del jueves"
+   "es": "Quiz del jueves",
+   "de": "Donnerstags-Quiz"
   },
   "h": {
    "fr": "Spécial veille de vendredi 13 : superstitions & porte-bonheur",
    "en": "Friday the 13th Eve: superstitions & lucky charms",
-   "es": "Especial víspera del viernes 13: supersticiones y amuletos"
+   "es": "Especial víspera del viernes 13: supersticiones y amuletos",
+   "de": "Spezial am Vorabend von Freitag, dem 13.: Aberglaube & Glücksbringer"
   },
   "ch": [
    [
     "💡",
     "Quiz du jeudi",
     "Thursday quiz",
-    "Quiz del jueves"
+    "Quiz del jueves",
+    "Donnerstags-Quiz"
    ],
    [
     "🍕",
+    "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas"
@@ -157,27 +178,32 @@
   "t": {
    "fr": "Carpe Diem 24",
    "en": "Carpe Diem 24",
-   "es": "Carpe Diem 24"
+   "es": "Carpe Diem 24",
+   "de": "Carpe Diem 24"
   },
   "h": {
    "fr": "Concert : reprises françaises & internationales",
    "en": "Live: French & international covers",
-   "es": "Concierto: versiones francesas e internacionales"
+   "es": "Concierto: versiones francesas e internacionales",
+   "de": "Konzert: französische & internationale Coversongs"
   },
   "tm": {
    "fr": "Dès 20h",
    "en": "From 8 pm",
-   "es": "Desde las 20:00"
+   "es": "Desde las 20:00",
+   "de": "Ab 20 Uhr"
   },
   "ch": [
    [
     "🎤",
     "Concert",
     "Live music",
-    "Concierto"
+    "Concierto",
+    "Livemusik"
    ],
    [
     "🍕",
+    "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas"
@@ -192,31 +218,36 @@
   "t": {
    "fr": "Beaujolais Nouveau",
    "en": "Beaujolais Nouveau",
-   "es": "Beaujolais Nouveau"
+   "es": "Beaujolais Nouveau",
+   "de": "Beaujolais Nouveau"
   },
   "h": {
    "fr": "Venez le goûter avec nous !",
    "en": "Come and taste it with us!",
-   "es": "¡Vengan a probarlo con nosotros!"
+   "es": "¡Vengan a probarlo con nosotros!",
+   "de": "Probieren Sie ihn mit uns!"
   },
   "ch": [
    [
     "🍷",
     "Dégustation",
     "Tasting",
-    "Degustación"
+    "Degustación",
+    "Verkostung"
    ],
    [
     "🍕",
     "Planches & Bull'izzas",
     "Boards & Bull'izzas",
-    "Tablas y Bull'izzas"
+    "Tablas y Bull'izzas",
+    "Platten & Bull'izzas"
    ],
    [
     "💡",
     "Quiz du jeudi",
     "Thursday quiz",
-    "Quiz del jueves"
+    "Quiz del jueves",
+    "Donnerstags-Quiz"
    ]
   ]
  },
@@ -227,30 +258,35 @@
   "t": {
    "fr": "L'Auberge Espagnole",
    "en": "Bring & Share Lunch",
-   "es": "L'Auberge Espagnole · Comida compartida"
+   "es": "L'Auberge Espagnole · Comida compartida",
+   "de": "L'Auberge Espagnole · Mitbring-Buffet"
   },
   "h": {
    "fr": "Apportez un plat, partagez vos saveurs !",
    "en": "Bring a dish, share your flavours!",
-   "es": "¡Traigan un plato y compartan sus sabores!"
+   "es": "¡Traigan un plato y compartan sus sabores!",
+   "de": "Bringen Sie ein Gericht mit und teilen Sie Ihre Lieblingsaromen!"
   },
   "tm": {
    "fr": "11h – 15h",
    "en": "11 am – 3 pm",
-   "es": "11:00 – 15:00"
+   "es": "11:00 – 15:00",
+   "de": "11–15 Uhr"
   },
   "ch": [
    [
     "🤝",
     "Repas partagé",
     "Bring & share lunch",
-    "Comida compartida"
+    "Comida compartida",
+    "Mitbring-Buffet"
    ],
    [
     "🥘",
     "Votre plat",
     "Your dish",
-    "Su plato"
+    "Su plato",
+    "Ihr Gericht"
    ]
   ]
  },
@@ -261,30 +297,35 @@
   "t": {
    "fr": "Les Quatre'Elles",
    "en": "Les Quatre'Elles",
-   "es": "Les Quatre'Elles"
+   "es": "Les Quatre'Elles",
+   "de": "Les Quatre'Elles"
   },
   "h": {
    "fr": "Des voix, du style, de la bonne humeur !",
    "en": "Voices, style and good vibes!",
-   "es": "¡Voces, estilo y muy buen ambiente!"
+   "es": "¡Voces, estilo y muy buen ambiente!",
+   "de": "Stimmen, Stil und jede Menge gute Laune!"
   },
   "tm": {
    "fr": "Dès 19h",
    "en": "From 7 pm",
-   "es": "Desde las 19:00"
+   "es": "Desde las 19:00",
+   "de": "Ab 19 Uhr"
   },
   "ch": [
    [
     "🎤",
     "Jazz vocal & swing",
     "Vocal jazz & swing",
-    "Jazz vocal y swing"
+    "Jazz vocal y swing",
+    "Vocal Jazz & Swing"
    ],
    [
     "🍔",
     "Burgers & hot-dogs · Los Amigos",
     "Burgers & hot dogs · Los Amigos",
-    "Hamburguesas y perritos · Los Amigos"
+    "Hamburguesas y perritos · Los Amigos",
+    "Burger & Hotdogs · Los Amigos"
    ]
   ]
  },
@@ -295,27 +336,32 @@
   "t": {
    "fr": "The Songsmiths · Katie Sebring",
    "en": "The Songsmiths · Katie Sebring",
-   "es": "The Songsmiths · Katie Sebring"
+   "es": "The Songsmiths · Katie Sebring",
+   "de": "The Songsmiths · Katie Sebring"
   },
   "h": {
    "fr": "Concert live au coin du bar",
    "en": "Live concert at the bar",
-   "es": "Concierto en directo junto a la barra"
+   "es": "Concierto en directo junto a la barra",
+   "de": "Livekonzert direkt an der Bar"
   },
   "tm": {
    "fr": "Ouverture 17h",
    "en": "Doors 5 pm",
-   "es": "Apertura a las 17:00"
+   "es": "Apertura a las 17:00",
+   "de": "Einlass 17 Uhr"
   },
   "ch": [
    [
     "🎸",
     "Concert",
     "Live music",
-    "Concierto"
+    "Concierto",
+    "Livemusik"
    ],
    [
     "🍕",
+    "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas",
     "Bull'izzas"
