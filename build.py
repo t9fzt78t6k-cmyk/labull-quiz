@@ -12,6 +12,8 @@ for k, v in {'__HBG__': 'hbg', '__LAMP__': 'lamp', '__DART__': 'dart', '__T_NOW_
 tpl = head + '\n</head>\n<body>\n<div id="app"></div>\n<div class="copy" id="copy"></div>\n<div id="print"></div>\n<script id="games-data" type="application/json">__GAMES__</script>\n<script id="events-data" type="application/json">__EVENTS__</script>\n<script>__QRLIB__</script>\n<script>__JSQR__</script>\n<script>\n' + m + '</script>\n</body>\n</html>\n'
 s = tpl.replace('__GAMES__', json.dumps(games, ensure_ascii=False).replace('<', '\\u003c')).replace('__EVENTS__', json.dumps(json.load(open(d + 'events.json')), ensure_ascii=False).replace('<', '\\u003c')).replace('__QRLIB__', open(d + 'qrlib.js').read()).replace('__JSQR__', open(d + 'jsqr.js').read()).replace('__LOGO__', open(d + 'logo.b64').read())
 root = os.path.dirname(os.path.abspath(__file__))
-open(root + '/index.html', 'w').write(s.replace("'__ROLE__'", "'player'", 1))
-open(root + '/animateur.html', 'w').write(s.replace("'__ROLE__'", "'host'", 1).replace('<title>LA BULL Quiz</title>', '<title>LA BULL Animateur</title>', 1).replace('icon-quiz', 'icon-animateur').replace('manifest-quiz', 'manifest-animateur').replace('content="LA BULL Quiz"', 'content="LA BULL Animateur"', 1))
+import base64
+ti = lambda n: 'data:image/png;base64,' + base64.b64encode(open(root + '/icon-' + n + '.png', 'rb').read()).decode()
+open(root + '/index.html', 'w').write(s.replace("'__ROLE__'", "'player'", 1).replace('__TOUCH_ICON__', ti('quiz'), 1))
+open(root + '/animateur.html', 'w').write(s.replace("'__ROLE__'", "'host'", 1).replace('__TOUCH_ICON__', ti('animateur'), 1).replace('<title>LA BULL Quiz</title>', '<title>LA BULL Animateur</title>', 1).replace('icon-quiz', 'icon-animateur').replace('manifest-quiz', 'manifest-animateur').replace('content="LA BULL Quiz"', 'content="LA BULL Animateur"', 1))
 print('index.html + animateur.html rebuilt,', len(s), 'bytes')
