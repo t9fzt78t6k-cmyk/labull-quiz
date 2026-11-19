@@ -314,10 +314,12 @@ function playerThanks(g, st) {
   app.innerHTML = topBar(st.team || (st.c && st.c.n) || 'LA BULL') + `<div class="thx"><i class="thx-c">🎉</i><h1>${esc(t('thxT'))}</h1>${st.team ? `<p class="thx-team">${esc(st.team)}</p>` : ''}${cx ? '' : `<p class="thx-s">${esc(t('thxS'))}</p>`}<p class="thx-g">${esc(L(g.title))}</p></div>${cx}
    ${kindOf(g) === 'quiz' ? `<div class="card center"><p style="margin:0;font-weight:800;font-size:18px">${esc(t('cxMore'))}</p><p class="muted" style="margin:4px 0 0">${esc(t('cxMoreS'))}</p></div>` : ''}
    <p class="sec">${esc(t('thxNext'))}</p><div class="qnext">${tz.html}</div><p class="qnote center" style="font-size:16px">${esc(t('thxTease'))}</p>
-   <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:14px">👍 ${esc(t('fbFollow'))}</a>
+   <button class="btn" id="thp" style="margin-top:14px">${esc(t('progAll'))}</button>
+   <a class="btn fb" href="${FB_URL}" target="_blank" rel="noopener" style="margin-top:10px">👍 ${esc(t('fbFollow'))}</a>
    <p class="muted center" style="font-size:13px;margin-top:16px">${esc(t('thxHelp'))}</p><button class="btn ghost small" id="thh" style="width:100%;margin-top:6px;opacity:.6">${esc(t('thxHost'))}</button>`;
   if (!st.thxSeen) { confetti(); st.thxSeen = true; LS.set(pkey(g), st); }
   if ($('#cxo')) $('#cxo').onclick = () => playerCorrection(g, st);
+  $('#thp').onclick = () => go('prog');
   $('#thh').onclick = () => modal(`<h3 class="center">${esc(t('thxHost'))}</h3><p class="muted center" style="margin:0 0 10px">${esc(t('thxHostQ'))}</p><input class="in big-in" id="tp" type="password" inputmode="numeric" maxlength="8" placeholder="••••">
      <div class="row" style="margin-top:12px"><button class="btn ghost small" data-x>${esc(t('no'))}</button><button class="btn small" data-y>${esc(t('enter'))}</button></div>`, mm => {
     mm.querySelector('[data-x]').onclick = () => mm.remove();

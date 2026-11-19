@@ -261,13 +261,18 @@ async function route() {
   if (isHost()) importLocalPlays();
   $('#copy').innerHTML = `<i class="stad"></i><i class="fb1"></i><i class="golf"></i><a class="tel" href="tel:+33768117987">📞 07 68 11 79 87</a><p class="cr">${esc(t('copy'))}</p><p class="cr2">SIRET : 990 143 810 00010 · ${esc(t('alcohol'))}</p><p class="cr2" style="opacity:.6">v. ${APP_V} · ${esc(whereAmI())}</p>`; document.documentElement.lang = lang;
   let h = location.hash.slice(1); const tm = h.match(/!([0-9a-z]+\.[0-9a-z]+)$/);
-  if (tm) { h = h.slice(0, tm.index); const ex = tokExp(tm[1]); if (ex && ROLE === 'player') LS.set('lb_pass', ex); }
+  let fresh = false;
+  if (tm) { h = h.slice(0, tm.index); const ex = tokExp(tm[1]); if (ex && ROLE === 'player') { LS.set('lb_pass', ex); fresh = true; } try { history.replaceState(null, '', location.pathname + (h ? '#' + h : '')); } catch (e) {} }
   const [k, ...rest] = h.split('='); const v = rest.join('=');
   if (ROLE === 'player') {
+    /* Partie validée (quiz, sondage, pronostic) : plus que la fin de partie et le programme, jusqu'au prochain QR de l'animateur. */
+    if (fresh) LS.del('lb_end');
+    const end = LS.get('lb_end', null);
+    if (end && k !== 'prog' && h !== end) { try { history.replaceState(null, '', location.pathname + '#' + end); } catch (e) {} return route(); }
     if (k === 'r' && v) { location.replace(hostBase() + '#r=' + v); return; }
     if (!LS.get('lb_lang_ok', false)) return langSplash();
     try {
-      if (k === 'j' && v) { const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
+      if (k === 'j' && v) { window._jv = v; const g = await gameFromHash(v); return g ? playerStart(g) : notFound(); }
       if (k === 'q') return quizHub(v);
       if (k === 'p') return hasPass() ? pronoHub() : atBarScreen();
       if (k === 'prog') return programPage();
@@ -294,7 +299,7 @@ window.addEventListener('hashchange', route);
 const go = h => { if (location.hash.slice(1) === h) route(); else location.hash = h; };
 function notFound() { setAcc(); app.innerHTML = topBar() + backBar() + `<div class="card center"><h2>${esc(t('notFound'))}</h2><p class="muted">${esc(t('notFoundT'))}</p></div>`; }
 
-const APP_V = '19 nov. 2026 · 21';
+const APP_V = '19 nov. 2026 · 22';
 function whereAmI() { const u = navigator.userAgent || ''; const b = /FxiOS|Firefox/.test(u) ? 'Firefox' : /CriOS|Chrome/.test(u) && !/Edg/.test(u) ? 'Chrome' : /EdgiOS|Edg/.test(u) ? 'Edge' : /Safari/.test(u) ? 'Safari' : 'Navigateur'; const sa = navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches); let n = 0; try { Object.keys(localStorage).forEach(k => { if (k.startsWith('lb_res_')) { try { n += Object.keys(JSON.parse(localStorage.getItem(k)) || {}).length; } catch (e) {} } }); } catch (e) {} return (sa ? (lang === 'fr' ? 'Écran d\u2019accueil' : lang === 'es' ? 'Pantalla de inicio' : lang === 'de' ? 'Startbildschirm' : 'Home screen') : b) + ' · ' + n + (lang === 'fr' ? ' fiche(s)' : lang === 'es' ? ' ficha(s)' : lang === 'de' ? ' Bogen/Bögen'.replace('Bogen/', '') : ' sheet(s)'); }
 function cleanPhone(confirmed) {
   setAcc(); const host = isHost();
@@ -340,6 +345,7 @@ function playerStart(g) {
   setAcc(g.color);
   let st = LS.get(pkey(g), null);
   if (st && st.done && isHost()) { saveLocalPlay(g, st); LS.del(pkey(g)); st = null; }
+  if (st && st.done && ROLE === 'player') LS.set('lb_end', 'j=' + (window._jv || encodeURIComponent(g.id)));
   if (st && st.closed && !isHost()) return playerThanks(g, st);
   if (st && st.done) return playerDone(g, st);
   if (st && st.started) return playerQ(g, st);
@@ -422,7 +428,7 @@ function playerRecap(g, st) {
   $('#val').onclick = () => {
     const sq = isProno(g) ? scoreQs(g) : [];
     if (sq.length && !sq.some(([, i]) => answered(st.a[i]))) { toast(t('needScore'), false); st.i = sq[0][1]; LS.set(pkey(g), st); return playerQ(g, st); }
-    confirmBox(t('confirmV'), t('confirmVt'), t('yes'), () => { st.done = true; st.ts = Date.now(); LS.set(pkey(g), st); playerDone(g, st); });
+    confirmBox(t('confirmV'), t('confirmVt'), t('yes'), () => { if (ROLE === 'player') LS.set('lb_end', 'j=' + (window._jv || encodeURIComponent(g.id))); st.done = true; st.ts = Date.now(); LS.set(pkey(g), st); playerDone(g, st); });
   };
   window.scrollTo(0, 0);
 }
@@ -447,7 +453,7 @@ function playerDone(g, st) {
   app.innerHTML = topBar(st.team || t('anonymous')) + (here ? backBar() : '') + `<div class="center"><p style="color:var(--ok);font-weight:700;margin-top:4px">${esc(t('locked'))}</p>
    <h1 style="font-size:30px">${esc(t('showQR'))}</h1><div class="qrbox">${qrSVG(url, 'M')}</div>${here ? '' : `<button class="btn ok-big" id="saved">✅ ${esc(t('resSaved'))}</button><p class="muted" style="font-size:13px;margin:6px 0 0">${esc(t('resSavedT'))}</p>`}${here ? `<div class="card center" style="box-shadow:inset 0 0 0 3px var(--ok)"><p style="margin:0;font-weight:700">✅ ${esc(t('savedHere'))}</p><button class="btn" id="np" style="margin-top:8px">👤 ${esc(t('nextPlayer'))}</button><button class="btn ghost small" id="bkh" style="width:100%;margin-top:8px">🏠 ${esc(t('hostSpace'))}</button></div>` : ''}${timed(g) ? '' : `<button class="btn ghost small" id="fix" style="width:100%;margin-top:18px">✏️ ${esc(t('fixAns'))}</button><p class="muted" style="font-size:12px;margin:4px 0 0">${esc(t('fixT'))}</p>`}
    ${st.team ? `<h2 style="margin-top:14px;color:var(--cream);text-transform:none;font-family:var(--body);font-weight:700;font-size:24px">${esc(st.team)}</h2>` : ''}
-   <p class="muted">${esc(L(g.title))}</p>${isProno(g) && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
+   <p class="muted">${esc(L(g.title))}</p>${isProno(g) && ROLE === 'host' && (getMe() || lastMe) ? `<button class="btn" id="oth" style="margin:10px 0">${SPORT_ICON.foot}${SPORT_ICON.rugby} ${esc(t('otherPronos'))}</button>` : ''}<div class="card"><p class="chalk" style="font-size:27px;line-height:1.15;margin:0">${poll ? '🙏 ' + esc(L(g.end) || t('pollThanks')) : isProno(g) ? '🏆 ' + esc(L(g.end) || t('pronoDone')) : '🎁 ' + esc(t('results'))}</p></div>
    ${poll && g.fb && (st.a[g.fb.q] == null || g.fb.show.includes(st.a[g.fb.q])) ? `<div class="card"><p style="font-weight:700;margin-top:0;font-size:17px">${esc(t('fbT'))}</p><a class="btn fb" href="${esc(g.fb.url)}" target="_blank" rel="noopener">👍 ${esc(t('fbBtn'))}</a></div>` : ''}</div>${progTeaser()}`;
   if ($('#fix')) $('#fix').onclick = () => confirmBox(t('fixAns'), t('fixT'), t('fixYes'), () => { st.done = false; st.i = g.questions.length; LS.set(pkey(g), st); playerRecap(g, st); });
   if ($('#saved')) $('#saved').onclick = () => confirmBox(t('resSavedQ'), t('resSavedQt'), t('resSavedY'), () => { st.closed = true; st.closedAt = Date.now(); LS.set(pkey(g), st); lockPhone(); playerThanks(g, st); });
