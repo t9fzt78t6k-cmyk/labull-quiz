@@ -245,7 +245,7 @@ function quizHub(v) {
   const st = g && LS.get('lb_play_' + g.id, null), done = st && st.done;
   const tz = nextTeaser(g, nThu);
   app.innerHTML = topBar(qx('hubT')) + backBar() + band('quiz', qx('hubT'), qx('hubS')) +
-    (g ? `<div class="ncard" style="--c:${esc(g.color || '#8e24aa')}"><div class="hc-h"><span class="hc-ic"><i class="ic-quiz"></i></span><div class="hc-t"><small>${esc(fmtDate(g.date))}</small><b>${esc(gTitle(g))}</b><span>${esc(L(g.sub))}</span></div></div>
+    (g ? `<div class="ncard" style="--c:${esc(g.color || '#8e24aa')}"><div class="hc-h"><span class="hc-ic"><i class="ic-quiz"></i></span><div class="hc-t"><small>${esc(fmtDate(g.date))}</small><b>${esc(gTitle(g))}</b><span>${esc(L(g.sub))}</span></div></div>${g.prize ? `<p class="prize">${esc(L(g.prize))}</p>` : ''}
       ${open ? `<button class="btn ${done ? 'ghost' : 'acc'}" id="qplay" style="margin-top:14px;font-size:20px">${esc(done ? qx('played') : qx('play'))}</button>` : `<p class="qnote center" style="font-size:17px">${esc(qx('soon')(fmtDate(g.date)))}</p>`}</div>`
       : `<div class="card center"><p class="chalk" style="font-size:24px;margin:0">${esc(qx('noneNow'))}</p></div>`) +
     `<p class="sec">${esc(qx('nextAnn'))}</p><div class="qnext">${tz.html}</div>
