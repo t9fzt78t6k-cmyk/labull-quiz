@@ -1,0 +1,21 @@
+{
+ "name": "LA BULL · Animateur",
+ "short_name": "Animateur",
+ "start_url": "./animateur.html",
+ "scope": "./",
+ "display": "browser",
+ "background_color": "#1a0f08",
+ "theme_color": "#7a1015",
+ "icons": [
+  {
+   "src": "icon-animateur-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icon-animateur-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ]
+}

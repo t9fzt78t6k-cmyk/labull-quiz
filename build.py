@@ -13,5 +13,5 @@ tpl = head + '\n</head>\n<body>\n<div id="app"></div>\n<div class="copy" id="cop
 s = tpl.replace('__GAMES__', json.dumps(games, ensure_ascii=False).replace('<', '\\u003c')).replace('__EVENTS__', json.dumps(json.load(open(d + 'events.json')), ensure_ascii=False).replace('<', '\\u003c')).replace('__QRLIB__', open(d + 'qrlib.js').read()).replace('__JSQR__', open(d + 'jsqr.js').read()).replace('__LOGO__', open(d + 'logo.b64').read())
 root = os.path.dirname(os.path.abspath(__file__))
 open(root + '/index.html', 'w').write(s.replace("'__ROLE__'", "'player'", 1))
-open(root + '/animateur.html', 'w').write(s.replace("'__ROLE__'", "'host'", 1).replace('<title>LA BULL · Quiz & Sondages</title>', '<title>LA BULL · Animateur</title>', 1))
+open(root + '/animateur.html', 'w').write(s.replace("'__ROLE__'", "'host'", 1).replace('<title>LA BULL · Quiz & Sondages</title>', '<title>LA BULL · Animateur</title>', 1).replace('icon-quiz', 'icon-animateur').replace('manifest-quiz', 'manifest-animateur').replace('content="LA BULL Quiz"', 'content="Animateur"', 1))
 print('index.html + animateur.html rebuilt,', len(s), 'bytes')
