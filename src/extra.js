@@ -278,12 +278,12 @@ Object.assign(T.fr, { cxScore: 'Votre score', cxScoreS: 'Le classement sera anno
 Object.assign(T.en, { cxScore: 'Your score', cxScoreS: 'The ranking will be announced at the bar… stay tuned!', cxOpen: '📖 See the answers', cxLock: d => `🔒 The full answer sheet (questions, right answers and your mistakes) will be available ${d} from 9 am, right here on this page.`, cxBack: 'Just reopen the quiz link (or scan its QR code again).', cxT: 'The answers', cxYou: 'Your answer', cxGood: 'Right answer', cxNone: 'No answer', cxRet: '← Back', cxMore: '🎲 Fancy another quiz?', cxMoreS: 'Ask the quiz master: there are plenty more questions up their sleeve!', cxTom: 'tomorrow' });
 const cxKey = g => kindOf(g) === 'quiz' && g.questions.length && g.questions.every(q => Number.isInteger(q.a));
 const cxScoreOf = (g, st) => g.questions.reduce((s, q, i) => s + (st.a && st.a[i] === q.a ? 1 : 0), 0);
-/* Quiz du jeudi : jouable du jeudi au lundi soir ; score et correction dévoilés pour tous le lundi suivant à 19 h. */
+/* Quiz du jeudi : jouable du jeudi au lundi 20 h ; chacun voit son score, mais la correction et le classement sont dévoilés pour tous le lundi suivant à 20 h. */
 function revealAt(g) {
   if (!g || kindOf(g) !== 'quiz') return null;
   if (g.reveal) return new Date(g.reveal);
   if (!g.date) return null;
-  const [y, m, d] = g.date.split('-').map(Number), x = new Date(y, m - 1, d, 19, 0, 0);
+  const [y, m, d] = g.date.split('-').map(Number), x = new Date(y, m - 1, d, 20, 0, 0);
   do x.setDate(x.getDate() + 1); while (x.getDay() !== 1);
   return x;
 }
@@ -302,9 +302,9 @@ function cxWhen(u) {
 function cxBlock(g, st) {
   if (!cxKey(g)) return '';
   const sc = cxScoreOf(g, st), n = g.questions.length, u = cxUnlock(g, st), open = Date.now() >= u.getTime();
-  if (!open) return `<div class="card center cx-sc"><p style="margin:0;font-weight:700;font-size:17px;line-height:1.45">${esc(t('cxWait')(cxWhen(u), u.toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' })))}</p><p class="muted" style="margin:8px 0 0;font-size:14px">${esc(t('cxBack'))}</p></div>`;
-  return `<div class="card center cx-sc"><p class="cx-l">${esc(t('cxScore'))}</p><p class="cx-n"><b>${sc}</b> / ${n}</p><p class="muted" style="margin:4px 0 0">${esc(t('cxScoreS'))}</p></div>`
-    + `<button class="btn acc" id="cxo" style="width:100%;margin-top:6px">${esc(t('cxOpen'))}</button>`;
+  return `<div class="card center cx-sc"><p class="cx-l">${esc(t('cxScore'))}</p><p class="cx-n"><b>${sc}</b> / ${n}</p>${open ? `<p class="muted" style="margin:4px 0 0">${esc(t('cxScoreS'))}</p>` : ''}</div>`
+    + (open ? `<button class="btn acc" id="cxo" style="width:100%;margin-top:6px">${esc(t('cxOpen'))}</button>`
+      : `<div class="card"><p style="margin:0;font-weight:700;line-height:1.45">${esc(t('cxWait2')(cxWhen(u), u.toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' })))}</p><p class="muted" style="margin:6px 0 0;font-size:14px">${esc(t('cxBack'))}</p></div>`);
 }
 function playerCorrection(g, st) {
   if (!cxKey(g) || Date.now() < cxUnlock(g, st).getTime()) return playerThanks(g, st);
@@ -392,3 +392,7 @@ function quizOverScreen() {
    <button class="btn" id="abg" style="margin-top:12px">${esc(t('phProg'))}</button><button class="btn ghost" id="abh" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
   $('#abg').onclick = () => go('prog'); $('#abh').onclick = () => go('');
 }
+Object.assign(T.fr, { cxWait2: (d, h) => `🔒 La correction complète sera dévoilée ${d} à partir de ${h}, pour tout le monde en même temps, et le vainqueur sera annoncé par LA BULL. D’ici là, le quiz reste ouvert tout le week-end à LA BULL : faites jouer vos amis !` });
+Object.assign(T.en, { cxWait2: (d, h) => `🔒 The full answer sheet will be revealed ${d} from ${h}, for everyone at the same time, and LA BULL will announce the winner. Until then the quiz stays open all weekend at LA BULL: get your friends to play!` });
+Object.assign(T.es, { cxWait2: (d, h) => `🔒 Las soluciones completas se revelarán ${d} a partir de las ${h}, para todos a la vez, y LA BULL anunciará al ganador. Mientras tanto, el quiz sigue abierto todo el fin de semana en LA BULL: ¡anime a sus amigos a jugar!` });
+Object.assign(T.de, { cxWait2: (d, h) => `🔒 Die vollständige Auflösung wird ${d} ab ${h} Uhr für alle gleichzeitig enthüllt, und LA BULL gibt den Sieger bekannt. Bis dahin bleibt das Quiz das ganze Wochenende im LA BULL offen: Lassen Sie Ihre Freunde mitspielen!` });
