@@ -330,9 +330,48 @@
   ]
  },
  {
+  "d": "2026-12-07",
+  "c": "#c8701e",
+  "img": "rob",
+  "t": {
+   "fr": "Rob Russell",
+   "en": "Rob Russell",
+   "es": "Rob Russell",
+   "de": "Rob Russell"
+  },
+  "h": {
+   "fr": "En concert à LA BULL",
+   "en": "Live music at LA BULL",
+   "es": "En concierto en LA BULL",
+   "de": "Live in Concert im LA BULL"
+  },
+  "tm": {
+   "fr": "Ouverture 17h · concert 19h",
+   "en": "Doors 5 pm · live 7 pm",
+   "es": "Apertura 17:00 · concierto 19:00",
+   "de": "Einlass 17 Uhr · Konzert 19 Uhr"
+  },
+  "ch": [
+   [
+    "🎸",
+    "Concert",
+    "Live music",
+    "Concierto",
+    "Livemusik"
+   ],
+   [
+    "🍕",
+    "Bull'izzas",
+    "Bull'izzas",
+    "Bull'izzas",
+    "Bull'izzas"
+   ]
+  ]
+ },
+ {
   "d": "2026-12-18",
   "c": "#1c8cff",
-  "img": "",
+  "img": "song",
   "t": {
    "fr": "The Songsmiths · Katie Sebring",
    "en": "The Songsmiths · Katie Sebring",
@@ -340,10 +379,10 @@
    "de": "The Songsmiths · Katie Sebring"
   },
   "h": {
-   "fr": "Concert live au coin du bar",
-   "en": "Live concert at the bar",
-   "es": "Concierto en directo junto a la barra",
-   "de": "Livekonzert direkt an der Bar"
+   "fr": "Concert avec la participation spéciale de Katie Sebring : venez partager cette soirée avec nous !",
+   "en": "Live music with special guest Katie Sebring: come and enjoy this night with us!",
+   "es": "Concierto con la participación especial de Katie Sebring: ¡venga a compartir esta noche con nosotros!",
+   "de": "Livekonzert mit Special Guest Katie Sebring: Feiern Sie diesen Abend mit uns!"
   },
   "tm": {
    "fr": "Ouverture 17h",
