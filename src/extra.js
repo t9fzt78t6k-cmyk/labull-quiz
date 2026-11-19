@@ -227,8 +227,8 @@ function quizList() {
 Object.assign(QX.fr, { hubT: 'Quiz du jeudi', hubS: 'Le quiz de ce soir et celui de la semaine prochaine', play: '▶ Jouer au quiz', played: '✅ Déjà joué · voir mon QR', soon: d => `Rendez-vous ${d} pour jouer !`, noneNow: 'Pas de quiz ce soir… mais restez dans le coin !', nextAnn: '🔮 Jeudi prochain', prog: '📅 Tout le programme de LA BULL', qrCard: 'QR à flasher', qrCardS: 'Les joueurs arrivent sur le quiz du soir + l’annonce de jeudi prochain', scanQ: 'Scannez pour jouer !' });
 Object.assign(QX.en, { hubT: 'Thursday Quiz', hubS: 'Tonight’s quiz and next week’s', play: '▶ Play the quiz', played: '✅ Already played · see my QR', soon: d => `See you ${d} to play!`, noneNow: 'No quiz tonight… but stick around!', nextAnn: '🔮 Next Thursday', prog: '📅 Everything on at LA BULL', qrCard: 'QR to show', qrCardS: 'Players land on tonight’s quiz + next Thursday’s teaser', scanQ: 'Scan to play!' });
 function weekQuiz() {
-  const h = new Date().getHours(), from = h < 6 ? isoAdd(todayISO(), -1) : todayISO();
-  return allGames().filter(g => kindOf(g) === 'quiz' && g.date && (g.until || g.date) >= from).sort((a, b) => a.date.localeCompare(b.date))[0] || null;
+  const h = new Date().getHours(), from = h < 6 ? isoAdd(todayISO(), -1) : todayISO(), now = Date.now();
+  return allGames().filter(g => kindOf(g) === 'quiz' && g.date && (g.until ? g.until >= from : revealAt(g) ? revealAt(g).getTime() > now : g.date >= from)).sort((a, b) => a.date.localeCompare(b.date))[0] || null;
 }
 function nextTeaser(g, nThu) {
   const ng = allGames().find(x => x !== g && kindOf(x) === 'quiz' && x.date && x.date > (g ? g.date : todayISO()) && x.date <= nThu);
@@ -278,21 +278,33 @@ Object.assign(T.fr, { cxScore: 'Votre score', cxScoreS: 'Le classement sera anno
 Object.assign(T.en, { cxScore: 'Your score', cxScoreS: 'The ranking will be announced at the bar… stay tuned!', cxOpen: '📖 See the answers', cxLock: d => `🔒 The full answer sheet (questions, right answers and your mistakes) will be available ${d} from 9 am, right here on this page.`, cxBack: 'Just reopen the quiz link (or scan its QR code again).', cxT: 'The answers', cxYou: 'Your answer', cxGood: 'Right answer', cxNone: 'No answer', cxRet: '← Back', cxMore: '🎲 Fancy another quiz?', cxMoreS: 'Ask the quiz master: there are plenty more questions up their sleeve!', cxTom: 'tomorrow' });
 const cxKey = g => kindOf(g) === 'quiz' && g.questions.length && g.questions.every(q => Number.isInteger(q.a));
 const cxScoreOf = (g, st) => g.questions.reduce((s, q, i) => s + (st.a && st.a[i] === q.a ? 1 : 0), 0);
+/* Quiz du jeudi : jouable du jeudi au lundi soir ; score et correction dévoilés pour tous le lundi suivant à 19 h. */
+function revealAt(g) {
+  if (!g || kindOf(g) !== 'quiz') return null;
+  if (g.reveal) return new Date(g.reveal);
+  if (!g.date) return null;
+  const [y, m, d] = g.date.split('-').map(Number), x = new Date(y, m - 1, d, 19, 0, 0);
+  do x.setDate(x.getDate() + 1); while (x.getDay() !== 1);
+  return x;
+}
+const quizStart = g => { const [y, m, d] = g.date.split('-').map(Number); return new Date(y, m - 1, d, 0, 0, 0); };
 function cxUnlock(g, st) {
+  const rv = revealAt(g); if (rv) return rv;
   const base = g.date || new Date(st.closedAt || Date.now()).toLocaleDateString('sv');
   const [y, m, d] = base.split('-').map(Number); return new Date(y, m - 1, d + 1, 9, 0, 0);
 }
 function cxWhen(u) {
   const now = new Date(), tom = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
   if (u.toDateString() === tom.toDateString()) return t('cxTom');
+  if (u.toDateString() === now.toDateString()) return { fr: 'aujourd’hui', en: 'today', es: 'hoy', de: 'heute' }[lang] || 'aujourd’hui';
   return ({ en: 'on ', es: 'el ', de: 'am ' }[lang] || 'le ') + u.toLocaleDateString(LOC(), { weekday: 'long', day: 'numeric', month: 'long' });
 }
 function cxBlock(g, st) {
   if (!cxKey(g)) return '';
   const sc = cxScoreOf(g, st), n = g.questions.length, u = cxUnlock(g, st), open = Date.now() >= u.getTime();
+  if (!open) return `<div class="card center cx-sc"><p style="margin:0;font-weight:700;font-size:17px;line-height:1.45">${esc(t('cxWait')(cxWhen(u), u.toLocaleTimeString(LOC(), { hour: '2-digit', minute: '2-digit' })))}</p><p class="muted" style="margin:8px 0 0;font-size:14px">${esc(t('cxBack'))}</p></div>`;
   return `<div class="card center cx-sc"><p class="cx-l">${esc(t('cxScore'))}</p><p class="cx-n"><b>${sc}</b> / ${n}</p><p class="muted" style="margin:4px 0 0">${esc(t('cxScoreS'))}</p></div>`
-    + (open ? `<button class="btn acc" id="cxo" style="width:100%;margin-top:6px">${esc(t('cxOpen'))}</button>`
-            : `<div class="card"><p style="margin:0;font-weight:700;line-height:1.4">${esc(t('cxLock')(cxWhen(u)))}</p><p class="muted" style="margin:6px 0 0;font-size:14px">${esc(t('cxBack'))}</p></div>`);
+    + `<button class="btn acc" id="cxo" style="width:100%;margin-top:6px">${esc(t('cxOpen'))}</button>`;
 }
 function playerCorrection(g, st) {
   if (!cxKey(g) || Date.now() < cxUnlock(g, st).getTime()) return playerThanks(g, st);
@@ -367,4 +379,16 @@ function delEntryBtn(g, key, name) {
     toast('✔ ' + t('delRDone')(name || t('anonymous'))); go('admin=rank:' + g.id);
   }, true);
   app.appendChild(b);
+}
+
+/* ---------- Quiz du jeudi : attente du lundi soir / quiz terminé ---------- */
+Object.assign(T.fr, { cxWait: (d, h) => `🔒 Votre score et la correction complète seront dévoilés ${d} à partir de ${h}, pour tout le monde en même temps. D’ici là, le quiz reste ouvert tout le week-end à LA BULL : faites jouer vos amis !`, qOverT: 'Ce quiz est terminé !', qOverS: 'Les réponses et les résultats sont dévoilés. Rendez-vous au prochain Quiz du jeudi à LA BULL !' });
+Object.assign(T.en, { cxWait: (d, h) => `🔒 Your score and the full answer sheet will be revealed ${d} from ${h}, for everyone at the same time. Until then the quiz stays open all weekend at LA BULL: get your friends to play!`, qOverT: 'This quiz is over!', qOverS: 'The answers and results are out. See you at the next Thursday Quiz at LA BULL!' });
+Object.assign(T.es, { cxWait: (d, h) => `🔒 Su puntuación y las soluciones completas se revelarán ${d} a partir de las ${h}, para todos a la vez. Mientras tanto, el quiz sigue abierto todo el fin de semana en LA BULL: ¡anime a sus amigos a jugar!`, qOverT: '¡Este quiz ha terminado!', qOverS: 'Las respuestas y los resultados ya se han revelado. ¡Nos vemos en el próximo Quiz del jueves en LA BULL!' });
+Object.assign(T.de, { cxWait: (d, h) => `🔒 Ihre Punktzahl und die vollständige Auflösung werden ${d} ab ${h} Uhr für alle gleichzeitig enthüllt. Bis dahin bleibt das Quiz das ganze Wochenende im LA BULL offen: Lassen Sie Ihre Freunde mitspielen!`, qOverT: 'Dieses Quiz ist beendet!', qOverS: 'Antworten und Ergebnisse sind enthüllt. Bis zum nächsten Donnerstags-Quiz im LA BULL!' });
+function quizOverScreen() {
+  setAcc('#f2b632');
+  app.innerHTML = topBar() + `<div class="thx"><i class="thx-c">🏁</i><h1>${esc(t('qOverT'))}</h1><p class="thx-s">${esc(t('qOverS'))}</p></div>
+   <button class="btn" id="abg" style="margin-top:12px">${esc(t('phProg'))}</button><button class="btn ghost" id="abh" style="margin-top:10px">🏠 ${esc(t('home'))}</button>`;
+  $('#abg').onclick = () => go('prog'); $('#abh').onclick = () => go('');
 }
