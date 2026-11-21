@@ -396,3 +396,15 @@ Object.assign(T.fr, { cxWait2: (d, h) => `🔒 La correction complète sera dév
 Object.assign(T.en, { cxWait2: (d, h) => `🔒 The full answer sheet will be revealed ${d} from ${h}, for everyone at the same time, and LA BULL will announce the winner. Until then the quiz stays open all weekend at LA BULL: get your friends to play!` });
 Object.assign(T.es, { cxWait2: (d, h) => `🔒 Las soluciones completas se revelarán ${d} a partir de las ${h}, para todos a la vez, y LA BULL anunciará al ganador. Mientras tanto, el quiz sigue abierto todo el fin de semana en LA BULL: ¡anime a sus amigos a jugar!` });
 Object.assign(T.de, { cxWait2: (d, h) => `🔒 Die vollständige Auflösung wird ${d} ab ${h} Uhr für alle gleichzeitig enthüllt, und LA BULL gibt den Sieger bekannt. Bis dahin bleibt das Quiz das ganze Wochenende im LA BULL offen: Lassen Sie Ihre Freunde mitspielen!` });
+
+/* ---------- Pronostics : chaîne de diffusion ---------- */
+const TV_FREE = ['TF1', 'TFX', 'TMC', 'France 2', 'France 3', 'France 4', 'France 5', 'M6', 'W9', 'C8', 'L\'Équipe', 'L’Équipe', '6ter', 'Arte'], TV_WEB = ['TF1+', 'france.tv', 'M6+'];
+Object.assign(T.fr, { tvFree: 'TNT gratuite', tvWeb: 'streaming gratuit', tvPay: 'chaîne payante' });
+Object.assign(T.en, { tvFree: 'free-to-air TV', tvWeb: 'free streaming', tvPay: 'pay TV' });
+Object.assign(T.es, { tvFree: 'TDT gratuita', tvWeb: 'streaming gratis', tvPay: 'canal de pago' });
+Object.assign(T.de, { tvFree: 'frei empfangbar', tvWeb: 'Gratis-Stream', tvPay: 'Pay-TV' });
+function tvTag(tv, small) {
+  if (!tv) return '';
+  const k = TV_FREE.includes(tv) ? 'tvFree' : TV_WEB.includes(tv) ? 'tvWeb' : 'tvPay';
+  return `<span class="tvtag${small ? ' sm' : ''}">📺 <b>${esc(tv)}</b> · ${esc(t(k))}</span>`;
+}

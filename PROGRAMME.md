@@ -15,3 +15,6 @@ L'appli est en français, anglais, espagnol et allemand : tout texte affiché au
 
 ## Deux applis
 `python3 build.py` génère `index.html` (appli joueurs : programme, inscription, Facebook, téléphone, et les jeux uniquement via un QR montré par l'animateur, valable 12 h) et `animateur.html` (appli animateur, code demandé à chaque ouverture). Commiter les deux fichiers.
+
+## Pronostics : infos de chaque match
+Pour chaque match d'un pronostic, toujours indiquer : les équipes (`teams`), le jour et l'heure de Paris (`date`/`time` pour un match seul, `when` {fr,en,es,de} pour chaque match d'un pronostic à plusieurs matchs) et la chaîne qui le diffuse en France (`tv` : nom exact, ex. "TF1", "TFX", "TF1+", "Canal+", "beIN Sports"), vérifiée sur le web. L'appli indique toute seule si c'est la TNT gratuite, du streaming gratuit ou une chaîne payante. Ne rien mettre si la chaîne n'est pas annoncée.
