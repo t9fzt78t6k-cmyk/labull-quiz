@@ -81,11 +81,11 @@ function hostProno(g) {
   setAcc(g.color);
   const out = getOut(g.id), rk = pronoRanked(g), N = rk.length, sq = scoreQs(g), multi = sq.length > 1, si = sq.length ? sq[0][1] : -1;
   const predTxt = r => multi ? `${sq.filter(([, i]) => answered(r.a[i])).length}/${sq.length} ${t('matches')}` : (si >= 0 && answered(r.a[si]) ? r.a[si].join(' – ') : '–');
-  const trend = sq.map(([q, i]) => { const sc = rk.map(r => r.a[i]).filter(answered); return sc.length ? `<p style="font-weight:700;margin:10px 0 2px">${esc(qA(g, q))} – ${esc(qB(g, q))}</p>` + bar(qA(g, q), sc.filter(s => s[0] > s[1]).length, sc.length) + bar(t('draw0'), sc.filter(s => s[0] === s[1]).length, sc.length) + bar(qB(g, q), sc.filter(s => s[0] < s[1]).length, sc.length) : ''; }).join('');
+  const trend = sq.map(([q, i]) => { const sc = rk.map(r => r.a[i]).filter(answered); return sc.length ? `<p style="font-weight:700;margin:10px 0 2px">${esc(qA(g, q))} – ${esc(qB(g, q))}</p>${matchMeta(g, q)}` + bar(qA(g, q), sc.filter(s => s[0] > s[1]).length, sc.length) + bar(t('draw0'), sc.filter(s => s[0] === s[1]).length, sc.length) + bar(qB(g, q), sc.filter(s => s[0] < s[1]).length, sc.length) : ''; }).join('');
   const results = out ? sq.filter(([, i]) => answered(out[i])).map(([q, i]) => `<p class="score" style="font-size:${multi ? 22 : 40}px;margin:2px 0">${esc(qA(g, q))} ${out[i][0]} – ${out[i][1]} ${esc(qB(g, q))}</p>`).join('') : '';
   let pos = 0, prev = null;
   app.innerHTML = topBar(t('hostSpace')) + navBar() + `<h1 style="font-size:28px">${SPORT_ICON[g.sport] || '🏆'} ${esc(gTitle(g))}</h1>
-   <p class="muted">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''} · <b style="color:var(--gold2)">${esc(t('pronos')(N))}</b></p>
+   ${g.tv ? tvTag(g.tv) : ''}<p class="muted">${esc(fmtDate(g.date))}${g.time ? ' · ' + esc(g.time) : ''} · <b style="color:var(--gold2)">${esc(t('pronos')(N))}</b></p>
    ${results ? `<div class="card center"><p class="muted" style="margin:0">${esc(t('finalScore'))}</p>${results}</div>` : ''}
    <button class="btn" id="out">📝 ${esc(out ? t('editOut') : t('enterOut'))}</button>
    <div class="row" style="margin:10px 0 0"><button class="btn ghost small" id="rcv">📥 ${esc(t('recvS'))}</button><button class="btn ghost small" id="qr2">📲 QR</button><button class="btn ghost small" id="fr">🔄 ${esc(t('fetchBtn'))}</button><button class="btn ghost small" id="tvb">📺 ${esc(t('tvB'))}</button><button class="btn ghost small" id="csv">📇 ${esc(t('csv'))}</button></div>
@@ -110,7 +110,7 @@ function hostOutcome(g) {
         if (ty === 'score') body = `<div style="display:flex;gap:8px">${stepper(i + 'a', out[i] ? out[i][0] : null, qA(g, q))}${stepper(i + 'b', out[i] ? out[i][1] : null, qB(g, q))}</div>`;
         else if (ty === 'number') body = `<div style="display:flex">${stepper(i + 'n', out[i], '')}</div>`;
         else body = q.o.map((o, j) => `<button class="opt ${out[i] === j ? 'sel' : ''}" data-oi="${i}" data-oj="${j}" style="padding:8px 12px;font-size:16px"><span class="L" style="width:36px;height:36px;font-size:18px">${LETTERS[j]}</span><span>${esc(L(o))}</span></button>`).join('');
-        return `<div class="card qe"><p style="font-weight:700;margin:0 0 8px">${i + 1}. ${esc(L(q.q))}</p>${body}</div>`; }).join('') +
+        return `<div class="card qe"><p style="font-weight:700;margin:0 0 8px">${i + 1}. ${esc(L(q.q))}</p>${ty === 'score' ? matchMeta(g, q) : ''}${body}</div>`; }).join('') +
       `<div class="row"><button class="btn ghost" id="cx">✕ ${esc(t('cancelS'))}</button><button class="btn" id="sv">💾 ${esc(t('saveOut'))}</button></div>`;
     $('#cx').onclick = () => go('admin=rank:' + g.id);
     app.querySelectorAll('[data-oi]').forEach(b => b.onclick = () => { const i = +b.dataset.oi, j = +b.dataset.oj; out[i] = out[i] === j ? null : j; draw(); });

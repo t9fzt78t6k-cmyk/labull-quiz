@@ -408,3 +408,7 @@ function tvTag(tv, small) {
   const k = TV_FREE.includes(tv) ? 'tvFree' : TV_WEB.includes(tv) ? 'tvWeb' : 'tvPay';
   return `<span class="tvtag${small ? ' sm' : ''}">📺 <b>${esc(tv)}</b> · ${esc(t(k))}</span>`;
 }
+function matchMeta(g, q) {
+  const when = q && q.when ? L(q.when) : [g.date ? fmtDate(g.date) : '', g.time || ''].filter(Boolean).join(' · '), tv = (q && q.tv) || (!(q && q.when) && g.tv);
+  return when || tv ? `<p class="muted" style="margin:0 0 6px;font-size:13px">${when ? '🕘 ' + esc(when) + ' ' : ''}${tv ? tvTag(tv, true) : ''}</p>` : '';
+}
